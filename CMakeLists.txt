@@ -13,4 +13,8 @@ set(SOURCES
     arrays.cpp
     io.cpp)
 
-add_library(alpha_utils ${SOURCES} ${HEADERS})
+set(TEMPLATES
+    arrays.tpp
+    io.tpp)
+
+add_library(alpha_utils ${SOURCES} ${HEADERS} ${TEMPLATES})
