@@ -4,7 +4,11 @@
 #include <iostream>
 #include "types.h"
 
-#define ASSERT(expr) if (!(expr)) {throw assertion_failure(std::string("Expression \"") + #expr + "\" failed assertion");}
+#define ASSERT_1(expr) if (!(expr)) {throw assertion_failure(std::string("Expression \"") + #expr + "\" failed assertion");}
+#define ASSERT_2(expr, msg) if (!(expr)) {throw assertion_failure(msg);}
+
+#define ASSERT_X(x, A, B, FUNC, ...) FUNC
+#define ASSERT(...) ASSERT_X(,##__VA_ARGS__, ASSERT_2(__VA_ARGS__), ASSERT_1(__VA_ARGS__))
 
 #define TEST(name) try {\
     name();\
