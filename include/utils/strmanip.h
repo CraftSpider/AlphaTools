@@ -21,4 +21,4 @@ std::string char_format(const std::string& format, const uchar *data);
 
 }
 
-#include "strings.tpp"
+#include "strmanip.tpp"

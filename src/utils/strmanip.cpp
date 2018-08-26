@@ -1,4 +1,4 @@
-#include "strings.h"
+#include "strmanip.h"
 
 #include <sstream>
 #include "bytes.h"

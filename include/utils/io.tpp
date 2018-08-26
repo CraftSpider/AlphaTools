@@ -1,5 +1,5 @@
 
-#include "strings.h"
+#include "strmanip.h"
 #include "arrays.h"
 #include "bytes.h"
 

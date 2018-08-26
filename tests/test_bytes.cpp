@@ -1,8 +1,8 @@
 
 #include "test_bytes.h"
-#include "test.h"
-#include "bytes.h"
-#include "arrays.h"
+#include "../include/tests/test.h"
+#include "../include/utils/bytes.h"
+#include "../include/utils/arrays.h"
 
 using namespace util;
 

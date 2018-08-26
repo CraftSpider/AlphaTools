@@ -1,6 +1,6 @@
 
 #include "test_arrays.h"
-#include "test.h"
+#include "../include/tests/test.h"
 
 void test_compare() {
     // TODO
