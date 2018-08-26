@@ -5,11 +5,12 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(./include)
 include_directories(./include/utils)
-include_directories(./include/tests)
 include_directories(./include/logging)
 
 set(HEADERS
-        include/alpha_utils
+        include/a_utils
+        include/a_logging
+        include/a_tests
         include/argparser.h
         include/utils/types.h
         include/utils/arrays.h
@@ -18,7 +19,7 @@ set(HEADERS
         include/utils/bytes.h
         include/utils/algorithms.h
         include/tests/test.h
-        include/logging/logging.h)
+        include/logging/logging.h include/logging/level.h include/logging/logger.h)
 
 set(SOURCES
         src/argparser.cpp
@@ -27,7 +28,7 @@ set(SOURCES
         src/utils/bytes.cpp
         src/utils/algorithms.cpp
         src/tests/test.cpp
-        src/logging/logging.cpp)
+        src/logging/logging.cpp src/logging/level.cpp include/logging/handler.h src/logging/handler.cpp src/logging/logger.cpp)
 
 set(TEMPLATES
         include/utils/arrays.tpp
@@ -36,12 +37,16 @@ set(TEMPLATES
 
 set(TEST_HEADERS
         tests/test_bytes.h
-        tests/test_arrays.h)
+        tests/test_arrays.h
+        tests/test_strmanip.h
+        tests/test_algorithms.h)
 
 set(TEST_SOURCES
         tests/main.cpp
         tests/test_bytes.cpp
-        tests/test_arrays.cpp)
+        tests/test_arrays.cpp
+        tests/test_strmanip.cpp
+        tests/test_algorithms.cpp)
 
 set(TEST_TEMPLATES)
 

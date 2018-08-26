@@ -17,6 +17,9 @@ ArgParser::ArgParser(const int &argc, char **argv) {
                 }
             }
             if (var) {
+                if (arg[0] == '-') {
+                    arg.substr(1, arg.size());
+                }
                 std::stringstream name, option;
                 var = false;
                 for (auto c : arg) {
@@ -29,14 +32,10 @@ ArgParser::ArgParser(const int &argc, char **argv) {
                     }
                 }
                 variables.emplace(name.str(), option.str());
-            } else if (arg[1] == '-') {
+            } else if (arg[0] == '-') {
                 // read the whole thing for flags.
                 arg = arg.substr(1, arg.size());
-                std::stringstream name;
-                for (auto c : arg) {
-                    name << c;
-                }
-                flags.push_back(name.str());
+                flags.push_back(arg);
             } else {
                 for (auto c : arg) {
                     flags.push_back(std::string(&c, 1));
@@ -61,7 +60,7 @@ ulong ArgParser::num_variables() {
 }
 
 bool ArgParser::has_flag(const std::string &flag) {
-    for (auto f : flags) {
+    for (const auto &f : flags) {
         if (f == flag) {
             return true;
         }
@@ -71,7 +70,7 @@ bool ArgParser::has_flag(const std::string &flag) {
 
 uint ArgParser::flag_count(const std::string &flag) {
     uint out = 0;
-    for (auto f : flags) {
+    for (const auto &f : flags) {
         if (f == flag) {
             out += 1;
         }

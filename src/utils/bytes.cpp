@@ -25,37 +25,39 @@ long get_signed_range(const uchar *data, const ulong start, const ulong end) {
 }
 
 template <>
-ulong btol <BIG> (const uchar* bytes, const ulong length) {
+ulong btol <BIG> (const uchar* bytes, const ulong start, const ulong end) {
     ulong out = 0;
-    for (ulong i = 0; i < length; ++i) {
-        out |= (ulong)bytes[i] << ((length - i - 1) * 8);
+    ulong length = end - start - 1;
+    for (ulong i = start; i < end; ++i) {
+        out |= (ulong)bytes[i] << ((length - i) * 8);
     }
     return out;
 }
 
 template <>
-ulong btol <LITTLE> (const uchar* bytes, const ulong length) {
+ulong btol <LITTLE> (const uchar* bytes, const ulong start, const ulong end) {
     ulong out = 0;
-    for (ulong i = 0; i < length; ++i) {
+    for (ulong i = start; i < end; ++i) {
         out |= (ulong)bytes[i] << (i * 8);
     }
     return out;
 }
 
 template <>
-long btol <BIG> (const char* bytes, const ulong length) {
+long btol <BIG> (const char* bytes, const ulong start, const ulong end) {
     long out = 0;
-    for (ulong i = 0; i < length; ++i) {
-        out |= (long)bytes[i] << ((length - i - 1) * 8);
+    ulong length = end - start - 1;
+    for (ulong i = start; i < end; ++i) {
+        out |= (ulong)bytes[i] << ((length - i) * 8);
     }
     return out;
 }
 
 template <>
-long btol <LITTLE> (const char* bytes, const ulong length) {
+long btol <LITTLE> (const char* bytes, const ulong start, const ulong end) {
     long out = 0;
-    for (ulong i = 0; i < length; ++i) {
-        out |= (long)bytes[i] << (i * 8);
+    for (ulong i = start; i < end; ++i) {
+        out |= (ulong)bytes[i] << (i * 8);
     }
     return out;
 }
@@ -74,6 +76,24 @@ uchar* ltob <LITTLE> (const ulong val, const ulong length) {
     uchar *output = new uchar[length]();
     for (ulong i = 0; i < length; ++i) {
         output[i] = (uchar)(val >> (8 * i));
+    }
+    return output;
+}
+
+template <>
+char* ltob <BIG> (const long val, const ulong length) {
+    char *output = new char[length];
+    for (ulong i = 0; i < length; ++i) {
+        output[i] = (char)(val >> (8 * (length - i - 1)));
+    }
+    return output;
+}
+
+template <>
+char* ltob <LITTLE> (const long val, const ulong length) {
+    char *output = new char[length];
+    for (ulong i = 0; i < length; ++i) {
+        output[i] = (char)(val >> (8 * i));
     }
     return output;
 }

@@ -53,7 +53,7 @@ template <typename T>
 T* reverse(T *arr, const ulong len) {
     T *tmp = new T[len];
     for (ulong i = 0; i < len; ++i) {
-        tmp[i] = arr[len - i];
+        tmp[i] = arr[len - i - 1];
     }
     for (ulong i = 0; i < len; ++i) {
         arr[i] = tmp[i];

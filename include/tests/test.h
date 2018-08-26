@@ -21,38 +21,50 @@
     testing::Results::errors += 1;\
 }
 
-#define TEST_CLASS(name) AbstractTest *test##name = new name();\
-if (test##name->skip_test()) {\
-    std::cout << "Skipped test class " << #name;\
-    Results::skipped += 1;\
+#define TEST_CLASS(name) testing::AbstractTest *test##name = new name();\
+if (test##name->skip_class()) {\
+    std::cout << "Skipped test class " << #name << std::endl;\
+    testing::Results::skipped += 1;\
 } else {\
     test##name->before_class();\
     try {\
         test##name->run();\
-        Results::successes += 1;\
-    } catch (assertion_failure &e) {\
+        if (!test##name->delegated) {\
+            testing::Results::successes += 1;\
+        }\
+    } catch (testing::assertion_failure &e) {\
         std::cerr << e.what() << " in test class " << #name << std::endl;\
-        Results::failures += 1;\
+        if (!test##name->delegated) {\
+            testing::Results::failures += 1;\
+        }\
     } catch (std::exception &e) {\
         std::cerr << e.what() << " in test class " << #name << std::endl;\
-        Results::errors += 1;\
+        if (!test##name->delegated) {\
+            testing::Results::errors += 1;\
+        }\
     }\
     test##name->after_class();\
 }\
 delete test##name;
 
-#define TEST_METHOD(name) this->before_test(#name);\
-try {\
-    this->name();\
-    Results::successes += 1\
-} catch (assertion_failure &e) {\
-    std::cerr << e.what() << " in test method " << #name << std::endl;\
-    Results::failures += 1;\
-} catch (std::exception &e) {\
-    std::cerr << e.what() << " in test method " << #name << std::endl;\
-    Results::errors += 1;\
-}\
-this->after_test(#name);
+#define TEST_METHOD(name) this->delegated = true;\
+if (this->skip_test(#name)) {\
+    std::cout << "Skipped test method " << #name << std::endl;\
+    testing::Results::skipped += 1;\
+} else {\
+    this->before_test(#name);\
+    try {\
+        this->name();\
+        testing::Results::successes += 1;\
+    } catch (testing::assertion_failure &e) {\
+        std::cerr << e.what() << " in test method " << #name << std::endl;\
+        testing::Results::failures += 1;\
+    } catch (std::exception &e) {\
+        std::cerr << e.what() << " in test method " << #name << std::endl;\
+        testing::Results::errors += 1;\
+    }\
+    this->after_test(#name);\
+}
 
 #define TEST_FILE(name) testing::Results::tests.push_back(&run_##name##_tests);
 
@@ -80,19 +92,22 @@ class AbstractTest {
 
 public:
     
+    bool delegated = false;
+    
     virtual ~AbstractTest();
     
-    virtual bool skip_test();
+    virtual bool skip_class();
+    virtual bool skip_test(std::string name);
+    
     virtual void before_class();
     virtual void before_test(std::string name);
     virtual void run() = 0;
     virtual void after_test(std::string name);
     virtual void after_class();
-    
 };
 
 /**
- * Run the test suite. Add any files to test here with the macro `TEST_FILE(filename)` before running this.
+ * Run the test suite. Add any files to test with the macro `TEST_FILE(nameThe)` before running this.
  * Test files must define a function `run_[name]_tests()`.
  * In that function, use `TEST(name)` and `TEST_CLASS(name)` to define the function and test
  * classes to be run.

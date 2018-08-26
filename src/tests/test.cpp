@@ -1,5 +1,5 @@
 
-#include "test.h"
+#include "tests/test.h"
 
 namespace testing {
 
@@ -11,9 +11,13 @@ int Results::skipped = 0;
 
 assertion_failure::assertion_failure(const std::string &msg) : runtime_error(msg) {}
 
-AbstractTest::~AbstractTest() {}
+AbstractTest::~AbstractTest() = default;
 
-bool AbstractTest::skip_test() {
+bool AbstractTest::skip_class() {
+    return false;
+}
+
+bool AbstractTest::skip_test(std::string name) {
     return false;
 }
 

@@ -13,22 +13,16 @@ long get_signed_range(const uchar *data, const ulong start, const ulong end);
 // Bytes to...
 
 template <Endian E = BIG>
-ulong btol(const uchar* bytes, const ulong length = 8);
-
-template <Endian E = BIG>
-long btol(const char* bytes, const ulong length = 8);
-
-template <Endian E = BIG>
 ulong btol(const uchar* bytes, const ulong start, const ulong end);
 
 template <Endian E = BIG>
 long btol(const char* bytes, const ulong start, const ulong end);
 
 template <Endian E = BIG>
-uint btoi(const uchar* bytes, const ulong length = 4);
+ulong btol(const uchar* bytes, const ulong length = 8);
 
 template <Endian E = BIG>
-int btoi(const char* bytes, const ulong length = 4);
+long btol(const char* bytes, const ulong length = 8);
 
 template <Endian E = BIG>
 uint btoi(const uchar* bytes, const ulong start, const ulong end);
@@ -37,10 +31,28 @@ template <Endian E = BIG>
 int btoi(const char* bytes, const ulong start, const ulong end);
 
 template <Endian E = BIG>
+uint btoi(const uchar* bytes, const ulong length = 4);
+
+template <Endian E = BIG>
+int btoi(const char* bytes, const ulong length = 4);
+
+template <Endian E = BIG>
+ushort btos(const uchar* bytes, const ulong start, const ulong end);
+
+template <Endian E = BIG>
+short btos(const char* bytes, const ulong start, const ulong end);
+
+template <Endian E = BIG>
 ushort btos(const uchar* bytes, const ulong length = 2);
 
 template <Endian E = BIG>
 short btos(const char* bytes, const ulong length = 2);
+
+template <Endian E = BIG>
+uchar btoc(const uchar* bytes, const ulong start, const ulong end);
+
+template <Endian E = BIG>
+char btoc(const char* bytes, const ulong start, const ulong end);
 
 template <Endian E = BIG>
 uchar btoc(const uchar* bytes, const ulong length = 1);
