@@ -1,5 +1,5 @@
 
-#include "level.h"
+#include "logging/level.h"
 
 namespace logging {
 
@@ -29,12 +29,24 @@ bool Level::operator==(const Level &level) const {
     return priority == level.priority && name == level.name;
 }
 
+bool Level::operator!=(const logging::Level &level) {
+    return priority != level.priority || name != level.name;
+}
+
 bool Level::operator<=(const Level &level) const {
     return priority <= level.priority;
 }
 
 bool Level::operator>=(const Level &level) const {
     return priority >= level.priority;
+}
+
+bool Level::operator<(const logging::Level &level) const {
+    return priority < level.priority;
+}
+
+bool Level::operator>(const logging::Level &level) const {
+    return priority > level.priority;
 }
 
 Level::operator std::string() const {

@@ -1,8 +1,8 @@
 
 #include "test_bytes.h"
 #include "tests/test.h"
-#include "bytes.h"
-#include "arrays.h"
+#include "utils/bytes.h"
+#include "utils/arrays.h"
 
 using namespace util;
 
@@ -21,14 +21,17 @@ void test_btol() {
 
 void test_btoi() {
     // TODO
+    throw testing::skip_test();
 }
 
 void test_btos() {
     // TODO
+    throw testing::skip_test();
 }
 
 void test_btoc() {
     // TODO
+    throw testing::skip_test();
 }
 
 void test_ltob() {
@@ -55,14 +58,17 @@ void test_ltob() {
 
 void test_itob() {
     // TODO
+    throw testing::skip_test();
 }
 
 void test_stob() {
     // TODO
+    throw testing::skip_test();
 }
 
 void test_ctob() {
     // TODO
+    throw testing::skip_test();
 }
 
 void run_bytes_tests() {

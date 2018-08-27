@@ -1,6 +1,5 @@
 
-#include "tests/test.h"
-#include "logging.h"
+#include "at_tests"
 
 #include "test_algorithms.h"
 #include "test_arrays.h"

@@ -1,6 +1,6 @@
 
 #include "test_strmanip.h"
-#include "strmanip.h"
+#include "utils/strmanip.h"
 
 using namespace util;
 
@@ -81,14 +81,17 @@ void TestToHex::from_int() {
 
 void TestToHex::from_short() {
     // TODO
+    throw testing::skip_test();
 }
 
 void TestToHex::from_char() {
     // TODO
+    throw testing::skip_test();
 }
 
 void test_char_format() {
     // TODO
+    throw testing::skip_test();
 }
 
 void run_strmanip_tests() {

@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include "types.h"
+#include "tests/abstract_test.h"
 
 #define ASSERT_1(expr) if (!(expr)) {throw testing::assertion_failure(std::string("Expression \"") + #expr + "\" failed assertion");}
 #define ASSERT_2(expr, msg) if (!(expr)) {throw testing::assertion_failure(msg);}
@@ -16,11 +17,15 @@
 } catch (testing::assertion_failure &e) {\
     std::cerr << e.what() << " in test " << #name << std::endl;\
     testing::Results::failures += 1;\
+} catch (testing::skip_test &e) {\
+    std::cout << "Skipped test " << #name << std::endl;\
+    testing::Results::skipped += 1;\
 } catch (std::exception &e) {\
     std::cerr << e.what() << " in test " << #name << std::endl;\
     testing::Results::errors += 1;\
 }
 
+// TODO: Skip error, any test that throws it is counted as 'skipped'
 #define TEST_CLASS(name) testing::AbstractTest *test##name = new name();\
 if (test##name->skip_class()) {\
     std::cout << "Skipped test class " << #name << std::endl;\
@@ -37,6 +42,9 @@ if (test##name->skip_class()) {\
         if (!test##name->delegated) {\
             testing::Results::failures += 1;\
         }\
+    } catch (testing::skip_test &e) {\
+        std::cout << "Skipped test class " << #name << std::endl;\
+        testing::Results::skipped += 1;\
     } catch (std::exception &e) {\
         std::cerr << e.what() << " in test class " << #name << std::endl;\
         if (!test##name->delegated) {\
@@ -59,6 +67,9 @@ if (this->skip_test(#name)) {\
     } catch (testing::assertion_failure &e) {\
         std::cerr << e.what() << " in test method " << #name << std::endl;\
         testing::Results::failures += 1;\
+    } catch (testing::skip_test &e) {\
+        std::cout << "Skipped test method " << #name << std::endl;\
+        testing::Results::skipped += 1;\
     } catch (std::exception &e) {\
         std::cerr << e.what() << " in test method " << #name << std::endl;\
         testing::Results::errors += 1;\
@@ -66,16 +77,21 @@ if (this->skip_test(#name)) {\
     this->after_test(#name);\
 }
 
-#define TEST_FILE(name) testing::Results::tests.push_back(&run_##name##_tests);
+#define TEST_FILE(name) testing::ToRun::tests.push_back(&run_##name##_tests);
 
 namespace testing {
 
-struct Results {
+struct ToRun {
     static std::vector<void(*)()> tests;
+};
+
+struct Results {
     static int successes;
     static int failures;
     static int errors;
     static int skipped;
+
+    static int total();
 };
 
 class assertion_failure : public std::runtime_error {
@@ -83,27 +99,10 @@ public:
     explicit assertion_failure(const std::string& msg);
 };
 
-/**
- * A class that contains tests and any necessary boilerplate.
- * To delegate test methods, use the `TEST_METHOD(name)` macro
- * in the run() method definition.
- */
-class AbstractTest {
-
+class skip_test : public std::runtime_error {
 public:
-    
-    bool delegated = false;
-    
-    virtual ~AbstractTest();
-    
-    virtual bool skip_class();
-    virtual bool skip_test(std::string name);
-    
-    virtual void before_class();
-    virtual void before_test(std::string name);
-    virtual void run() = 0;
-    virtual void after_test(std::string name);
-    virtual void after_class();
+    skip_test();
+    explicit skip_test(const std::string& msg);
 };
 
 /**
@@ -112,6 +111,6 @@ public:
  * In that function, use `TEST(name)` and `TEST_CLASS(name)` to define the function and test
  * classes to be run.
  */
-void run_tests(std::string name = "Alpha Utils");
+void run_tests(std::string name = "Alpha Tools");
 
 }

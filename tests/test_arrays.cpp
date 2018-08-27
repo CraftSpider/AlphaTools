@@ -1,7 +1,7 @@
 
 #include "test_arrays.h"
 #include "tests/test.h"
-#include "arrays.h"
+#include "utils/arrays.h"
 
 using namespace util;
 

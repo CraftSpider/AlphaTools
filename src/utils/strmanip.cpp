@@ -1,7 +1,8 @@
-#include "strmanip.h"
+
+#include "utils/strmanip.h"
 
 #include <sstream>
-#include "bytes.h"
+#include "utils/bytes.h"
 
 namespace util {
 

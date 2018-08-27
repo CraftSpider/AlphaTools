@@ -1,6 +1,6 @@
 
 #include <stdexcept>
-#include "logger.h"
+#include "logging/logger.h"
 
 namespace logging {
 
@@ -28,11 +28,22 @@ void Logger::set_level(const Level &level) {
     this->level = level;
 }
 
+Level Logger::get_level() const {
+    return level;
+}
+
 void Logger::set_parent(Logger* parent) {
     this->parent = parent;
 }
 
+Logger* Logger::get_parent() const {
+    return parent;
+}
+
 void Logger::log(const std::string &message, const Level &level) {
+    if (propagate) {
+        parent->log(message, level);
+    }
     if (level >= get_effective_level()) {
         for (auto handler : handlers) {
             handler->log(message, level);
@@ -76,6 +87,14 @@ bool Logger::remove_handler(Handler *handler) {
         }
     }
     return false;
+}
+
+void Logger::set_propagation(bool propagate) {
+    this->propagate = propagate;
+}
+
+bool Logger::get_propagation() const {
+    return propagate;
 }
 
 }

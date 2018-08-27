@@ -4,8 +4,6 @@ project(alpha_tools)
 set(CMAKE_CXX_STANDARD 17)
 
 include_directories(./include)
-include_directories(./include/utils)
-include_directories(./include/logging)
 
 set(HEADERS
         include/at_utils
@@ -13,27 +11,38 @@ set(HEADERS
         include/at_tests
         include/argparser.h
         include/types.h
+        include/console.h
         include/utils/arrays.h
         include/utils/io.h
         include/utils/strmanip.h
         include/utils/bytes.h
         include/utils/algorithms.h
         include/tests/test.h
-        include/logging/logging.h include/logging/level.h include/logging/logger.h)
+        include/tests/abstract_test.h
+        include/logging/handler.h
+        include/logging/logging.h
+        include/logging/level.h
+        include/logging/logger.h)
 
 set(SOURCES
         src/argparser.cpp
+        src/console.cpp
         src/utils/arrays.cpp
         src/utils/strmanip.cpp
         src/utils/bytes.cpp
         src/utils/algorithms.cpp
+        src/tests/abstract_test.cpp
         src/tests/test.cpp
-        src/logging/logging.cpp src/logging/level.cpp include/logging/handler.h src/logging/handler.cpp src/logging/logger.cpp)
+        src/logging/logging.cpp
+        src/logging/level.cpp
+        src/logging/handler.cpp
+        src/logging/logger.cpp)
 
 set(TEMPLATES
         include/utils/arrays.tpp
         include/utils/io.tpp
-        include/utils/bytes.tpp)
+        include/utils/bytes.tpp
+        include/utils/strmanip.tpp)
 
 set(TEST_HEADERS
         tests/test_bytes.h
