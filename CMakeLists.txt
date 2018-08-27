@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(alpha_utils)
+project(alpha_tools)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -8,11 +8,11 @@ include_directories(./include/utils)
 include_directories(./include/logging)
 
 set(HEADERS
-        include/a_utils
-        include/a_logging
-        include/a_tests
+        include/at_utils
+        include/at_logging
+        include/at_tests
         include/argparser.h
-        include/utils/types.h
+        include/types.h
         include/utils/arrays.h
         include/utils/io.h
         include/utils/strmanip.h

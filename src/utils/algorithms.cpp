@@ -1,6 +1,8 @@
 
 #include "algorithms.h"
 
+namespace util {
+
 uint crc_table[256];
 const uint crc_start = 0xFFFFFFFFul;
 bool crc_invoked = false;
@@ -29,4 +31,6 @@ uint crc32(const uchar *input, const ulong length) {
         }
     }
     return crc ^ crc_start;
+}
+
 }

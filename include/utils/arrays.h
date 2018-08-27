@@ -14,7 +14,7 @@ template <typename T>
 bool compare_2D(T **first, T **second, const ulong size);
 
 template <typename T>
-void copy(T *source, T *dest, const ulong length);
+void copy(const T *source, T *dest, const ulong length);
 
 template <typename T>
 void copy_2D(T **source, T **dest, const ulong height, const ulong width);

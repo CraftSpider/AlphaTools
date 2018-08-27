@@ -31,7 +31,7 @@ uchar next_uchar(std::istream &file, const ulong length) {
 }
 
 template <Endian E>
-long next_long <LITTLE> (std::istream &file, const ulong length) {
+long next_long (std::istream &file, const ulong length) {
     long out = 0;
     char *data = new char[length];
     file.read(data, length);
@@ -161,13 +161,13 @@ void write_double(std::ostream &file, const double out, const ulong length) {
 }
 
 template <Endian E>
-void write_string(std::ostream &file, const std::string out, const ulong length) {
+void write_string(std::ostream &file, const std::string out, ulong length) {
     if (length == 0) {
         length = out.size();
     }
     if (E == LITTLE) {
         char *data = new char[length];
-        copy(out.c_str(), data, length)
+        copy(out.c_str(), data, length);
         file.write(reverse(data, length), length);
     } else {
         file.write(out.c_str(), length);

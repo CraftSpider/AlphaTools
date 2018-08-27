@@ -29,7 +29,7 @@ bool compare_2D(T **first, T **second, const ulong size) {
 }
 
 template <typename T>
-void copy(T *source, T *dest, const ulong length) {
+void copy(const T *source, T *dest, const ulong length) {
     for (ulong i = 0; i < length; ++i) {
         dest[i] = source[i];
     }

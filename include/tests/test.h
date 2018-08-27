@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <iostream>
-#include "../utils/types.h"
+#include "types.h"
 
 #define ASSERT_1(expr) if (!(expr)) {throw testing::assertion_failure(std::string("Expression \"") + #expr + "\" failed assertion");}
 #define ASSERT_2(expr, msg) if (!(expr)) {throw testing::assertion_failure(msg);}
