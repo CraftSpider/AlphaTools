@@ -25,8 +25,9 @@ Logger* get_root_logger() {
         return loggers["root"];
     }
     Logger *log = new Logger("root");
-    log->set_level(DEFAULT_LOGGER_LEVEL);
     loggers.emplace("root", log);
+    log->set_level(DEFAULT_LOGGER_LEVEL);
+    log->set_pattern("%l: %m");
     log->add_handler(ch);
     log->add_handler(eh);
     return log;

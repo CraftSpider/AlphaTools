@@ -11,6 +11,7 @@ class Handler {
 
 protected:
     
+    std::string pattern = "";
     Level level;
 
 public:
@@ -19,6 +20,9 @@ public:
     
     void set_level(const Level& level);
     
+    void set_pattern(const std::string& pattern);
+    
+    // TODO: pattern handling
     virtual void log(const std::string& message, const Level& level) = 0;
     
 };

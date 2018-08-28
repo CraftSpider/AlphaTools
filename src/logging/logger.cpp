@@ -32,6 +32,14 @@ Level Logger::get_level() const {
     return level;
 }
 
+void Logger::set_pattern(const std::string &pattern) {
+    this->pattern = pattern;
+}
+
+std::string Logger::get_pattern() const {
+    return pattern;
+}
+
 void Logger::set_parent(Logger* parent) {
     this->parent = parent;
 }
@@ -41,9 +49,10 @@ Logger* Logger::get_parent() const {
 }
 
 void Logger::log(const std::string &message, const Level &level) {
-    if (propagate) {
+    if (propagate && parent != nullptr) {
         parent->log(message, level);
     }
+    // TODO: pattern handling
     if (level >= get_effective_level()) {
         for (auto handler : handlers) {
             handler->log(message, level);

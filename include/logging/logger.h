@@ -11,12 +11,13 @@ namespace logging {
 
 class Logger {
     
+    bool propagate = false;
+    Logger* parent = nullptr;
     std::string name;
+    std::string pattern = "";
     Level level;
     std::vector<Handler*> handlers;
-    Logger* parent = nullptr;
-
-    bool propagate = false;
+    
     Level get_effective_level();
 
 public:
@@ -26,6 +27,9 @@ public:
     
     void set_level(const Level& level);
     Level get_level() const;
+    
+    void set_pattern(const std::string& pattern);
+    std::string get_pattern() const;
 
     void set_parent(Logger* parent);
     Logger* get_parent() const;
