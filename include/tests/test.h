@@ -92,6 +92,10 @@ struct Results {
     static int skipped;
 
     static int total();
+    static int success_percent();
+    static int failure_percent();
+    static int error_percent();
+    static int skipped_percent();
 };
 
 class assertion_failure : public std::runtime_error {

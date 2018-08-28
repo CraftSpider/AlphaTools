@@ -1,5 +1,4 @@
 
-#include <console.h>
 #include "tests/test.h"
 #include "console.h"
 
@@ -16,6 +15,22 @@ int Results::total() {
     return successes + failures + errors + skipped;
 }
 
+int Results::success_percent() {
+    return 100 * successes / total();
+}
+
+int Results::failure_percent() {
+    return 100 * failures / total();
+}
+
+int Results::error_percent() {
+    return 100 * errors / total();
+}
+
+int Results::skipped_percent() {
+    return 100 * skipped / total();
+}
+
 assertion_failure::assertion_failure(const std::string &msg) : runtime_error(msg) {};
 
 skip_test::skip_test() : runtime_error("Skipped test") {};
@@ -29,29 +44,33 @@ void run_tests(std::string name) {
         test();
     }
     
-    std::cout << name << " testing complete. Results:\n";
+    using namespace term;
+    // Write out basic results
+    std::cout << "\n" << name << " testing complete. Results:\n";
     std::cout << "Tests Found: " << Results::total() << "\n";
-    std::cout << "Successes: " << term::fore::GREEN << Results::successes << term::fore::DEFAULT;
-    std::cout << " Failures: " << term::fore::RED << Results::failures << term::fore::DEFAULT;
-    std::cout << " Errors: " << term::fore::YELLOW << Results::errors << term::fore::DEFAULT;
-    std::cout << " Skipped: " << term::fore::LIGHT_BLUE << Results::skipped << term::fore::DEFAULT << "\n";
-
-    int percent = 100 * Results::successes / Results::total();
-    std::cout << "[";
-    for (int i = 0; i < 25; ++i) {
-        if (i*2 < percent)
-            std::cout << fill_char;
-        else
-            std::cout << blank_char;
+    std::cout << "Successes: " << fore::GREEN << Results::successes << fore::DEFAULT;
+    std::cout << " Failures: " << fore::RED << Results::failures << fore::DEFAULT;
+    std::cout << " Errors: " << fore::YELLOW << Results::errors << fore::DEFAULT;
+    std::cout << " Skipped: " << fore::LIGHT_BLUE << Results::skipped << fore::DEFAULT << "\n";
+    
+    // Write out percentage bar
+    std::cout << "[" << fore::GREEN;
+    for (int i = 0; i < Results::success_percent() / 2; ++i) {
+        std::cout << fill_char;
     }
-    std::cout << percent << "%";
-    for (int i = 25; i < 50; ++i) {
-        if (i*2 < percent)
-            std::cout << fill_char;
-        else
-            std::cout << blank_char;
+    std::cout << fore::RED;
+    for (int i = 0; i < Results::failure_percent() / 2; ++i) {
+        std::cout << fill_char;
     }
-    std::cout << "]\n";
+    std::cout << fore::YELLOW;
+    for (int i = 0; i < Results::error_percent() / 2; ++i) {
+        std::cout << blank_char;
+    }
+    std::cout << fore::LIGHT_BLUE;
+    for (int i = 0; i < Results::skipped_percent() / 2; ++i) {
+        std::cout << blank_char;
+    }
+    std::cout << fore::DEFAULT << "]\n";
 }
 
 }
