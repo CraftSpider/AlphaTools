@@ -40,6 +40,7 @@ constexpr char fill_char = '=';
 constexpr char blank_char = '-';
 
 void run_tests(std::string name) {
+    // TODO: count time
     for (auto test : ToRun::tests) {
         test();
     }

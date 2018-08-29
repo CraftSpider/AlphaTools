@@ -15,30 +15,47 @@ Logger::Logger(const std::string &name) : Logger() {
     this->name = name;
 }
 
-Level Logger::get_effective_level() {
+Level Logger::get_effective_level() const {
     if (level == Level::NO_LEVEL) {
         return parent->get_effective_level();
     }
     return level;
 }
 
-std::string Logger::log_format(std::string message, const Level& level) {
+std::string Logger::get_effective_pattern() const {
+    if (pattern.empty()) {
+        return parent->get_pattern();
+    }
+    return pattern;
+}
+
+std::string Logger::format_instruct(const std::string &instruct, std::string message, const Level& level) {
+    std::stringstream out;
+    if (instruct[0] == 'l') {
+        out << (std::string)level;
+    } else if (instruct[0] == 'm') {
+        out << message;
+    } else {
+        throw std::runtime_error("Unrecognized log format instruction");
+    }
+}
+
+std::string Logger::log_format(const std::string &message, const Level& level) {
     bool escaped = false, in_pat = false;
     std::stringstream out;
-    std::string pattern;
-    for (char c : message) {
+    std::string instruct, pattern = get_effective_pattern();
+    for (char c : pattern) {
         if (escaped) {
             out << c;
         } else if (in_pat) {
-            if (c == ' ' || c == '%') {
+            if (!std::isalnum(c)) {
                 if (c == ' ') {
                     in_pat = false;
                 }
-                // TODO: evaluate pattern
-                // First char is general type, after that is specifiers.
-                pattern = "";
+                out << format_instruct(instruct, message, level);
+                instruct = "";
             } else {
-                pattern += c;
+                instruct += c;
             }
         }
         
@@ -50,7 +67,9 @@ std::string Logger::log_format(std::string message, const Level& level) {
             out << c;
         }
     }
-    // TODO: make sure pattern is consumed if it's at end of line
+    if (!instruct.empty()) {
+        out << format_instruct(instruct, message, level);
+    }
     return out.str();
 }
 
@@ -87,7 +106,6 @@ void Logger::log(const std::string &message, const Level &level) {
     }
     // TODO: pattern handling
     if (level >= get_effective_level()) {
-        
         for (auto handler : handlers) {
             handler->log(log_format(message, level), level);
         }
