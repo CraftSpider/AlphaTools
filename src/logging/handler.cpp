@@ -13,13 +13,9 @@ void Handler::set_level(const Level &level) {
     this->level = level;
 }
 
-void Handler::set_pattern(const std::string &pattern) {
-    this->pattern = pattern;
-}
-
 void ConsoleHandler::log(const std::string &message, const Level &level) {
     if (level >= this->level) {
-        std::cout << (std::string)level << ": " << message << std::endl;
+        std::cout << message << std::endl;
     }
 }
 
@@ -29,7 +25,7 @@ ErrorHandler::ErrorHandler() {
 
 void ErrorHandler::log(const std::string &message, const logging::Level &level) {
     if (level >= this->level) {
-        std::cerr << (std::string)level << ": " << message << std::endl;
+        std::cerr << message << std::endl;
     }
 }
 
@@ -43,7 +39,7 @@ FileHandler::~FileHandler() {
 
 void FileHandler::log(const std::string &message, const logging::Level &level) {
     if (level >= this->level) {
-        *fileout << (std::string) level << ": " << message << '\n';
+        *fileout << message << '\n';
     }
 }
 

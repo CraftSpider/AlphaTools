@@ -1,5 +1,6 @@
 
 #include <stdexcept>
+#include <sstream>
 #include "logging/logger.h"
 
 namespace logging {
@@ -19,6 +20,38 @@ Level Logger::get_effective_level() {
         return parent->get_effective_level();
     }
     return level;
+}
+
+std::string Logger::log_format(std::string message, const Level& level) {
+    bool escaped = false, in_pat = false;
+    std::stringstream out;
+    std::string pattern;
+    for (char c : message) {
+        if (escaped) {
+            out << c;
+        } else if (in_pat) {
+            if (c == ' ' || c == '%') {
+                if (c == ' ') {
+                    in_pat = false;
+                }
+                // TODO: evaluate pattern
+                // First char is general type, after that is specifiers.
+                pattern = "";
+            } else {
+                pattern += c;
+            }
+        }
+        
+        if (c == '\\') {
+            escaped = true;
+        } else if (c == '%') {
+            in_pat = true;
+        } else {
+            out << c;
+        }
+    }
+    // TODO: make sure pattern is consumed if it's at end of line
+    return out.str();
 }
 
 void Logger::set_level(const Level &level) {
@@ -54,8 +87,9 @@ void Logger::log(const std::string &message, const Level &level) {
     }
     // TODO: pattern handling
     if (level >= get_effective_level()) {
+        
         for (auto handler : handlers) {
-            handler->log(message, level);
+            handler->log(log_format(message, level), level);
         }
     }
 }

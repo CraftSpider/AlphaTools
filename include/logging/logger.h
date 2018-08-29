@@ -10,6 +10,8 @@
 namespace logging {
 
 class Logger {
+
+protected:
     
     bool propagate = false;
     Logger* parent = nullptr;
@@ -19,6 +21,7 @@ class Logger {
     std::vector<Handler*> handlers;
     
     Level get_effective_level();
+    std::string log_format(std::string message, const Level& level);
 
 public:
     
