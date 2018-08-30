@@ -12,6 +12,7 @@ set(HEADERS
         include/argparser.h
         include/types.h
         include/console.h
+        include/format.h
         include/utils/arrays.h
         include/utils/io.h
         include/utils/strmanip.h
@@ -27,6 +28,7 @@ set(HEADERS
 set(SOURCES
         src/argparser.cpp
         src/console.cpp
+        src/format.cpp
         src/utils/arrays.cpp
         src/utils/strmanip.cpp
         src/utils/bytes.cpp
@@ -49,7 +51,8 @@ set(TEST_HEADERS
         tests/test_arrays.h
         tests/test_strmanip.h
         tests/test_algorithms.h
-        tests/test_logging.h)
+        tests/test_logging.h
+        tests/test_format.h)
 
 set(TEST_SOURCES
         tests/main.cpp
@@ -57,7 +60,8 @@ set(TEST_SOURCES
         tests/test_arrays.cpp
         tests/test_strmanip.cpp
         tests/test_algorithms.cpp
-        tests/test_logging.cpp)
+        tests/test_logging.cpp
+        tests/test_format.cpp)
 
 set(TEST_TEMPLATES)
 
