@@ -38,6 +38,7 @@ std::string Logger::format_instruct(const std::string &instruct, std::string mes
     } else {
         throw std::runtime_error("Unrecognized log format instruction");
     }
+    return out.str();
 }
 
 std::string Logger::log_format(const std::string &message, const Level& level) {
@@ -49,14 +50,16 @@ std::string Logger::log_format(const std::string &message, const Level& level) {
             out << c;
         } else if (in_pat) {
             if (!std::isalnum(c)) {
-                if (c == ' ') {
-                    in_pat = false;
-                }
                 out << format_instruct(instruct, message, level);
                 instruct = "";
+                if (c != '%') {
+                    in_pat = false;
+                    out << c;
+                }
             } else {
                 instruct += c;
             }
+            continue;
         }
         
         if (c == '\\') {

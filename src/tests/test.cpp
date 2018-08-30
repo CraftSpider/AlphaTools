@@ -4,6 +4,8 @@
 
 namespace testing {
 
+static std::string def_msg = "Skipped test";
+
 std::vector<void(*)()> ToRun::tests = std::vector<void (*)()>();
 
 int Results::successes = 0;
@@ -33,7 +35,7 @@ int Results::skipped_percent() {
 
 assertion_failure::assertion_failure(const std::string &msg) : runtime_error(msg) {};
 
-skip_test::skip_test() : runtime_error("Skipped test") {};
+skip_test::skip_test() : runtime_error(def_msg) {};
 skip_test::skip_test(const std::string &msg) : runtime_error(msg) {};
 
 constexpr char fill_char = '=';

@@ -48,14 +48,16 @@ set(TEST_HEADERS
         tests/test_bytes.h
         tests/test_arrays.h
         tests/test_strmanip.h
-        tests/test_algorithms.h tests/test_logging.h)
+        tests/test_algorithms.h
+        tests/test_logging.h)
 
 set(TEST_SOURCES
         tests/main.cpp
         tests/test_bytes.cpp
         tests/test_arrays.cpp
         tests/test_strmanip.cpp
-        tests/test_algorithms.cpp tests/test_logging.cpp)
+        tests/test_algorithms.cpp
+        tests/test_logging.cpp)
 
 set(TEST_TEMPLATES)
 
