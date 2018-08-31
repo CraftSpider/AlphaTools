@@ -1,4 +1,5 @@
 
+#include <chrono>
 #include "tests/test.h"
 #include "console.h"
 
@@ -42,15 +43,20 @@ constexpr char fill_char = '=';
 constexpr char blank_char = '-';
 
 void run_tests(std::string name) {
+    using namespace std::chrono;
+    using namespace term;
+    
     // TODO: count time
+    time_point start = high_resolution_clock::now();
     for (auto test : ToRun::tests) {
         test();
     }
+    time_point end = high_resolution_clock::now();
+    duration elapsed = end - start;
     
-    using namespace term;
     // Write out basic results
     std::cout << "\n" << name << " testing complete. Results:\n";
-    std::cout << "Tests Found: " << Results::total() << "\n";
+    std::cout << "Ran " << Results::total() << " tests in " << (float)elapsed.count() / nanoseconds(seconds(1)).count() << " seconds\n";
     std::cout << "Successes: " << fore::GREEN << Results::successes << fore::DEFAULT;
     std::cout << " Failures: " << fore::RED << Results::failures << fore::DEFAULT;
     std::cout << " Errors: " << fore::YELLOW << Results::errors << fore::DEFAULT;

@@ -20,18 +20,33 @@ void test_btol() {
 }
 
 void test_btoi() {
-    // TODO
-    throw testing::skip_test();
+    uchar test1[4] = {8, 7, 6, 5};
+    ASSERT(btoi<BIG>(test1) == 0x08070605);
+    ASSERT(btoi<LITTLE>(test1) == 0x05060708);
+    
+    char test2[4] = {8, 7, 6, 5};
+    ASSERT(btoi<BIG>(test2) == 0x08070605);
+    ASSERT(btoi<LITTLE>(test2) == 0x05060708);
 }
 
 void test_btos() {
-    // TODO
-    throw testing::skip_test();
+    uchar test1[2] = {8, 7};
+    ASSERT(btos<BIG>(test1) == 0x0807);
+    ASSERT(btos<LITTLE>(test1) == 0x0708);
+    
+    char test2[2] = {8, 7};
+    ASSERT(btos<BIG>(test2) == 0x0807);
+    ASSERT(btos<LITTLE>(test2) == 0x0708);
 }
 
 void test_btoc() {
-    // TODO
-    throw testing::skip_test();
+    uchar test1[1] = {8};
+    ASSERT(btoc<BIG>(test1) == 0x08);
+    ASSERT(btoc<LITTLE>(test1) == 0x08);
+    
+    char test2[1] = {1};
+    ASSERT(btoc<BIG>(test2) == 0x01);
+    ASSERT(btoc<LITTLE>(test2) == 0x01);
 }
 
 void test_ltob() {
@@ -57,8 +72,25 @@ void test_ltob() {
 }
 
 void test_itob() {
-    // TODO
-    throw testing::skip_test();
+    uint test1 = 0xFFFEFDFC;
+    uchar expected1[4] = {255, 254, 253, 252};
+    ASSERT(compare(itob<BIG>(test1, 4), expected1, 4));
+    ASSERT(compare(itob<LITTLE>(test1, 4), reverse(expected1, 4), 4));
+    
+    uint test2 = 0x0;
+    uchar expected2[4] = {0, 0, 0, 0};
+    ASSERT(compare(itob<BIG>(test2, 4), expected2, 4));
+    ASSERT(compare(itob<LITTLE>(test2, 4), reverse(expected2, 4), 4));
+    
+    int test3 = 0xFFFEFDFC;
+    char expected3[4] = {-1, -2, -3, -4};
+    ASSERT(compare(itob<BIG>(test3, 4), expected3, 4));
+    ASSERT(compare(itob<LITTLE>(test3, 4), reverse(expected3, 4), 4));
+    
+    int test4 = 0x0;
+    char expected4[4] = {0, 0, 0, 0};
+    ASSERT(compare(itob<BIG>(test4, 4), expected4, 4));
+    ASSERT(compare(itob<LITTLE>(test4, 4), reverse(expected4, 4), 4));
 }
 
 void test_stob() {

@@ -3,7 +3,7 @@
 #include <cstdarg>
 #include "format.h"
 
-std::string int_spec(std::string spec, int val) {
+std::string int_spec(std::string spec, long val) {
     // TODO
     return spec;
 }
@@ -38,10 +38,13 @@ std::string format(std::string pattern, ...) {
                 in_spec = false;
                 std::string s = spec.str();
                 if (s[0] == 'i') {
-                    out << int_spec(s, va_arg(args, int));
+                    out << int_spec(s, va_arg(args, long));
                 } else if (s[0] == 'd') {
+                    out << double_spec(s, va_arg(args, double));
                 } else if (s[0] == 'f') {
+                    out << float_spec(s, (float)va_arg(args, double));
                 } else if (s[0] == 's') {
+                    out << string_spec(s, va_arg(args, char*));
                 } else if (s[0] == 'o') {
                     out << va_arg(args, Formattable*)->__format__(s);
                 } else {

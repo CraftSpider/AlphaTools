@@ -7,7 +7,10 @@
 class TestLogger : public testing::AbstractTest{
     
     std::streambuf *old_cout;
-    std::ostringstream new_out;
+    std::ostringstream new_cout;
+    std::ostringstream new_cerr;
+    
+    void clear_logs();
     
     void test_root();
     void test_normal();

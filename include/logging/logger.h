@@ -13,7 +13,7 @@ class Logger {
 
 protected:
     
-    bool propagate = false;
+    bool propagate = true;
     Logger* parent = nullptr;
     std::string name;
     std::string pattern = "";
