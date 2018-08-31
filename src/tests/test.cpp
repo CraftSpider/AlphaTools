@@ -46,7 +46,6 @@ void run_tests(std::string name) {
     using namespace std::chrono;
     using namespace term;
     
-    // TODO: count time
     time_point start = high_resolution_clock::now();
     for (auto test : ToRun::tests) {
         test();

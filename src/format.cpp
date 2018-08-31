@@ -1,11 +1,45 @@
 
 #include <sstream>
 #include <cstdarg>
+#include <csetjmp>
 #include "format.h"
 
+class BadObject : public Formattable {
+    void* ptr = nullptr;
+public:
+    void set_ptr(void* ptr) {
+        this->ptr = ptr;
+    }
+    
+    std::string __format__(std::string spec) override {
+        std::stringstream out;
+        out << "[[NON-FORMATTABLE OBJECT " << ptr << "]]";
+        return out.str();
+    }
+};
+
+/**
+ * Format an integer spec. Viable options are:
+ * x: Lowercase hex
+ * X: Uppercase hex
+ * o: octal
+ * @param spec Format spec string
+ * @param val value to format
+ * @return formatted string
+ */
 std::string int_spec(std::string spec, long val) {
-    // TODO
-    return spec;
+    std::stringstream out;
+    bool pref = false;
+    if (spec.find('0') != std::string::npos)
+        pref = true;
+    if (spec.find('x') != std::string::npos)
+        out << (pref ? "0x" : "") << std::hex;
+    else if (spec.find('X') != std::string::npos)
+        out << (pref ? "0x" : "") << std::hex << std::uppercase;
+    else if (spec.find('o') != std::string::npos)
+        out << (pref ? "0o" : "") << std::oct;
+    out << val;
+    return out.str();
 }
 
 std::string float_spec(std::string spec, float val) {
@@ -23,7 +57,21 @@ std::string string_spec(std::string spec, char* val) {
     return std::string(val);
 }
 
+static Formattable *form;
+static BadObject *bad = nullptr;
+static jmp_buf buf;
+
+static void format_handler(int signo) {
+    if (bad == nullptr) {
+        bad = new BadObject();
+    }
+    bad->set_ptr(form);
+    form = bad;
+    longjmp(buf, 1);
+}
+
 std::string format(std::string pattern, ...) {
+    signal(SIGSEGV, format_handler);
     bool escaped = false, in_spec = false;
     std::stringstream out, spec;
     va_list args;
@@ -37,16 +85,22 @@ std::string format(std::string pattern, ...) {
             if (c == '}') {
                 in_spec = false;
                 std::string s = spec.str();
-                if (s[0] == 'i') {
+                char type = s[0];
+                s = s.substr(1, s.size());
+                if (type == 'i') {
                     out << int_spec(s, va_arg(args, long));
-                } else if (s[0] == 'd') {
+                } else if (type == 'd') {
                     out << double_spec(s, va_arg(args, double));
-                } else if (s[0] == 'f') {
+                } else if (type == 'f') {
                     out << float_spec(s, (float)va_arg(args, double));
-                } else if (s[0] == 's') {
+                } else if (type == 's') {
                     out << string_spec(s, va_arg(args, char*));
-                } else if (s[0] == 'o') {
-                    out << va_arg(args, Formattable*)->__format__(s);
+                } else if (type == 'o') {
+                    void* object = va_arg(args, Formattable*);
+                    form = static_cast<Formattable*>(object);
+                    setjmp(buf);
+                    out << form->__format__(s);
+                    form = nullptr;
                 } else {
                     throw std::runtime_error("Invalid formatting spec");
                 }
@@ -62,5 +116,6 @@ std::string format(std::string pattern, ...) {
             }
         }
     }
+    signal(SIGSEGV, SIG_DFL);
     return out.str();
 }
