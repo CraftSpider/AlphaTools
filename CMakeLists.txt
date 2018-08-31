@@ -23,7 +23,7 @@ set(HEADERS
         include/logging/handler.h
         include/logging/logging.h
         include/logging/level.h
-        include/logging/logger.h)
+        include/logging/logger.h include/generic.h)
 
 set(SOURCES
         src/argparser.cpp
@@ -38,7 +38,7 @@ set(SOURCES
         src/logging/logging.cpp
         src/logging/level.cpp
         src/logging/handler.cpp
-        src/logging/logger.cpp)
+        src/logging/logger.cpp src/generic.cpp)
 
 set(TEMPLATES
         include/utils/arrays.tpp
