@@ -23,6 +23,7 @@ public:
  * x: Lowercase hex
  * X: Uppercase hex
  * o: octal
+ * 0: Prefix with literal type (0x or 0o)
  * @param spec Format spec string
  * @param val value to format
  * @return formatted string
@@ -44,12 +45,16 @@ std::string int_spec(std::string spec, long val) {
 
 std::string float_spec(std::string spec, float val) {
     // TODO
-    return spec;
+    std::stringstream out;
+    out << val;
+    return out.str();
 }
 
 std::string double_spec(std::string spec, double val) {
     // TODO
-    return spec;
+    std::stringstream out;
+    out << val;
+    return out.str();
 }
 
 std::string string_spec(std::string spec, char* val) {
@@ -57,16 +62,9 @@ std::string string_spec(std::string spec, char* val) {
     return std::string(val);
 }
 
-static Formattable *form;
-static BadObject *bad = nullptr;
 static jmp_buf buf;
 
 static void format_handler(int signo) {
-    if (bad == nullptr) {
-        bad = new BadObject();
-    }
-    bad->set_ptr(form);
-    form = bad;
     longjmp(buf, 1);
 }
 
@@ -96,11 +94,14 @@ std::string format(std::string pattern, ...) {
                 } else if (type == 's') {
                     out << string_spec(s, va_arg(args, char*));
                 } else if (type == 'o') {
-                    void* object = va_arg(args, Formattable*);
-                    form = static_cast<Formattable*>(object);
-                    setjmp(buf);
-                    out << form->__format__(s);
-                    form = nullptr;
+                    Formattable* form = va_arg(args, Formattable*);
+                    if (!setjmp(buf)) {
+                        out << form->__format__(s);
+                    } else {
+                        BadObject object = BadObject();
+                        object.set_ptr(form);
+                        out << object.__format__(s);
+                    }
                 } else {
                     throw std::runtime_error("Invalid formatting spec");
                 }
