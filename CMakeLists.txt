@@ -13,6 +13,7 @@ set(HEADERS
         include/types.h
         include/console.h
         include/format.h
+        include/generic.h
         include/utils/arrays.h
         include/utils/io.h
         include/utils/strmanip.h
@@ -23,12 +24,14 @@ set(HEADERS
         include/logging/handler.h
         include/logging/logging.h
         include/logging/level.h
-        include/logging/logger.h include/generic.h include/network/socket.h)
+        include/logging/logger.h
+        include/network/socket.h)
 
 set(SOURCES
         src/argparser.cpp
         src/console.cpp
         src/format.cpp
+        src/generic.cpp
         src/utils/arrays.cpp
         src/utils/strmanip.cpp
         src/utils/bytes.cpp
@@ -38,7 +41,8 @@ set(SOURCES
         src/logging/logging.cpp
         src/logging/level.cpp
         src/logging/handler.cpp
-        src/logging/logger.cpp src/generic.cpp include/network/socket.cpp)
+        src/logging/logger.cpp
+        src/network/socket.cpp)
 
 set(TEMPLATES
         include/utils/arrays.tpp
