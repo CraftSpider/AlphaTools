@@ -4,10 +4,6 @@
 #include <sstream>
 #include "types.h"
 
-#if defined(_Win32) || defined(__CYGWIN__)
-#warning Most console codes will not work on windows terminals before Win10
-#endif
-
 namespace term {
 
 std::string SET_ICON_TITLE(std::string name);
@@ -52,11 +48,12 @@ std::string DELETE_LINE(ushort n = 1);
  * 0: erases from beginning to cursor
  * 1: erases from cursor to end
  * 2: erases from beginning to end
+ * 3: erases from beginning to end and clears the scrollback buffer
  * @param option Clear setting
  * @return Escape code
  */
-std::string CLEAR(ushort option = 1);
-std::string CLEAR_LINE(ushort option = 1);
+std::string CLEAR(ushort option = 2);
+std::string CLEAR_LINE(ushort option = 2);
 
 }
 
@@ -74,7 +71,7 @@ constexpr char RESET_BOLD[] = "\033[21m";
 constexpr char RESET_DIM[] = "\033[22m";
 constexpr char RESET_UNDERLINE[] = "\033[24m";
 constexpr char RESET_BLINK[] = "\033[25m";
-constexpr char RESET_REVERSE[] = "\033[27m";
+constexpr char RESET_INVERTED[] = "\033[27m";
 constexpr char RESET_HIDDEN[] = "\033[28m";
 
 }
@@ -122,5 +119,7 @@ constexpr char LIGHT_CYAN[] = "\033[106m";
 constexpr char WHITE[] = "\033[107m";
 
 }
+
+constexpr char RESET_ALL[] = "\033[0m\033[39m\033[49m";
 
 }

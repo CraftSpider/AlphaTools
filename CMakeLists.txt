@@ -56,7 +56,8 @@ set(TEST_HEADERS
         tests/test_strmanip.h
         tests/test_algorithms.h
         tests/test_logging.h
-        tests/test_format.h)
+        tests/test_format.h
+        tests/test_console.h)
 
 set(TEST_SOURCES
         tests/main.cpp
@@ -65,7 +66,8 @@ set(TEST_SOURCES
         tests/test_strmanip.cpp
         tests/test_algorithms.cpp
         tests/test_logging.cpp
-        tests/test_format.cpp)
+        tests/test_format.cpp
+        tests/test_console.cpp)
 
 set(TEST_TEMPLATES)
 

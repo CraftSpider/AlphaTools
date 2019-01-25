@@ -13,42 +13,35 @@
 
 #define TEST(name) try {\
     name();\
-    testing::Results::successes += 1;\
+    testing::__on_success(#name);\
 } catch (testing::assertion_failure &e) {\
-    std::cerr << e.what() << " in test " << #name << std::endl;\
-    testing::Results::failures += 1;\
+    testing::__on_failure(#name, e);\
 } catch (testing::skip_test &e) {\
-    std::cout << "Skipped test " << #name << std::endl;\
-    testing::Results::skipped += 1;\
+    testing::__on_skip(#name, e);\
 } catch (std::exception &e) {\
-    std::cerr << e.what() << " in test " << #name << std::endl;\
-    testing::Results::errors += 1;\
+    testing::__on_error(#name, e);\
 }
 
 // TODO: Skip error, any test that throws it is counted as 'skipped'
-#define TEST_CLASS(name) testing::AbstractTest *test##name = new name();\
+#define TEST_CLASS(name) testing::AbstractTest* test##name = new name();\
 if (test##name->skip_class()) {\
-    std::cout << "Skipped test class " << #name << std::endl;\
-    testing::Results::skipped += 1;\
+    testing::__on_skip(#name, testing::CLASS);\
 } else {\
     test##name->before_class();\
     try {\
         test##name->run();\
         if (!test##name->delegated) {\
-            testing::Results::successes += 1;\
+            testing::__on_success(#name, testing::CLASS);\
         }\
     } catch (testing::assertion_failure &e) {\
-        std::cerr << e.what() << " in test class " << #name << std::endl;\
         if (!test##name->delegated) {\
-            testing::Results::failures += 1;\
+            testing::__on_failure(#name, e, testing::CLASS);\
         }\
     } catch (testing::skip_test &e) {\
-        std::cout << "Skipped test class " << #name << std::endl;\
-        testing::Results::skipped += 1;\
+        testing::__on_skip(#name, e, testing::CLASS);\
     } catch (std::exception &e) {\
-        std::cerr << e.what() << " in test class " << #name << std::endl;\
         if (!test##name->delegated) {\
-            testing::Results::errors += 1;\
+            testing::__on_error(#name, e, testing::CLASS);\
         }\
     }\
     test##name->after_class();\
@@ -57,32 +50,38 @@ delete test##name;
 
 #define TEST_METHOD(name) this->delegated = true;\
 if (this->skip_test(#name)) {\
-    std::cout << "Skipped test method " << #name << std::endl;\
-    testing::Results::skipped += 1;\
+    testing::__on_skip(#name, testing::METHOD);\
 } else {\
     this->before_test(#name);\
     try {\
         this->name();\
-        testing::Results::successes += 1;\
+        testing::__on_success(#name, testing::METHOD);\
     } catch (testing::assertion_failure &e) {\
-        std::cerr << e.what() << " in test method " << #name << std::endl;\
-        testing::Results::failures += 1;\
+        testing::__on_failure(#name, e, testing::METHOD);\
     } catch (testing::skip_test &e) {\
-        std::cout << "Skipped test method " << #name << std::endl;\
-        testing::Results::skipped += 1;\
+        testing::__on_skip(#name, e, testing::METHOD);\
     } catch (std::exception &e) {\
-        std::cerr << e.what() << " in test method " << #name << std::endl;\
-        testing::Results::errors += 1;\
+        testing::__on_error(#name, e, testing::METHOD);\
     }\
     this->after_test(#name);\
 }
 
-#define TEST_FILE(name) testing::ToRun::tests.push_back(&run_##name##_tests);
+#define TEST_FILE(name) testing::__ToRun::tests.push_back(&run_##name##_tests);
 
 namespace testing {
 
-struct ToRun {
+struct __ToRun {
     static std::vector<void(*)()> tests;
+};
+
+struct __Results {
+    static std::vector<std::string> failure_messages;
+    static std::vector<std::string> skip_messages;
+    static std::vector<std::string> error_messages;
+};
+
+enum TestType {
+    FUNCTION, METHOD, CLASS
 };
 
 struct Results {
@@ -98,16 +97,27 @@ struct Results {
     static int skipped_percent();
 };
 
-class assertion_failure : public std::runtime_error {
+class test_error : public std::runtime_error {
+protected:
+    explicit test_error(const std::string& msg);
+};
+
+class assertion_failure : public test_error {
 public:
     explicit assertion_failure(const std::string& msg);
 };
 
-class skip_test : public std::runtime_error {
+class skip_test : public test_error {
 public:
     skip_test();
     explicit skip_test(const std::string& msg);
 };
+
+void __on_success(std::string name, TestType type = FUNCTION);
+void __on_failure(std::string name, assertion_failure& e, TestType type = FUNCTION);
+void __on_skip(std::string name, TestType type = FUNCTION);
+void __on_skip(std::string name, skip_test& e, TestType type = FUNCTION);
+void __on_error(std::string name, std::exception& e, TestType type = FUNCTION);
 
 /**
  * Run the test suite. Add any files to test with the macro `TEST_FILE(nameThe)` before running this.

@@ -7,6 +7,7 @@
 #include "test_strmanip.h"
 #include "test_logging.h"
 #include "test_format.h"
+#include "test_console.h"
 
 #include "network/socket.h"
 #include <thread>
@@ -45,13 +46,13 @@ void client_socket() {
 }
 
 int main(int argc, char **argv) {
-    std::thread serv(serv_socket);
-    std::thread client(client_socket);
-    
-    serv.join();
-    client.join();
-    
-    return 0;
+//    std::thread serv(serv_socket);
+//    std::thread client(client_socket);
+//
+//    serv.join();
+//    client.join();
+//
+//    return 0;
     
     TEST_FILE(algorithms)
     TEST_FILE(arrays)
@@ -59,6 +60,7 @@ int main(int argc, char **argv) {
     TEST_FILE(strmanip)
     TEST_FILE(logging)
     TEST_FILE(format)
+    TEST_FILE(console)
     
     testing::run_tests();
 }
