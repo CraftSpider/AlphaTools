@@ -94,13 +94,48 @@ void test_itob() {
 }
 
 void test_stob() {
-    // TODO
-    throw testing::skip_test();
+    ushort test1 = 0xFFFE;
+    uchar expected1[2] = {255, 254};
+    ASSERT(compare(stob<BIG>(test1, 2), expected1, 2));
+    ASSERT(compare(stob<LITTLE>(test1, 2), reverse(expected1, 2), 2));
+    
+    ushort test2 = 0x0;
+    uchar expected2[2] = {0, 0};
+    ASSERT(compare(stob<BIG>(test2, 2), expected2, 2));
+    ASSERT(compare(stob<LITTLE>(test2, 2), reverse(expected2, 2), 2));
+    
+    short test3 = 0xFFFE;
+    char expected3[2] = {-1, -2};
+    ASSERT(compare(stob<BIG>(test3, 2), expected3, 2));
+    ASSERT(compare(stob<LITTLE>(test3, 2), reverse(expected3, 2), 2));
+    
+    short test4 = 0x0;
+    char expected4[2] = {0, 0};
+    ASSERT(compare(stob<BIG>(test4, 2), expected4, 2));
+    ASSERT(compare(stob<LITTLE>(test4, 2), reverse(expected4, 2), 2));
 }
 
 void test_ctob() {
-    // TODO
-    throw testing::skip_test();
+    uchar test1 = 0xFF;
+    uchar expected1[1] = {255};
+    ASSERT(compare(ctob<BIG>(test1, 1), expected1, 1));
+    ASSERT(compare(ctob<LITTLE>(test1, 1), reverse(expected1, 1), 1));
+    
+    uchar test2 = 0x0;
+    uchar expected2[1] = {0};
+    ASSERT(compare(ctob<BIG>(test2, 1), expected2, 1));
+    ASSERT(compare(ctob<LITTLE>(test2, 1), reverse(expected2, 1), 1));
+    
+    char test3 = 0xFF;
+    char expected3[1] = {-1};
+    ASSERT(compare(ctob<BIG>(test3, 1), expected3, 1));
+    ASSERT(compare(ctob<LITTLE>(test3, 1), reverse(expected3, 1), 1));
+    
+    char test4 = 0x0;
+    char expected4[1] = {0};
+    ASSERT(compare(ctob<BIG>(test4, 1), expected4, 1));
+    ASSERT(compare(ctob<LITTLE>(test4, 1), reverse(expected4, 1), 1));
+    
 }
 
 void run_bytes_tests() {

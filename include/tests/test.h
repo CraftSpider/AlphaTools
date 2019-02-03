@@ -5,8 +5,8 @@
 #include "types.h"
 #include "tests/abstract_test.h"
 
-#define ASSERT_1(expr) if (!(expr)) {throw testing::assertion_failure(std::string("Expression \"") + #expr + "\" failed assertion");}
-#define ASSERT_2(expr, msg) if (!(expr)) {throw testing::assertion_failure(msg);}
+#define ASSERT_1(expr) if (!(expr)) throw testing::assertion_failure(std::string("Expression \"") + #expr + "\" failed assertion")
+#define ASSERT_2(expr, msg) if (!(expr)) throw testing::assertion_failure(msg)
 
 #define ASSERT_X(x, A, B, FUNC, ...) FUNC
 #define ASSERT(...) ASSERT_X(,##__VA_ARGS__, ASSERT_2(__VA_ARGS__), ASSERT_1(__VA_ARGS__))

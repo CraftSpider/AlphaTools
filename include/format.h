@@ -7,4 +7,4 @@ public:
     virtual std::string __format__(std::string spec) = 0;
 };
 
-std::string format(std::string pattern, ...);
+std::string format(const std::string& pattern, ...);

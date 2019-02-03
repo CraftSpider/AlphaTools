@@ -68,8 +68,9 @@ static void format_handler(int signo) {
     longjmp(buf, 1);
 }
 
-std::string format(std::string pattern, ...) {
-    signal(SIGSEGV, format_handler);
+std::string format(const std::string &pattern, ...) {
+    void (*old_sig)(int) = signal(SIGSEGV, format_handler);
+    
     bool escaped = false, in_spec = false;
     std::stringstream out, spec;
     va_list args;
@@ -117,6 +118,8 @@ std::string format(std::string pattern, ...) {
             }
         }
     }
-    signal(SIGSEGV, SIG_DFL);
+    
+    signal(SIGSEGV, old_sig);
+    
     return out.str();
 }
