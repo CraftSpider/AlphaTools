@@ -2,6 +2,8 @@
 #include <sstream>
 #include <cstdarg>
 #include <csetjmp>
+#include <csignal>
+
 #include "format.h"
 
 class BadObject : public Formattable {
@@ -69,7 +71,7 @@ static void format_handler(int signo) {
 }
 
 std::string format(const std::string &pattern, ...) {
-    void (*old_sig)(int) = signal(SIGSEGV, format_handler);
+    void (*old_sig)(int) = std::signal(SIGSEGV, format_handler);
     
     bool escaped = false, in_spec = false;
     std::stringstream out, spec;
@@ -119,7 +121,7 @@ std::string format(const std::string &pattern, ...) {
         }
     }
     
-    signal(SIGSEGV, old_sig);
+    std::signal(SIGSEGV, old_sig);
     
     return out.str();
 }
