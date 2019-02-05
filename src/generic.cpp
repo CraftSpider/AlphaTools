@@ -3,7 +3,7 @@
 #include "generic.h"
 
 #ifdef LINUXCOMPAT
-#include <uinstd.h>
+#include <unistd.h>
 #endif
 
 #ifdef WINCOMPAT
