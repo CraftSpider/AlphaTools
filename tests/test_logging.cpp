@@ -22,6 +22,7 @@ void TestLogger::run() {
     TEST_METHOD(test_root);
     TEST_METHOD(test_normal);
     TEST_METHOD(test_format);
+    TEST_METHOD(test_saving);
 }
 
 void TestLogger::clear_logs() {
@@ -77,6 +78,15 @@ void TestLogger::test_format() {
     
     root->set_pattern("%l: %m");
     clear_logs();
+}
+
+void TestLogger::test_saving() {
+    clear_logs();
+    
+    Logger *test1 = get_logger("test");
+    Logger *test2 = get_logger("test");
+    
+    ASSERT(test1 == test2);
 }
 
 void run_logging_tests() {
