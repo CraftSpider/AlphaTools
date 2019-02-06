@@ -103,7 +103,7 @@ void __on_error(std::string name, std::exception& e, TestType type) {
     Results::errors += 1;
 }
 
-void run_tests(std::string name) {
+int run_tests(std::string name) {
     using namespace std::chrono;
     using namespace term;
     
@@ -167,6 +167,18 @@ void run_tests(std::string name) {
     }
     
     std::cout << std::flush;
+    
+    int out = 0;
+    if (Results::failures) {
+        out += 0b001;
+    }
+    if (Results::errors) {
+        out += 0b010;
+    }
+    if (Results::skipped) {
+        out += 0b100;
+    }
+    return out;
 }
 
 }

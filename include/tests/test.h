@@ -125,6 +125,6 @@ void __on_error(std::string name, std::exception& e, TestType type = FUNCTION);
  * In that function, use `TEST(name)` and `TEST_CLASS(name)` to define the function and test
  * classes to be run.
  */
-void run_tests(std::string name = "Alpha Tools");
+int run_tests(std::string name = "Alpha Tools");
 
 }
