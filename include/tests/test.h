@@ -113,11 +113,11 @@ public:
     explicit skip_test(const std::string& msg);
 };
 
-void __on_success(std::string name, TestType type = FUNCTION);
-void __on_failure(std::string name, assertion_failure& e, TestType type = FUNCTION);
-void __on_skip(std::string name, TestType type = FUNCTION);
-void __on_skip(std::string name, skip_test& e, TestType type = FUNCTION);
-void __on_error(std::string name, std::exception& e, TestType type = FUNCTION);
+void __on_success(const std::string& name, TestType type = FUNCTION);
+void __on_failure(const std::string& name, assertion_failure& e, TestType type = FUNCTION);
+void __on_skip(const std::string& name, TestType type = FUNCTION);
+void __on_skip(const std::string& name, skip_test& e, TestType type = FUNCTION);
+void __on_error(const std::string& name, std::exception& e, TestType type = FUNCTION);
 
 /**
  * Run the test suite. Add any files to test with the macro `TEST_FILE(nameThe)` before running this.
@@ -125,6 +125,6 @@ void __on_error(std::string name, std::exception& e, TestType type = FUNCTION);
  * In that function, use `TEST(name)` and `TEST_CLASS(name)` to define the function and test
  * classes to be run.
  */
-int run_tests(std::string name = "Alpha Tools");
+int run_tests(const std::string& name = "Alpha Tools");
 
 }

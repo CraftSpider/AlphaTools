@@ -63,11 +63,11 @@ std::string __get_name(TestType type) {
     }
 }
 
-void __on_success(std::string name, TestType type) {
+void __on_success(const std::string& name, TestType type) {
     Results::successes += 1;
 }
 
-void __on_failure(std::string name, assertion_failure& e, TestType type) {
+void __on_failure(const std::string& name, assertion_failure& e, TestType type) {
     std::stringstream stream;
     stream << e.what() << " in " << __get_name(type) << " " << name;
     __Results::failure_messages.push_back(stream.str());
@@ -75,7 +75,7 @@ void __on_failure(std::string name, assertion_failure& e, TestType type) {
     Results::failures += 1;
 }
 
-void __on_skip(std::string name, TestType type) {
+void __on_skip(const std::string& name, TestType type) {
     std::stringstream stream;
     stream << "Skipped " << __get_name(type) << " " << name;
     __Results::skip_messages.push_back(stream.str());
@@ -83,7 +83,7 @@ void __on_skip(std::string name, TestType type) {
     Results::skipped += 1;
 }
 
-void __on_skip(std::string name, skip_test& e, TestType type) {
+void __on_skip(const std::string& name, skip_test& e, TestType type) {
     std::stringstream stream;
     if (e.what() == std::string("Skipped test")) {
         stream << "Skipped " << __get_name(type) << " " << name;
@@ -95,7 +95,7 @@ void __on_skip(std::string name, skip_test& e, TestType type) {
     Results::skipped += 1;
 }
 
-void __on_error(std::string name, std::exception& e, TestType type) {
+void __on_error(const std::string& name, std::exception& e, TestType type) {
     std::stringstream stream;
     stream << e.what() << " in " << __get_name(type) << " " << name;
     __Results::error_messages.push_back(stream.str());
@@ -103,7 +103,7 @@ void __on_error(std::string name, std::exception& e, TestType type) {
     Results::errors += 1;
 }
 
-int run_tests(std::string name) {
+int run_tests(const std::string& name) {
     using namespace std::chrono;
     using namespace term;
     
@@ -168,6 +168,7 @@ int run_tests(std::string name) {
     
     std::cout << std::flush;
     
+    // Return bitmask based on test results
     int out = 0;
     if (Results::failures) {
         out += 0b001;
