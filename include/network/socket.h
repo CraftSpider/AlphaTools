@@ -1,7 +1,9 @@
 #pragma once
 
 #include <sys/socket.h>
+#ifdef __CYGWIN__
 #include <cygwin/in.h>
+#endif
 #include <arpa/inet.h>
 #include <string>
 #include <stdexcept>

@@ -87,7 +87,7 @@ void Socket::listen(uint backlog) {
 }
 
 Socket Socket::accept() {
-    int size = sizeof(*addr);
+    socklen_t size = (socklen_t)sizeof(*addr);
     int accepted = ::accept(sockfd, addr, &size);
     return Socket(accepted, domain, type);
 }
