@@ -35,6 +35,7 @@ void TestLogger::test_root() {
     clear_logs();
     
     Logger *root = get_root_logger();
+    
     root->fatal("Test handlers");
     ASSERT(new_cout.str() == "FATAL: Test handlers\n");
     ASSERT(new_cerr.str() == "FATAL: Test handlers\n");

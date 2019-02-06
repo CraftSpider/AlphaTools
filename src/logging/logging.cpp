@@ -5,8 +5,6 @@
 namespace logging {
 
 static std::map<std::string, Logger*> loggers = std::map<std::string, Logger*>();
-static ConsoleHandler *ch = new ConsoleHandler();
-static ErrorHandler *eh = new ErrorHandler();
 
 void set_default_level(const Level& level) {
     get_root_logger()->set_level(level);
@@ -28,8 +26,12 @@ Logger* get_root_logger() {
     loggers.emplace("root", log);
     log->set_level(DEFAULT_LOGGER_LEVEL);
     log->set_pattern("%l: %m");
+    
+    ConsoleHandler *ch = new ConsoleHandler();
+    ErrorHandler *eh = new ErrorHandler();
     log->add_handler(ch);
     log->add_handler(eh);
+    
     return log;
 }
 
