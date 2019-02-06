@@ -103,7 +103,7 @@ void __on_error(const std::string& name, std::exception& e, TestType type) {
     Results::errors += 1;
 }
 
-int run_tests(const std::string& name) {
+uint run_tests(const std::string& name) {
     using namespace std::chrono;
     using namespace term;
     
