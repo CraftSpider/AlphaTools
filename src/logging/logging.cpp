@@ -35,7 +35,7 @@ Logger* get_root_logger() {
     return log;
 }
 
-Logger* get_logger(const std::string& name, bool auto_parent) {
+Logger* get_logger(std::string name, bool auto_parent) {
     if (loggers.count(name)) {
         return loggers[name];
     }
