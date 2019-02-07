@@ -3,14 +3,6 @@
 
 namespace logging {
 
-const Level Level::NO_LEVEL = Level();
-const Level Level::TRACE = Level(0, "TRACE");
-const Level Level::DEBUG = Level(10, "DEBUG");
-const Level Level::INFO = Level(20, "INFO");
-const Level Level::WARN = Level(30, "WARN");
-const Level Level::ERROR = Level(40, "ERROR");
-const Level Level::FATAL = Level(50, "FATAL");
-
 Level::Level() noexcept {
     this->name = "NULL";
     this->priority = 0;
