@@ -37,8 +37,8 @@ void object_format() {
     Form form = Form();
     NoForm noform = NoForm();
     
-    ASSERT(format("{0}", &form) == "Formatted!");
-    ASSERT(util::starts_with(format("{0}", &noform), "[[NON-FORMATTABLE OBJECT"));
+    ASSERT(format("{o}", &form) == "Formatted!");
+    ASSERT(util::starts_with(format("{o}", &noform), "[[NON-FORMATTABLE OBJECT"));
 }
 
 void run_format_tests() {
