@@ -75,6 +75,10 @@ set(ALL_CODE ${HEADERS} ${TEMPLATES} ${SOURCES})
 
 set(ALL_TEST ${TEST_HEADERS} ${TEST_TEMPLATES} ${TEST_SOURCES})
 
-add_library(${PROJECT_NAME} ${ALL_CODE})
+add_library(${PROJECT_NAME} STATIC ${ALL_CODE})
+
+if(WIN32 OR CYGWIN)
+    set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX .lib)
+endif()
 
 add_executable(test_${PROJECT_NAME} ${ALL_CODE} ${ALL_TEST})
