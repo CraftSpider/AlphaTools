@@ -11,14 +11,6 @@ class Level {
 
 public:
     
-    static const Level NO_LEVEL = Level();
-    static const Level TRACE = Level(0, "TRACE");
-    static const Level DEBUG = Level(10, "DEBUG");
-    static const Level INFO = Level(20, "INFO");
-    static const Level WARN = Level(30, "WARN");
-    static const Level ERROR = Level(40, "ERROR");
-    static const Level FATAL = Level(50, "FATAL");
-    
     Level() noexcept;
     Level(const int& priority, const std::string& name) noexcept;
     
@@ -34,5 +26,15 @@ public:
     explicit operator std::string() const;
     
 };
+
+extern Level* NO_LEVEL;
+extern Level* TRACE;
+extern Level* DEBUG;
+extern Level* INFO;
+extern Level* WARN;
+extern Level* ERROR;
+extern Level* FATAL;
+
+void __ensure_levels();
 
 }

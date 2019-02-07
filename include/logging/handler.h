@@ -3,7 +3,7 @@
 #include <string>
 #include "level.h"
 
-#define DEFAULT_HANDLER_LEVEL (logging::Level::TRACE)
+#define DEFAULT_HANDLER_LEVEL (logging::TRACE)
 
 namespace logging {
 
@@ -11,15 +11,15 @@ class Handler {
 
 protected:
     
-    Level level;
+    Level* level;
 
 public:
     
     Handler();
     
-    void set_level(const Level& level);
+    void set_level(Level* level);
     
-    virtual void log(const std::string& message, const Level& level) = 0;
+    virtual void log(const std::string& message, const Level* level) = 0;
     
 };
 
@@ -27,7 +27,7 @@ class ConsoleHandler : public Handler {
 
 public:
     
-    void log(const std::string& message, const Level& level) override;
+    void log(const std::string& message, const Level* level) override;
     
 };
 
@@ -37,7 +37,7 @@ public:
 
     ErrorHandler();
 
-    void log(const std::string& message, const Level& level) override;
+    void log(const std::string& message, const Level* level) override;
 
 };
 
@@ -50,7 +50,7 @@ public:
     explicit FileHandler(const std::string& filename);
     ~FileHandler();
 
-    void log(const std::string& message, const Level& level) override;
+    void log(const std::string& message, const Level* level) override;
 
 };
 

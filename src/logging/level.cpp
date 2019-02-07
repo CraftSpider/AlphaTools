@@ -45,4 +45,25 @@ Level::operator std::string() const {
     return name;
 }
 
+Level* NO_LEVEL;
+Level* TRACE;
+Level* DEBUG;
+Level* INFO;
+Level* WARN;
+Level* ERROR;
+Level* FATAL;
+
+void __ensure_levels() {
+    if (NO_LEVEL != nullptr) {
+        return;
+    }
+    NO_LEVEL = new Level();
+    TRACE = new Level(0, "TRACE");
+    DEBUG = new Level(10, "DEBUG");
+    INFO = new Level(20, "INFO");
+    ERROR = new Level(40, "ERROR");
+    WARN = new Level(30, "WARN");
+    FATAL = new Level(50, "FATAL");
+}
+
 }

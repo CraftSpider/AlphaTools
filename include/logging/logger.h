@@ -5,7 +5,7 @@
 #include "level.h"
 #include "handler.h"
 
-#define DEFAULT_LOGGER_LEVEL (logging::Level::INFO)
+#define DEFAULT_LOGGER_LEVEL (logging::INFO)
 
 namespace logging {
 
@@ -17,21 +17,21 @@ protected:
     Logger* parent = nullptr;
     std::string name;
     std::string pattern = "";
-    Level level;
+    Level* level;
     std::vector<Handler*> handlers;
     
-    Level get_effective_level() const;
+    Level* get_effective_level() const;
     std::string get_effective_pattern() const;
-    std::string format_instruct(const std::string &instruct, std::string message, const Level& level);
-    std::string log_format(const std::string &message, const Level& level);
+    std::string format_instruct(const std::string &instruct, std::string message, const Level* level);
+    std::string log_format(const std::string &message, const Level* level);
 
 public:
     
     Logger();
     explicit Logger(const std::string& name);
     
-    void set_level(const Level& level);
-    Level get_level() const;
+    void set_level(Level* level);
+    Level* get_level() const;
     
     void set_pattern(const std::string& pattern);
     std::string get_pattern() const;
@@ -42,7 +42,7 @@ public:
     void set_propagation(bool propagate);
     bool get_propagation() const;
     
-    void log(const std::string& message, const Level& level);
+    void log(const std::string& message, const Level* level);
     void trace(const std::string& message);
     void debug(const std::string& message);
     void info(const std::string& message);

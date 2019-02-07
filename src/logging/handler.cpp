@@ -9,22 +9,22 @@ Handler::Handler() {
     this->level = DEFAULT_HANDLER_LEVEL;
 }
 
-void Handler::set_level(const Level &level) {
+void Handler::set_level(Level* level) {
     this->level = level;
 }
 
-void ConsoleHandler::log(const std::string &message, const Level &level) {
-    if (level >= this->level) {
+void ConsoleHandler::log(const std::string &message, const Level* level) {
+    if (*level >= *this->level) {
         std::cout << message << std::endl;
     }
 }
 
 ErrorHandler::ErrorHandler() {
-    this->level = Level::ERROR;
+    this->level = ERROR;
 }
 
-void ErrorHandler::log(const std::string &message, const logging::Level &level) {
-    if (level >= this->level) {
+void ErrorHandler::log(const std::string &message, const Level* level) {
+    if (*level >= *this->level) {
         std::cerr << message << std::endl;
     }
 }
@@ -37,8 +37,8 @@ FileHandler::~FileHandler() {
     delete fileout;
 }
 
-void FileHandler::log(const std::string &message, const logging::Level &level) {
-    if (level >= this->level) {
+void FileHandler::log(const std::string &message, const logging::Level* level) {
+    if (*level >= *this->level) {
         *fileout << message << '\n';
     }
 }

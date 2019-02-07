@@ -7,7 +7,9 @@
 
 namespace logging {
 
-void set_default_level(const Level& level);
+void __ensure_loggers();
+
+void set_default_level(Level* level);
 void add_default_handler(Handler *handler);
 bool remove_default_handler(Handler *handler);
 Logger* get_root_logger();

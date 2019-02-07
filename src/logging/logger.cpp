@@ -7,7 +7,7 @@ namespace logging {
 
 Logger::Logger() {
     this->name = "NULL";
-    level = Level::NO_LEVEL;
+    level = NO_LEVEL;
     handlers = std::vector<Handler*>();
 }
 
@@ -15,8 +15,8 @@ Logger::Logger(const std::string &name) : Logger() {
     this->name = name;
 }
 
-Level Logger::get_effective_level() const {
-    if (level == Level::NO_LEVEL) {
+Level* Logger::get_effective_level() const {
+    if (level == NO_LEVEL) {
         return parent->get_effective_level();
     }
     return level;
@@ -29,10 +29,10 @@ std::string Logger::get_effective_pattern() const {
     return pattern;
 }
 
-std::string Logger::format_instruct(const std::string &instruct, std::string message, const Level& level) {
+std::string Logger::format_instruct(const std::string &instruct, std::string message, const Level* level) {
     std::stringstream out;
     if (instruct[0] == 'l') {
-        out << (std::string)level;
+        out << (std::string)*level;
     } else if (instruct[0] == 'm') {
         out << message;
     } else {
@@ -41,7 +41,7 @@ std::string Logger::format_instruct(const std::string &instruct, std::string mes
     return out.str();
 }
 
-std::string Logger::log_format(const std::string &message, const Level& level) {
+std::string Logger::log_format(const std::string &message, const Level* level) {
     bool escaped = false, in_pat = false;
     std::stringstream out;
     std::string instruct, pattern = get_effective_pattern();
@@ -76,14 +76,14 @@ std::string Logger::log_format(const std::string &message, const Level& level) {
     return out.str();
 }
 
-void Logger::set_level(const Level &level) {
-    if (name == "root" && level == Level::NO_LEVEL) {
+void Logger::set_level(Level* level) {
+    if (name == "root" && level == NO_LEVEL) {
         throw std::runtime_error("Root logger cannot have NO_LEVEL");
     }
     this->level = level;
 }
 
-Level Logger::get_level() const {
+Level* Logger::get_level() const {
     return level;
 }
 
@@ -103,12 +103,12 @@ Logger* Logger::get_parent() const {
     return parent;
 }
 
-void Logger::log(const std::string &message, const Level &level) {
+void Logger::log(const std::string &message, const Level* level) {
     if (propagate && parent != nullptr) {
         parent->log(message, level);
     }
     // TODO: pattern handling
-    if (level >= get_effective_level()) {
+    if (*level >= *get_effective_level()) {
         for (auto handler : handlers) {
             handler->log(log_format(message, level), level);
         }
@@ -116,27 +116,27 @@ void Logger::log(const std::string &message, const Level &level) {
 }
 
 void Logger::trace(const std::string &message) {
-    log(message, Level::TRACE);
+    log(message, TRACE);
 }
 
 void Logger::debug(const std::string &message) {
-    log(message, Level::DEBUG);
+    log(message, DEBUG);
 }
 
 void Logger::info(const std::string &message) {
-    log(message, Level::INFO);
+    log(message, INFO);
 }
 
 void Logger::warn(const std::string &message) {
-    log(message, Level::WARN);
+    log(message, WARN);
 }
 
 void Logger::error(const std::string &message) {
-    log(message, Level::ERROR);
+    log(message, ERROR);
 }
 
 void Logger::fatal(const std::string &message) {
-    log(message, Level::FATAL);
+    log(message, FATAL);
 }
 
 void Logger::add_handler(Handler *handler) {
