@@ -4,7 +4,7 @@
 
 namespace logging {
 
-static std::map<std::string, Logger*> loggers = std::map<std::string, Logger*>();
+static std::map<std::string, Logger*>* loggers = nullptr;
 
 void set_default_level(const Level& level) {
     get_root_logger()->set_level(level);
@@ -18,12 +18,20 @@ bool remove_default_handler(Handler* handler) {
     return get_root_logger()->remove_handler(handler);
 }
 
+void ensure_loggers() {
+    if (loggers == nullptr) {
+        loggers = new std::map<std::string, Logger *>();
+    }
+}
+
 Logger* get_root_logger() {
-    if (loggers.count("root")) {
-        return loggers["root"];
+    ensure_loggers();
+    if (loggers->count("root")) {
+        return loggers->at("root");
     }
     Logger *log = new Logger("root");
-    loggers.emplace("root", log);
+    loggers->emplace("root", log);
+    
     log->set_level(DEFAULT_LOGGER_LEVEL);
     log->set_pattern("%l: %m");
     
@@ -36,13 +44,15 @@ Logger* get_root_logger() {
 }
 
 Logger* get_logger(const std::string& name, bool auto_parent) {
-    if (loggers.count(name)) {
-        return loggers[name];
+    ensure_loggers();
+    if (loggers->count(name)) {
+        return loggers->at(name);
     }
     Logger *log = new Logger(name);
+    loggers->emplace(name, log);
+    
     // TODO: automatically set tree from . separated names
     log->set_parent(get_root_logger());
-    loggers.emplace(name, log);
     return log;
 }
 
