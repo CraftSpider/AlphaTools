@@ -145,21 +145,21 @@ uint run_tests(const std::string& name) {
     
     // Write out messages
     if (!__Results::failure_messages.empty()) {
-        std::cout << fore::RED << effect::UNDERLINE << "Failure messages:\n" << fore::DEFAULT;
+        std::cout << fore::RED << effect::UNDERLINE << "Failure messages:\n" << effect::RESET_UNDERLINE << fore::DEFAULT;
         for (const std::string& i : __Results::failure_messages) {
             std::cout << i << "\n";
         }
         std::cout << "\n";
     }
     if (!__Results::skip_messages.empty()) {
-        std::cout << fore::LIGHT_BLUE << effect::UNDERLINE << "Skip messages:\n" << fore::DEFAULT;
+        std::cout << fore::LIGHT_BLUE << effect::UNDERLINE << "Skip messages:\n" << effect::RESET_UNDERLINE << fore::DEFAULT;
         for (const std::string& i : __Results::skip_messages) {
             std::cout << i << "\n";
         }
         std::cout << "\n";
     }
     if (!__Results::error_messages.empty()) {
-        std::cout << fore::YELLOW << effect::UNDERLINE << "Error messages:\n" << fore::DEFAULT;
+        std::cout << fore::YELLOW << effect::UNDERLINE << "Error messages:\n" << effect::RESET_UNDERLINE << fore::DEFAULT;
         for (const std::string& i : __Results::error_messages) {
             std::cout << i << "\n";
         }
