@@ -4,15 +4,14 @@
 namespace util {
 
 bool get_bit(const uchar *data, const ulong pos) {
-    ulong loc = pos / 8;
-    return (bool)(data[loc] & (1 << (7 - (pos % 8))));
+    return (bool)(data[pos / 8] & (1u << (7 - (pos % 8))));
 }
 
 ulong get_range(const uchar *data, const ulong start, const ulong end) {
     uint out = 0;
     ulong num_bits = (end - start) + 1;
     for (ulong i = start, j = 1; i <= end; ++i, ++j) {
-        out += 2 << (num_bits - j)* get_bit(data, i);
+        out += 2u << (num_bits - j)* get_bit(data, i);
     }
     return out;
 }

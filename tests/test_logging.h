@@ -13,6 +13,7 @@ class TestLogger : public testing::AbstractTest{
     void clear_logs();
     
     void test_root();
+    void test_default_level();
     void test_normal();
     void test_format();
     void test_saving();
@@ -20,7 +21,9 @@ class TestLogger : public testing::AbstractTest{
 public:
     
     void before_class() override;
+    void before_test(std::string name) override;
     void run() override;
+    void after_test(std::string name) override;
     void after_class() override;
     
 };

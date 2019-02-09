@@ -18,8 +18,17 @@ void TestLogger::after_class() {
     std::cout.rdbuf(old_cout);
 }
 
+void TestLogger::before_test(std::string name) {
+    clear_logs();
+}
+
+void TestLogger::after_test(std::string name) {
+    clear_logs();
+}
+
 void TestLogger::run() {
     TEST_METHOD(test_root);
+    TEST_METHOD(test_default_level);
     TEST_METHOD(test_normal);
     TEST_METHOD(test_format);
     TEST_METHOD(test_saving);
@@ -33,8 +42,6 @@ void TestLogger::clear_logs() {
 }
 
 void TestLogger::test_root() {
-    clear_logs();
-    
     Logger *root = get_root_logger();
     
     root->fatal("Test handlers");
@@ -45,13 +52,28 @@ void TestLogger::test_root() {
     root->info("Second test");
     ASSERT(new_cout.str() == "INFO: Second test\n");
     ASSERT(new_cerr.str().empty());
+}
+
+void TestLogger::test_default_level() {
+    Logger *root = get_root_logger();
     
+    root->info("First test");
+    ASSERT(root->get_level() == DEFAULT_LOGGER_LEVEL);
+    ASSERT(new_cout.str() == "INFO: First test\n");
     clear_logs();
+    
+    set_default_level(FATAL);
+    
+    root->info("Second test");
+    ASSERT(root->get_level() == FATAL);
+    ASSERT(new_cout.str().empty());
+    
+    set_default_level(DEFAULT_LOGGER_LEVEL);
+    
+    ASSERT(root->get_level() == DEFAULT_LOGGER_LEVEL);
 }
 
 void TestLogger::test_normal() {
-    clear_logs();
-    
     Logger* newlog = get_logger("newlog");
     newlog->info("Propagates");
     ASSERT(new_cout.str() == "INFO: Propagates\n");
@@ -60,12 +82,9 @@ void TestLogger::test_normal() {
     newlog->set_propagation(false);
     newlog->info("Doesn't propagate");
     ASSERT(new_cout.str().empty());
-    clear_logs();
 }
 
 void TestLogger::test_format() {
-    clear_logs();
-    
     Logger *root = get_root_logger();
     root->fatal("Test Default");
     ASSERT(new_cout.str() == "FATAL: Test Default\n");
@@ -77,12 +96,9 @@ void TestLogger::test_format() {
     ASSERT(new_cerr.str().empty());
     
     root->set_pattern("%l: %m");
-    clear_logs();
 }
 
 void TestLogger::test_saving() {
-    clear_logs();
-    
     Logger *test1 = get_logger("test");
     Logger *test2 = get_logger("test");
     

@@ -4,7 +4,7 @@
 
 namespace logging {
 
-static std::map<std::string, Logger*>* loggers = nullptr;
+static std::map<std::string, Logger*>* loggers;
 
 void __ensure_loggers() {
     __ensure_levels();
