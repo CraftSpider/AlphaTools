@@ -9,6 +9,18 @@ using namespace util;
 // Don't need to test the range explicitly, as they're implicitly included by the
 // non-ranged versions. If this is no longer true, they'll need to be added.
 
+void test_get_bit() {
+    throw testing::skip_test();
+}
+
+void test_get_range() {
+    throw testing::skip_test();
+}
+
+void test_get_signed_range() {
+    throw testing::skip_test();
+}
+
 void test_btol() {
     uchar test1[8] = {8, 7, 6, 5, 4, 3, 2, 1};
     ASSERT(btol<BIG>(test1) == 0x0807060504030201);
