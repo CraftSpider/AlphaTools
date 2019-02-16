@@ -11,7 +11,7 @@ ulong get_range(const uchar *data, const ulong start, const ulong end) {
     uint out = 0;
     ulong num_bits = (end - start) + 1;
     for (ulong i = start, j = 1; i <= end; ++i, ++j) {
-        out += 1u << (num_bits - j) * get_bit(data, i);
+        out += (1u << (num_bits - j)) * get_bit(data, i);
     }
     return out;
 }

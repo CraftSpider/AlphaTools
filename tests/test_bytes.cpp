@@ -10,11 +10,36 @@ using namespace util;
 // non-ranged versions. If this is no longer true, they'll need to be added.
 
 void test_get_bit() {
-    throw testing::skip_test();
+    uchar test1[] = {0xAA};
+    
+    ASSERT(get_bit(test1, 0));
+    ASSERT(!get_bit(test1, 1));
+    ASSERT(get_bit(test1, 2));
+    ASSERT(!get_bit(test1, 3));
+    
+    uchar test2[] = {0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA};
+    
+    ASSERT(get_bit(test2, 18));
+    ASSERT(!get_bit(test2, 31));
+    ASSERT(!get_bit(test2, 47));
+    ASSERT(get_bit(test2, 62));
 }
 
 void test_get_range() {
-    throw testing::skip_test();
+    uchar test1[] = {0xAA, 0xAA, 0xAA, 0xAA};
+    
+    ASSERT(get_range(test1, 0, 5) == 42);
+    ASSERT(get_range(test1, 16, 31) == 43690);
+    
+    uchar test2[] = {0x00, 0x00, 0x00, 0x00};
+    
+    ASSERT(get_range(test2, 0, 7) == 0);
+    ASSERT(get_range(test2, 0, 31) == 0);
+    
+    uchar test3[] = {0xFF, 0xFF, 0xFF, 0xFF};
+    
+    ASSERT(get_range(test3, 3, 5) == 7);
+    ASSERT(get_range(test3, 15, 29) == 32767);
 }
 
 void test_get_signed_range() {
@@ -151,6 +176,10 @@ void test_ctob() {
 }
 
 void run_bytes_tests() {
+    TEST(test_get_bit)
+    TEST(test_get_range)
+    TEST(test_get_signed_range)
+    
     TEST(test_btol)
     TEST(test_btoi)
     TEST(test_btos)
