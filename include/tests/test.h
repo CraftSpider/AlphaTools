@@ -9,7 +9,7 @@
 #define ASSERT_2(expr, msg) if (!(expr)) throw testing::assertion_failure(msg)
 
 #define ASSERT_X(x, A, B, FUNC, ...) FUNC
-#define ASSERT(...) ASSERT_X(,##__VA_ARGS__, ASSERT_2(__VA_ARGS__), ASSERT_1(__VA_ARGS__))
+#define ASSERT(...) ASSERT_X(,##__VA_ARGS__, ASSERT_2(__VA_ARGS__), ASSERT_1(__VA_ARGS__), FILLER)
 
 #define TEST(name) try {\
     name();\
