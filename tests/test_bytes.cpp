@@ -6,9 +6,6 @@
 
 using namespace util;
 
-// Don't need to test the range explicitly, as they're implicitly included by the
-// non-ranged versions. If this is no longer true, they'll need to be added.
-
 void test_get_bit() {
     uchar test1[] = {0xAA};
     
@@ -43,7 +40,10 @@ void test_get_range() {
 }
 
 void test_get_signed_range() {
-    throw testing::skip_test();
+    uchar test1[] = {0xAA, 0xAA, 0xAA, 0xAA};
+    
+    ASSERT(get_signed_range(test1, 0, 7) == -86);
+    ASSERT(get_signed_range(test1, 17, 31) == 0x2AAA);
 }
 
 void test_btol() {
