@@ -5,7 +5,7 @@
 
 namespace util {
 
-template <Endian E>
+template<Endian E>
 std::string btoh(const uchar* val, const ulong length, const bool prefix, const bool pad) {
     std::stringstream out;
     bool start = true;
@@ -38,7 +38,7 @@ std::string btoh(const uchar* val, const ulong length, const bool prefix, const 
     return out.str();
 }
 
-template <Endian E>
+template<Endian E>
 std::string btoh(const char* val, const ulong length, const bool prefix, const bool pad) {
     std::stringstream out;
     bool start = true;
@@ -53,7 +53,7 @@ std::string btoh(const char* val, const ulong length, const bool prefix, const b
         } else {
             pos = i;
         }
-    
+        
         if (val[pos] == 0 && !pad && start) {
             continue;
         }
@@ -61,7 +61,7 @@ std::string btoh(const char* val, const ulong length, const bool prefix, const b
         uchar outc = (uchar)val[pos];
         if (outc < 0x10 && (pad || !start))
             out << "0";
-
+        
         out << (uint)outc;
         start = false;
     }
@@ -72,7 +72,7 @@ std::string btoh(const char* val, const ulong length, const bool prefix, const b
     return out.str();
 }
 
-template <Endian E>
+template<Endian E>
 std::string ltoh(ulong val, bool prefix, bool pad) {
     uchar* temp = ltob(val);
     std::string out = btoh<E>(temp, 8, prefix, pad);
@@ -80,8 +80,8 @@ std::string ltoh(ulong val, bool prefix, bool pad) {
     return out;
 }
 
-template <Endian E>
-std::string ltoh(long val, bool prefix, bool pad) {
+template<Endian E>
+std::string ltoh(slong val, bool prefix, bool pad) {
     std::stringstream out;
     if (val < 0) {
         out << "-";
@@ -94,7 +94,7 @@ std::string ltoh(long val, bool prefix, bool pad) {
     
 }
 
-template <Endian E>
+template<Endian E>
 std::string itoh(uint val, bool prefix, bool pad) {
     uchar* temp = itob(val);
     std::string out = btoh<E>(temp, 4, prefix, pad);
@@ -102,7 +102,7 @@ std::string itoh(uint val, bool prefix, bool pad) {
     return out;
 }
 
-template <Endian E>
+template<Endian E>
 std::string itoh(int val, bool prefix, bool pad) {
     std::stringstream out;
     if (val < 0) {
@@ -115,7 +115,7 @@ std::string itoh(int val, bool prefix, bool pad) {
     return out.str();
 }
 
-template <Endian E>
+template<Endian E>
 std::string stoh(ushort val, bool prefix, bool pad) {
     uchar* temp = stob(val);
     std::string out = btoh<E>(temp, 2, prefix, pad);
@@ -123,7 +123,7 @@ std::string stoh(ushort val, bool prefix, bool pad) {
     return out;
 }
 
-template <Endian E>
+template<Endian E>
 std::string stoh(short val, bool prefix, bool pad) {
     std::stringstream out;
     if (val < 0) {
@@ -136,7 +136,7 @@ std::string stoh(short val, bool prefix, bool pad) {
     return out.str();
 }
 
-template <Endian E>
+template<Endian E>
 std::string ctoh(uchar val, bool prefix, bool pad) {
     uchar* temp = ctob(val);
     std::string out = btoh<E>(temp, 1, prefix, pad);
@@ -144,7 +144,7 @@ std::string ctoh(uchar val, bool prefix, bool pad) {
     return out;
 }
 
-template <Endian E>
+template<Endian E>
 std::string ctoh(char val, bool prefix, bool pad) {
     std::stringstream out;
     if (val < 0) {

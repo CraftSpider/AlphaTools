@@ -52,6 +52,7 @@ void test_btol() {
     ASSERT(btol<LITTLE>(test1) == 0x0102030405060708);
     
     char test2[8] = {8, 7, 6, 5, 4, 3, 2, 1};
+    std::cout << "\n" << (btol<BIG>(test2)) << "\n";
     ASSERT(btol<BIG>(test2) == 0x0807060504030201);
     ASSERT(btol<LITTLE>(test2) == 0x0102030405060708);
 }
@@ -97,12 +98,12 @@ void test_ltob() {
     ASSERT(compare(ltob<BIG>(test2, 8), expected2, 8));
     ASSERT(compare(ltob<LITTLE>(test2, 8), reverse(expected2, 8), 8));
     
-    long test3 = 0xFFFEFDFCFBFAF9F8;
+    slong test3 = 0xFFFEFDFCFBFAF9F8;
     char expected3[8] = {-1, -2, -3, -4, -5, -6, -7, -8};
     ASSERT(compare(ltob<BIG>(test3, 8), expected3, 8));
     ASSERT(compare(ltob<LITTLE>(test3, 8), reverse(expected3, 8), 8));
     
-    long test4 = 0x0;
+    slong test4 = 0x0;
     char expected4[8] = {0, 0, 0, 0, 0, 0, 0, 0};
     ASSERT(compare(ltob<BIG>(test4, 8), expected4, 8));
     ASSERT(compare(ltob<LITTLE>(test4, 8), reverse(expected4, 8), 8));

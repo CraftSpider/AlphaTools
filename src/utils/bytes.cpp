@@ -47,8 +47,8 @@ ulong btol <LITTLE> (const uchar* bytes, const ulong start, const ulong end) {
 }
 
 template <>
-long btol <BIG> (const char* bytes, const ulong start, const ulong end) {
-    long out = 0;
+slong btol <BIG> (const char* bytes, const ulong start, const ulong end) {
+    slong out = 0;
     ulong length = end - start - 1;
     for (ulong i = start; i < end; ++i) {
         out |= (ulong)bytes[i] << ((length - i) * 8);
@@ -57,8 +57,8 @@ long btol <BIG> (const char* bytes, const ulong start, const ulong end) {
 }
 
 template <>
-long btol <LITTLE> (const char* bytes, const ulong start, const ulong end) {
-    long out = 0;
+slong btol <LITTLE> (const char* bytes, const ulong start, const ulong end) {
+    slong out = 0;
     for (ulong i = start; i < end; ++i) {
         out |= (ulong)bytes[i] << (i * 8);
     }
@@ -84,7 +84,7 @@ uchar* ltob <LITTLE> (const ulong val, const ulong length) {
 }
 
 template <>
-char* ltob <BIG> (const long val, const ulong length) {
+char* ltob <BIG> (const slong val, const ulong length) {
     char *output = new char[length];
     for (ulong i = 0; i < length; ++i) {
         output[i] = (char)(val >> (8 * (length - i - 1)));
@@ -93,7 +93,7 @@ char* ltob <BIG> (const long val, const ulong length) {
 }
 
 template <>
-char* ltob <LITTLE> (const long val, const ulong length) {
+char* ltob <LITTLE> (const slong val, const ulong length) {
     char *output = new char[length];
     for (ulong i = 0; i < length; ++i) {
         output[i] = (char)(val >> (8 * i));

@@ -13,35 +13,35 @@
 
 #define TEST(name) try {\
     name();\
-    testing::__on_success(#name);\
+    testing::__test_on_success(#name);\
 } catch (testing::assertion_failure &e) {\
-    testing::__on_failure(#name, e);\
+    testing::__test_on_failure(#name, e);\
 } catch (testing::skip_test &e) {\
-    testing::__on_skip(#name, e);\
+    testing::__test_on_skip(#name, e);\
 } catch (std::exception &e) {\
-    testing::__on_error(#name, e);\
+    testing::__test_on_error(#name, e);\
 }
 
 // TODO: Skip error, any test that throws it is counted as 'skipped'
 #define TEST_CLASS(name) testing::AbstractTest* test##name = new name();\
 if (test##name->skip_class()) {\
-    testing::__on_skip(#name, testing::CLASS);\
+    testing::__test_on_skip(#name, testing::CLASS);\
 } else {\
     test##name->before_class();\
     try {\
         test##name->run();\
         if (!test##name->delegated) {\
-            testing::__on_success(#name, testing::CLASS);\
+            testing::__test_on_success(#name, testing::CLASS);\
         }\
     } catch (testing::assertion_failure &e) {\
         if (!test##name->delegated) {\
-            testing::__on_failure(#name, e, testing::CLASS);\
+            testing::__test_on_failure(#name, e, testing::CLASS);\
         }\
     } catch (testing::skip_test &e) {\
-        testing::__on_skip(#name, e, testing::CLASS);\
+        testing::__test_on_skip(#name, e, testing::CLASS);\
     } catch (std::exception &e) {\
         if (!test##name->delegated) {\
-            testing::__on_error(#name, e, testing::CLASS);\
+            testing::__test_on_error(#name, e, testing::CLASS);\
         }\
     }\
     test##name->after_class();\
@@ -50,18 +50,18 @@ delete test##name;
 
 #define TEST_METHOD(name) this->delegated = true;\
 if (this->skip_test(#name)) {\
-    testing::__on_skip(#name, testing::METHOD);\
+    testing::__test_on_skip(#name, testing::METHOD);\
 } else {\
     this->before_test(#name);\
     try {\
         this->name();\
-        testing::__on_success(#name, testing::METHOD);\
+        testing::__test_on_success(#name, testing::METHOD);\
     } catch (testing::assertion_failure &e) {\
-        testing::__on_failure(#name, e, testing::METHOD);\
+        testing::__test_on_failure(#name, e, testing::METHOD);\
     } catch (testing::skip_test &e) {\
-        testing::__on_skip(#name, e, testing::METHOD);\
+        testing::__test_on_skip(#name, e, testing::METHOD);\
     } catch (std::exception &e) {\
-        testing::__on_error(#name, e, testing::METHOD);\
+        testing::__test_on_error(#name, e, testing::METHOD);\
     }\
     this->after_test(#name);\
 }
@@ -71,7 +71,7 @@ if (this->skip_test(#name)) {\
 namespace testing {
 
 struct __ToRun {
-    static std::vector<void(*)()> tests;
+    static std::vector<void (*)()> tests;
 };
 
 struct __Results {
@@ -89,7 +89,7 @@ struct Results {
     static int failures;
     static int errors;
     static int skipped;
-
+    
     static int total();
     static int success_percent();
     static int failure_percent();
@@ -113,11 +113,11 @@ public:
     explicit skip_test(const std::string& msg);
 };
 
-void __on_success(const std::string& name, TestType type = FUNCTION);
-void __on_failure(const std::string& name, assertion_failure& e, TestType type = FUNCTION);
-void __on_skip(const std::string& name, TestType type = FUNCTION);
-void __on_skip(const std::string& name, skip_test& e, TestType type = FUNCTION);
-void __on_error(const std::string& name, std::exception& e, TestType type = FUNCTION);
+void __test_on_success(const std::string& name, TestType type = FUNCTION);
+void __test_on_failure(const std::string& name, assertion_failure& e, TestType type = FUNCTION);
+void __test_on_skip(const std::string& name, TestType type = FUNCTION);
+void __test_on_skip(const std::string& name, skip_test& e, TestType type = FUNCTION);
+void __test_on_error(const std::string& name, std::exception& e, TestType type = FUNCTION);
 
 /**
  * Run the test suite. Add any files to test with the macro `TEST_FILE(nameThe)` before running this.

@@ -4,23 +4,23 @@
 
 namespace util {
 
-template <typename T>
-bool compare(T *first, T *second, const ulong length);
+template<typename T>
+bool compare(T* first, T* second, const ulong length);
 
-template <typename T>
-bool compare_2D(T **first, T **second, const ulong height, const ulong width);
+template<typename T>
+bool compare_2D(T** first, T** second, const ulong height, const ulong width);
 
-template <typename T>
-bool compare_2D(T **first, T **second, const ulong size);
+template<typename T>
+bool compare_2D(T** first, T** second, const ulong size);
 
-template <typename T>
-void copy(const T *source, T *dest, const ulong length);
+template<typename T>
+void copy(const T* source, T* dest, const ulong length);
 
-template <typename T>
-void copy_2D(T **source, T **dest, const ulong height, const ulong width);
+template<typename T>
+void copy_2D(T** source, T** dest, const ulong height, const ulong width);
 
-template <typename T>
-void copy_2D(T **source, T **dest, const ulong size);
+template<typename T>
+void copy_2D(T** source, T** dest, const ulong size);
 
 /**
  * Reverse an array in place. Returns the pointer to the array, to allow chaining.
@@ -30,7 +30,7 @@ void copy_2D(T **source, T **dest, const ulong size);
  * @return Array pointer, allows chaining
  */
 template<typename T>
-T* reverse(T *arr, const ulong len);
+T* reverse(T* arr, const ulong len);
 
 /**
  * Convert an array from one endian into another, reversing every X items.
@@ -42,7 +42,7 @@ T* reverse(T *arr, const ulong len);
  * @return Array pointer, allows chaining
  */
 template<typename T>
-T* endian_convert(T *arr, const ulong len, const ulong size = 4);
+T* endian_convert(T* arr, const ulong len, const ulong size = 4);
 
 }
 

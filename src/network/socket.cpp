@@ -45,7 +45,7 @@ void Socket::setopt(SockOpt option, const void *val) {
     setsockopt(sockfd, SOL_SOCKET, option.sock_name, val, option.length);
 }
 
-void* Socket::getopt(SockOpt option, void* val) {
+void Socket::getopt(SockOpt option, void* val) {
     getsockopt(sockfd, SOL_SOCKET, option.sock_name, val, &option.length);
 }
 

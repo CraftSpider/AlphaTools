@@ -10,6 +10,6 @@ namespace util {
  * @param length Length of the array
  * @return crc32 hash as an unsigned integer
  */
-uint crc32(const uchar *input, const ulong length);
+uint crc32(const uchar* input, const ulong length);
 
 }

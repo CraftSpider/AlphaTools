@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include "types.h"
 
 class ArgParser {
     
@@ -12,10 +13,10 @@ class ArgParser {
     std::vector<std::string> flags;
     std::vector<std::string> arguments;
     std::map<std::string, std::string> variables;
-    
+
 public:
     
-    ArgParser(const int& argc, char **argv);
+    ArgParser(const int& argc, char** argv);
     
     ulong num_flags();
     ulong num_arguments();
@@ -28,7 +29,7 @@ public:
     
     bool has_variable(const std::string& var);
     std::string get_variable(const std::string& var);
-
+    
 };
 
 

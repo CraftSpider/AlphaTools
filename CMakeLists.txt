@@ -5,6 +5,13 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(./include)
 
+if(MSVC)
+    add_definitions(-W4)
+    add_compile_definitions(_CRT_NO_VA_START_VALIDATION)
+else()
+    add_definitions(-Wall -Wextra -pedantic)
+endif()
+
 set(HEADERS
         include/at_utils
         include/at_logging
@@ -48,7 +55,8 @@ set(TEMPLATES
         include/utils/arrays.tpp
         include/utils/io.tpp
         include/utils/bytes.tpp
-        include/utils/strmanip.tpp)
+        include/utils/strmanip.tpp
+        include/logging/logger.tpp)
 
 set(TEST_HEADERS
         tests/test_bytes.h
@@ -82,3 +90,8 @@ if(WIN32 OR CYGWIN)
 endif()
 
 add_executable(test_${PROJECT_NAME} ${ALL_CODE} ${ALL_TEST})
+
+if(MSVC)
+    target_link_libraries(${PROJECT_NAME} ws2_32)
+    target_link_libraries(test_${PROJECT_NAME} ws2_32)
+endif()

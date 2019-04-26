@@ -80,7 +80,7 @@ std::string char_format(const std::string& to_format, const uchar* data) {
                 }
                 if (start != 0 && end != 0) {
                     ulong uresult = get_range(data, start, end);
-                    long result = get_signed_range(data, start, end);
+                    slong result = get_signed_range(data, start, end);
                     if (mod_mask & 0b100) {
                         format << std::uppercase;
                     }

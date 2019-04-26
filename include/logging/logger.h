@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <sstream>
 #include <vector>
 #include "level.h"
 #include "handler.h"
@@ -18,27 +19,33 @@ protected:
     std::string name;
     std::string pattern = "";
     Level* level;
+    Level* stream_level;
     std::vector<Handler*> handlers;
     
     Level* get_effective_level() const;
     std::string get_effective_pattern() const;
-    std::string format_instruct(const std::string &instruct, std::string message, const Level* level);
-    std::string log_format(const std::string &message, const Level* level);
+    std::string format_instruct(const std::string& instruct, std::string message, const Level* level);
+    std::string log_format(const std::string& message, const Level* level);
 
 public:
     
     Logger();
     explicit Logger(const std::string& name);
     
+    Logger& operator<<(Level* level);
+    Logger& operator<<(const std::string& input);
+    template<typename T>
+    Logger& operator<<(const T input);
+    
     void set_level(Level* level);
     Level* get_level() const;
     
     void set_pattern(const std::string& pattern);
     std::string get_pattern() const;
-
+    
     void set_parent(Logger* parent);
     Logger* get_parent() const;
-
+    
     void set_propagation(bool propagate);
     bool get_propagation() const;
     
@@ -50,9 +57,11 @@ public:
     void error(const std::string& message);
     void fatal(const std::string& message);
     
-    void add_handler(Handler *handler);
-    bool remove_handler(Handler *handler);
-
+    void add_handler(Handler* handler);
+    bool remove_handler(Handler* handler);
+    
 };
 
 }
+
+#include "logger.tpp"

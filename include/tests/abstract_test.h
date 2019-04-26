@@ -12,14 +12,14 @@ namespace testing {
 class AbstractTest {
 
 public:
-
+    
     bool delegated = false;
-
+    
     virtual ~AbstractTest();
-
+    
     virtual bool skip_class();
     virtual bool skip_test(std::string name);
-
+    
     virtual void before_class();
     virtual void before_test(std::string name);
     virtual void run() = 0;

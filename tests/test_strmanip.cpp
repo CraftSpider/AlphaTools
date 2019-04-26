@@ -76,7 +76,7 @@ void TestToHex::from_long() {
     ASSERT(ltoh<LITTLE>(test2) == "0xBA3F168DF7BE8A01");
     ASSERT(ltoh<LITTLE>(test2, false) == "BA3F168DF7BE8A01");
     
-    long test3 = 5;
+    slong test3 = 5;
     ASSERT(ltoh<BIG>(test3) == "0x5");
     ASSERT(ltoh<BIG>(test3, false) == "5");
     ASSERT(ltoh<BIG>(test3, true, true) == "0x0000000000000005");
@@ -84,7 +84,7 @@ void TestToHex::from_long() {
     ASSERT(ltoh<LITTLE>(test3, false) == "500000000000000");
     ASSERT(ltoh<LITTLE>(test3, true, true) == "0x0500000000000000");
     
-    long test4 = -587342;
+    slong test4 = -587342;
     ASSERT(ltoh<BIG>(test4) == "-0x8F64E");
     ASSERT(ltoh<BIG>(test4, false) == "-8F64E");
     ASSERT(ltoh<BIG>(test4, true, true) == "-0x000000000008F64E");

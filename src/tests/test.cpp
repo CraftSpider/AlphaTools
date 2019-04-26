@@ -61,13 +61,14 @@ std::string __get_name(TestType type) {
         case CLASS:
             return "test class";
     }
+    return "unknown";
 }
 
-void __on_success(const std::string& name, TestType type) {
+void __test_on_success(const std::string& name, TestType type) {
     Results::successes += 1;
 }
 
-void __on_failure(const std::string& name, assertion_failure& e, TestType type) {
+void __test_on_failure(const std::string& name, assertion_failure& e, TestType type) {
     std::stringstream stream;
     stream << e.what() << " in " << __get_name(type) << " " << name;
     __Results::failure_messages.push_back(stream.str());
@@ -75,7 +76,7 @@ void __on_failure(const std::string& name, assertion_failure& e, TestType type) 
     Results::failures += 1;
 }
 
-void __on_skip(const std::string& name, TestType type) {
+void __test_on_skip(const std::string& name, TestType type) {
     std::stringstream stream;
     stream << "Skipped " << __get_name(type) << " " << name;
     __Results::skip_messages.push_back(stream.str());
@@ -83,7 +84,7 @@ void __on_skip(const std::string& name, TestType type) {
     Results::skipped += 1;
 }
 
-void __on_skip(const std::string& name, skip_test& e, TestType type) {
+void __test_on_skip(const std::string& name, skip_test& e, TestType type) {
     std::stringstream stream;
     if (e.what() == std::string("Skipped test")) {
         stream << "Skipped " << __get_name(type) << " " << name;
@@ -95,7 +96,7 @@ void __on_skip(const std::string& name, skip_test& e, TestType type) {
     Results::skipped += 1;
 }
 
-void __on_error(const std::string& name, std::exception& e, TestType type) {
+void __test_on_error(const std::string& name, std::exception& e, TestType type) {
     std::stringstream stream;
     stream << e.what() << " in " << __get_name(type) << " " << name;
     __Results::error_messages.push_back(stream.str());

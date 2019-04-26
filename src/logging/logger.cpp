@@ -1,6 +1,7 @@
 
 #include <stdexcept>
 #include <sstream>
+#include <cctype>
 #include "logging/logger.h"
 
 namespace logging {
@@ -8,11 +9,22 @@ namespace logging {
 Logger::Logger() {
     this->name = "NULL";
     level = NO_LEVEL;
+    stream_level = DEFAULT_LOGGER_LEVEL;
     handlers = std::vector<Handler*>();
 }
 
 Logger::Logger(const std::string &name) : Logger() {
     this->name = name;
+}
+
+Logger& Logger::operator<<(Level* level) {
+    stream_level = level;
+    return *this;
+}
+
+Logger& Logger::operator<<(const std::string& input) {
+    this->log(input, stream_level);
+    return *this;
 }
 
 Level* Logger::get_effective_level() const {
@@ -144,7 +156,7 @@ void Logger::add_handler(Handler *handler) {
 }
 
 bool Logger::remove_handler(Handler *handler) {
-    for (uint i = 0; i < handlers.size(); ++i) {
+    for (std::size_t i = 0; i < handlers.size(); ++i) {
         if (handlers[i] == handler) {
             handlers.erase(handlers.begin() + i);
             return true;
