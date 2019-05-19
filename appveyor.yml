@@ -10,7 +10,7 @@ build_script:
   - cmd: >-
       cmake -A x64 .
       
-      msbuild ./AlphaTools.sln
+      msbuild ./alpha_tools.sln
 test_script:
   - sh: ./test_alpha_tools
   - cmd: '"./Debug/test_alpha_tools"'
