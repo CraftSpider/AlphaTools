@@ -30,7 +30,15 @@
 *.exe
 *.out
 *.app
+test_alpha_tools
 
 # IDE
 .idea/
 *-build-*/
+
+# CMake outputs
+CMakeCache.txt
+CMakeFiles/
+*.cmake
+Makefile
+
