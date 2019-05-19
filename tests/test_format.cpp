@@ -5,7 +5,7 @@
 #include "test_format.h"
 #include "format.h"
 
-class Form : Formattable {
+class Form : public Formattable {
 public:
     std::string __format__(std::string spec) override {
         return "Formatted!";
@@ -38,7 +38,11 @@ void object_format() {
     NoForm noform = NoForm();
     
     ASSERT(format("{o}", &form) == "Formatted!");
-    ASSERT(util::starts_with(format("{o}", &noform), "[[NON-FORMATTABLE OBJECT"));
+    
+    try {
+        format("{o}", &noform);
+        ASSERT(false, "Formatting unformattable object didn't throw an error");
+    } catch (format_error &e) {}
 }
 
 void run_format_tests() {

@@ -15,10 +15,14 @@ test_script:
   - sh: ./test_alpha_tools
   - cmd: '"./Debug/test_alpha_tools"'
 artifacts:
-  - path: '*alpha_tools*'
+  - path: '*alpha_tools'
     name: Ubuntu Executables
+  - path: '*.a'
+    name: Ubuntu Libraries
   - path: 'Debug/*.exe'
     name: Windows Executables
+  - path: 'Debug/*.lib'
+    name: Windows Libraries
 notifications:
   - provider: Email
     to:

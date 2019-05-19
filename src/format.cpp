@@ -6,19 +6,9 @@
 
 #include "format.h"
 
-class BadObject : public Formattable {
-    void* ptr = nullptr;
-public:
-    void set_ptr(void* ptr) {
-        this->ptr = ptr;
-    }
-    
-    std::string __format__(std::string spec) override {
-        std::stringstream out;
-        out << "[[NON-FORMATTABLE OBJECT " << ptr << "]]";
-        return out.str();
-    }
-};
+static jmp_buf buf;
+
+format_error::format_error(const std::string &msg) : std::runtime_error(msg) {}
 
 /**
  * Format an integer spec. Viable options are:
@@ -30,7 +20,7 @@ public:
  * @param val value to format
  * @return formatted string
  */
-std::string int_spec(std::string spec, long val) {
+std::string int_spec(std::string spec, const void* val) {
     std::stringstream out;
     bool pref = false;
     if (spec.find('0') != std::string::npos)
@@ -41,37 +31,63 @@ std::string int_spec(std::string spec, long val) {
         out << (pref ? "0x" : "") << std::hex << std::uppercase;
     else if (spec.find('o') != std::string::npos)
         out << (pref ? "0o" : "") << std::oct;
-    out << val;
+    out << *(int*)val;
     return out.str();
 }
 
-std::string float_spec(std::string spec, float val) {
+std::string float_spec(std::string spec, const void* val) {
     // TODO
     std::stringstream out;
-    out << val;
+    out << *(float*)val;
     return out.str();
 }
 
-std::string double_spec(std::string spec, double val) {
+std::string double_spec(std::string spec, const void* val) {
     // TODO
     std::stringstream out;
-    out << val;
+    out << *(double*)val;
     return out.str();
 }
 
-std::string string_spec(std::string spec, char* val) {
+std::string string_spec(std::string spec, const void* val) {
     // TODO
-    return std::string(val);
+    return std::string((char*)val);
 }
 
-static jmp_buf buf;
+std::string object_handler(std::string spec, const void* val) {
+    std::stringstream out;
+    if (!setjmp(buf)) {
+        Formattable* form = *(Formattable**)val;
+        out << form->__format__(spec);
+    } else {
+        throw format_error("Non-formattable object passed to spec o");
+    }
+    return out.str();
+}
 
-static void format_handler(int) {
+std::map<char, format_handler> __Handlers::handlers = {
+    {'i', &int_spec},
+    {'f', &float_spec},
+    {'d', &double_spec},
+    {'s', &string_spec},
+    {'o', &object_handler}
+};
+
+std::map<char, char> __Handlers::size = {
+    {'i', sizeof(int)},
+    {'l', sizeof(long)},
+    {'f', sizeof(double)},
+    {'d', sizeof(double)},
+    {'s', sizeof(char*)},
+    {'o', sizeof(void*)}
+};
+
+static void format_signal_handler(int) {
     longjmp(buf, 1);
 }
 
 std::string format(const std::string &pattern, ...) {
-    void (*old_sig)(int) = std::signal(SIGSEGV, format_handler);
+    void (*old_sig)(int) = std::signal(SIGSEGV, format_signal_handler);
     
     bool escaped = false, in_spec = false;
     std::stringstream out, spec;
@@ -88,25 +104,19 @@ std::string format(const std::string &pattern, ...) {
                 std::string s = spec.str();
                 char type = s[0];
                 s = s.substr(1, s.size());
-                if (type == 'i') {
-                    out << int_spec(s, va_arg(args, long));
-                } else if (type == 'd') {
-                    out << double_spec(s, va_arg(args, double));
-                } else if (type == 'f') {
-                    out << float_spec(s, (float)va_arg(args, double));
-                } else if (type == 's') {
-                    out << string_spec(s, va_arg(args, char*));
-                } else if (type == 'o') {
-                    Formattable* form = va_arg(args, Formattable*);
-                    if (!setjmp(buf)) {
-                        out << form->__format__(s);
+                
+                format_handler handler = __Handlers::handlers[type];
+                char size = __Handlers::size[type];
+                if (handler) {
+                    uint64_t val;
+                    if (size <= 4) {
+                        val = va_arg(args, uint32_t);
                     } else {
-                        BadObject object = BadObject();
-                        object.set_ptr(form);
-                        out << object.__format__(s);
+                        val = va_arg(args, uint64_t);
                     }
+                    out << handler(s, &val);
                 } else {
-                    throw std::runtime_error("Invalid formatting spec");
+                    throw format_error("Unrecognized formatting spec");
                 }
                 std::stringstream().swap(spec);
             } else {
