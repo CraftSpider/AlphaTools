@@ -22,7 +22,6 @@
     testing::__test_on_error(#name, e);\
 }
 
-// TODO: Skip error, any test that throws it is counted as 'skipped'
 #define TEST_CLASS(name) testing::AbstractTest* test##name = new name();\
 if (test##name->skip_class()) {\
     testing::__test_on_skip(#name, testing::CLASS);\
