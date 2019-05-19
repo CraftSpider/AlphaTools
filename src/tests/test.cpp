@@ -9,7 +9,7 @@
 
 namespace testing {
 
-static std::string def_msg = "Skipped test";
+static std::string skip_def_msg = "Skipped test";
 
 std::vector<void(*)()> __ToRun::tests = std::vector<void (*)()>();
 
@@ -42,12 +42,12 @@ int Results::skipped_percent() {
     return 100 * skipped / total();
 }
 
-test_error::test_error(const std::string &msg) : runtime_error(msg) {};
+test_error::test_error(const std::string &msg) : runtime_error(msg) {}
 
-assertion_failure::assertion_failure(const std::string &msg) : test_error(msg) {};
+assertion_failure::assertion_failure(const std::string &msg) : test_error(msg) {}
 
-skip_test::skip_test() : test_error(def_msg) {};
-skip_test::skip_test(const std::string &msg) : test_error(msg) {};
+skip_test::skip_test() : test_error(skip_def_msg) {}
+skip_test::skip_test(const std::string &msg) : test_error(msg) {}
 
 constexpr char fill_char = '=';
 constexpr char blank_char = '-';
@@ -64,7 +64,7 @@ std::string __get_name(TestType type) {
     return "unknown";
 }
 
-void __test_on_success(const std::string& name, TestType type) {
+void __test_on_success(const std::string&, TestType) {
     Results::successes += 1;
 }
 

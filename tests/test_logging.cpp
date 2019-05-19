@@ -32,6 +32,7 @@ void TestLogger::run() {
     TEST_METHOD(test_normal);
     TEST_METHOD(test_format);
     TEST_METHOD(test_saving);
+	TEST_METHOD(test_auto_parent)
 }
 
 void TestLogger::clear_logs() {
@@ -103,6 +104,20 @@ void TestLogger::test_saving() {
     Logger *test2 = get_logger("test");
     
     ASSERT(test1 == test2);
+}
+
+void TestLogger::test_auto_parent() {
+	Logger *test1 = get_logger("parent.test1");
+	Logger *test2 = get_logger("parent.test2", true);
+	Logger *parent = get_logger("parent");
+	
+	ASSERT(test1->get_parent() == test2->get_parent());
+	ASSERT(test1->get_parent() == parent);
+	
+	Logger *test3 = get_logger("parent.test3", false);
+	
+	ASSERT(test3->get_parent() == get_root_logger());
+	ASSERT(test3->get_parent() != parent);
 }
 
 void run_logging_tests() {

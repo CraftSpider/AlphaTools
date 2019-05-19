@@ -52,8 +52,16 @@ Logger* get_logger(const std::string& name, bool auto_parent) {
     Logger *log = new Logger(name);
     loggers->emplace(name, log);
     
-    // TODO: automatically set tree from . separated names
-    log->set_parent(get_root_logger());
+    if (auto_parent) {
+        std::string parent_name = "root";
+        int pos = name.find_last_of(".");
+        if (pos >= 0)
+            parent_name = name.substr(0, pos);
+        Logger *parent = get_logger(parent_name, true);
+        log->set_parent(parent);
+    } else {
+        log->set_parent(get_root_logger());
+    }
     return log;
 }
 

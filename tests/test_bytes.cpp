@@ -142,7 +142,7 @@ void test_stob() {
     ASSERT(compare(stob<BIG>(test2, 2), expected2, 2));
     ASSERT(compare(stob<LITTLE>(test2, 2), reverse(expected2, 2), 2));
     
-    short test3 = 0xFFFE;
+    short test3 = (short)0xFFFE;
     char expected3[2] = {-1, -2};
     ASSERT(compare(stob<BIG>(test3, 2), expected3, 2));
     ASSERT(compare(stob<LITTLE>(test3, 2), reverse(expected3, 2), 2));
@@ -164,7 +164,7 @@ void test_ctob() {
     ASSERT(compare(ctob<BIG>(test2, 1), expected2, 1));
     ASSERT(compare(ctob<LITTLE>(test2, 1), reverse(expected2, 1), 1));
     
-    char test3 = 0xFF;
+    char test3 = (char)0xFF;
     char expected3[1] = {-1};
     ASSERT(compare(ctob<BIG>(test3, 1), expected3, 1));
     ASSERT(compare(ctob<LITTLE>(test3, 1), reverse(expected3, 1), 1));

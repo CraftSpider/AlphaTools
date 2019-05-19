@@ -9,15 +9,15 @@ bool AbstractTest::skip_class() {
     return false;
 }
 
-bool AbstractTest::skip_test(std::string name) {
+bool AbstractTest::skip_test(std::string) {
     return false;
 }
 
 void AbstractTest::before_class() {}
 
-void AbstractTest::before_test(std::string name) {}
+void AbstractTest::before_test(std::string) {}
 
-void AbstractTest::after_test(std::string name) {}
+void AbstractTest::after_test(std::string) {}
 
 void AbstractTest::after_class() {}
 

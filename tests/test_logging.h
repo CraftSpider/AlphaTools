@@ -17,6 +17,7 @@ class TestLogger : public testing::AbstractTest{
     void test_normal();
     void test_format();
     void test_saving();
+	void test_auto_parent();
     
 public:
     
