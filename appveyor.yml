@@ -1,0 +1,28 @@
+version: 1.0.{build}
+image:
+  - Ubuntu1804
+  - Visual Studio 2017
+build_script:
+  - sh: >-
+      cmake .
+
+      make
+  - cmd: >-
+      cmake -A x64 .
+      
+      msbuild ./AlphaTools.sln
+test_script:
+  - sh: ./test_alpha_tools
+  - cmd: '"./Debug/test_alpha_tools"'
+artifacts:
+  - path: '*alpha_tools*'
+    name: Ubuntu Executables
+  - path: 'Debug/*.exe'
+    name: Windows Executables
+notifications:
+  - provider: Email
+    to:
+      - runetynan@gmail.com
+    on_build_success: false
+    on_build_failure: true
+    on_build_status_changed: false
