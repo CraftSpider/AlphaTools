@@ -53,6 +53,8 @@ int main(int argc, char **argv) {
 //    client.join();
 //
 //    return 0;
+	
+	testing::setup_tests(argc, argv);
     
     TEST_FILE(algorithms)
     TEST_FILE(arrays)

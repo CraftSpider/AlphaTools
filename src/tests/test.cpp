@@ -11,7 +11,8 @@ namespace testing {
 
 static std::string skip_def_msg = "Skipped test";
 
-std::vector<void(*)()> __ToRun::tests = std::vector<void (*)()>();
+std::vector<std::string> __Config::argv = std::vector<std::string>();
+std::vector<void(*)()> __Config::tests = std::vector<void (*)()>();
 
 std::vector<std::string> __Results::failure_messages = std::vector<std::string>();
 std::vector<std::string> __Results::skip_messages = std::vector<std::string>();
@@ -104,12 +105,18 @@ void __test_on_error(const std::string& name, std::exception& e, TestType type) 
     Results::errors += 1;
 }
 
+void setup_tests(int argc, char const* const* argv) {
+	for (int i = 0; i < argc; ++i) {
+		__Config::argv.push_back(std::string(argv[i]));
+	}
+}
+
 uint run_tests(const std::string& name) {
     using namespace std::chrono;
     using namespace term;
     
     time_point start = high_resolution_clock::now();
-    for (auto test : __ToRun::tests) {
+    for (auto test : __Config::tests) {
         test();
     }
     

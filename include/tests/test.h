@@ -66,11 +66,12 @@ if (this->skip_test(#name)) {\
     this->after_test(#name);\
 }
 
-#define TEST_FILE(name) testing::__ToRun::tests.push_back(&run_##name##_tests);
+#define TEST_FILE(name) testing::__Config::tests.push_back(&run_##name##_tests);
 
 namespace testing {
 
-struct __ToRun {
+struct __Config {
+	static std::vector<std::string> argv;
     static std::vector<void (*)()> tests;
 };
 
@@ -118,6 +119,12 @@ void __test_on_failure(const std::string& name, assertion_failure& e, TestType t
 void __test_on_skip(const std::string& name, TestType type = FUNCTION);
 void __test_on_skip(const std::string& name, skip_test& e, TestType type = FUNCTION);
 void __test_on_error(const std::string& name, std::exception& e, TestType type = FUNCTION);
+
+/**
+ * Prepare the test suite to run. Passed the arguments given to main,
+ * for the command line arguments to run the tests with
+ */
+void setup_tests(int argc, char const* const* argv);
 
 /**
  * Run the test suite. Add any files to test with the macro `TEST_FILE(nameThe)` before running this.

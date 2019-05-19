@@ -18,11 +18,11 @@ void TestLogger::after_class() {
     std::cout.rdbuf(old_cout);
 }
 
-void TestLogger::before_test(std::string name) {
+void TestLogger::before_test(std::string) {
     clear_logs();
 }
 
-void TestLogger::after_test(std::string name) {
+void TestLogger::after_test(std::string) {
     clear_logs();
 }
 

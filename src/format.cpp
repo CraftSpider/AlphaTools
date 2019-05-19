@@ -66,7 +66,7 @@ std::string string_spec(std::string spec, char* val) {
 
 static jmp_buf buf;
 
-static void format_handler(int signo) {
+static void format_handler(int) {
     longjmp(buf, 1);
 }
 
