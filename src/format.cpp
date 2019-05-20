@@ -70,6 +70,10 @@ std::string string_spec(std::string spec, const void* val) {
 }
 
 std::string byte_spec(std::string spec, const void* val) {
+    if (spec == "") {
+        return "";
+    }
+    
     const uchar* bytes = spec_cast<uchar*>(val);
     std::stringstream out;
     
