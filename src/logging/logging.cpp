@@ -50,7 +50,10 @@ Logger* get_logger(const std::string& name, bool auto_parent) {
     __ensure_loggers();
     if (loggers->count(name)) {
         return loggers->at(name);
+    } else if (name == "root") {
+        return get_root_logger();
     }
+    
     Logger *log = new Logger(name);
     loggers->emplace(name, log);
     
