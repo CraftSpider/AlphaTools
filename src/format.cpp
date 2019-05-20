@@ -192,7 +192,7 @@ std::string format(std::string pattern, ...) {
                     out << handler(s, &val);
                 } else {
                     std::signal(SIGSEGV, old_sig);
-                    throw format_error("Unrecognized formatting spec");
+                    throw format_error(std::string("Unrecognized formatting spec: ") + type);
                 }
                 std::stringstream().swap(spec);
             } else {
