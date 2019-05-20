@@ -121,6 +121,9 @@ void TestLogger::test_auto_parent() {
 	
 	Logger *test4 = get_logger("test4");
 	ASSERT(test4->get_parent() == get_root_logger());
+	
+	Logger *root = get_logger("root");
+	ASSERT(root->get_parent() == nullptr);
 }
 
 void run_logging_tests() {
