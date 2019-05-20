@@ -1,5 +1,7 @@
 
 #include <sstream>
+#include <vector>
+#include <map>
 #include <cstdarg>
 #include <csetjmp>
 #include <csignal>
@@ -9,7 +11,10 @@
 #include "utils/strmanip.h"
 
 static jmp_buf buf;
-void (*old_sig)(int);
+
+static void format_signal_handler(int) {
+    longjmp(buf, 1);
+}
 
 format_error::format_error(const std::string &msg) : std::runtime_error(msg) {}
 
@@ -126,6 +131,8 @@ std::string byte_spec(std::string spec, const void* val) {
 
 std::string object_handler(std::string spec, const void* val) {
     std::stringstream out;
+    
+    void (*old_sig)(int) = std::signal(SIGSEGV, format_signal_handler);
     if (!setjmp(buf)) {
         const Formattable* form = spec_cast<Formattable*>(val);
         out << form->__format__(std::move(spec));
@@ -133,6 +140,8 @@ std::string object_handler(std::string spec, const void* val) {
         std::signal(SIGSEGV, old_sig);
         throw format_error("Non-formattable object passed to spec o");
     }
+    std::signal(SIGSEGV, old_sig);
+    
     return out.str();
 }
 
@@ -156,17 +165,89 @@ std::map<char, char> __Handlers::size = {
     {'o', sizeof(void*)}
 };
 
-static void format_signal_handler(int) {
-    longjmp(buf, 1);
-}
+struct Spec {
+    std::string type, args;
+    int pos;
+};
 
 std::string format(std::string pattern, ...) {
-    old_sig = std::signal(SIGSEGV, format_signal_handler);
-    
     bool escaped = false, in_spec = false;
-    std::stringstream out, spec;
+    std::stringstream out, spec_stream;
     va_list args;
     va_start(args, pattern);
+    
+    std::vector<Spec> spec_cache = std::vector<Spec>();
+    
+    // Generate a list of format specifications
+    int cur_pos = 0;
+    
+    for (auto c : pattern) {
+        if (escaped) {
+            continue;
+        } else if (in_spec) {
+            if (c == '}') {
+                
+                std::string args = spec_stream.str();
+                ulong colon_pos = args.find(':');
+    
+                std::string def = args.substr(0, colon_pos);
+                
+                if (colon_pos == std::string::npos) {
+                    args = "";
+                } else {
+                    args = args.substr(colon_pos + 1);
+                }
+                
+                char type = def[0];
+                int pos;
+                if (def.size() > 1) {
+                    pos = std::stoi(def.substr(1));
+                } else {
+                    pos = cur_pos;
+                    cur_pos++;
+                }
+                
+                Spec spec = Spec {std::string(1, type), args, pos};
+                spec_cache.emplace_back(spec);
+                
+                in_spec = false;
+                std::stringstream().swap(spec_stream);
+            } else {
+                spec_stream << c;
+            }
+        } else if (c == '\\') {
+            escaped = true;
+        } else if (c == '{') {
+            in_spec = true;
+        }
+    }
+    
+    // Read in each argument, as implied by the specifications
+    std::map<int, int> sizes_cache;
+    for (Spec spec : spec_cache) {
+        if (!sizes_cache.count(spec.pos)) {
+            sizes_cache[spec.pos] = __Handlers::size[spec.type[0]];
+        }
+    }
+    
+    std::vector<long> arg_cache = std::vector<long>();
+    for (ulong i = 0; i < sizes_cache.size(); ++i) {
+        if (!sizes_cache.count(i)) {
+            throw format_error("No reference for argument position");
+        }
+        
+        ulong val;
+        if (sizes_cache[i] <= 4) {
+            val = va_arg(args, uint);
+        } else {
+            val = va_arg(args, ulong);
+        }
+        arg_cache.emplace_back(val);
+    }
+    
+    // Generate output from specifications
+    
+    int count = 0;
     
     for (auto c : pattern) {
         if (escaped) {
@@ -175,28 +256,16 @@ std::string format(std::string pattern, ...) {
         } else if (in_spec) {
             if (c == '}') {
                 in_spec = false;
-                std::string s = spec.str();
-                int colon_pos = s.find(':');
-                char type = s[0];
-                s = s.substr(colon_pos + 1);
                 
-                format_handler handler = __Handlers::handlers[type];
-                char size = __Handlers::size[type];
+                Spec spec = spec_cache[count++];
+                
+                format_handler handler = __Handlers::handlers[spec.type[0]];
+                
                 if (handler) {
-                    uint64_t val;
-                    if (size <= 4) {
-                        val = va_arg(args, uint32_t);
-                    } else {
-                        val = va_arg(args, uint64_t);
-                    }
-                    out << handler(s, &val);
+                    out << handler(spec.args, &arg_cache[spec.pos]);
                 } else {
-                    std::signal(SIGSEGV, old_sig);
-                    throw format_error(std::string("Unrecognized formatting spec: ") + type);
+                    throw format_error("Unrecognized formatting spec: " + spec.type);
                 }
-                std::stringstream().swap(spec);
-            } else {
-                spec << c;
             }
         } else {
             if (c == '\\') {
@@ -208,8 +277,6 @@ std::string format(std::string pattern, ...) {
             }
         }
     }
-    
-    std::signal(SIGSEGV, old_sig);
     
     return out.str();
 }

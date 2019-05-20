@@ -15,8 +15,8 @@ public:
 class NoForm {};
 
 void ordinal_format() {
-    // TODO: test {0}, {1}, {0} stuff
-    throw testing::skip_test();
+    ASSERT(format("{s1} {s0}", "world", "Hello") == "Hello world");
+    ASSERT(format("{i1} == {i}", 100, 200) == "200 == 100");
 }
 
 void int_format() {
