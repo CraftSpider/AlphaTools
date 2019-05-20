@@ -24,7 +24,6 @@ bool ends_with(const std::string &val, const std::string &end) {
     return !val.compare(val.length() - end.length(), end.length(), end);
 }
 
-[[deprecated]]
 std::string char_format(const std::string& to_format, const uchar* data) {
     std::stringstream out;
     std::stringstream format;
