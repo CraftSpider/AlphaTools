@@ -54,8 +54,8 @@ Logger* get_logger(const std::string& name, bool auto_parent) {
     
     if (auto_parent) {
         std::string parent_name = "root";
-        int pos = name.find_last_of(".");
-        if (pos >= 0)
+        ulong pos = name.find_last_of('.');
+        if (pos != std::string::npos)
             parent_name = name.substr(0, pos);
         Logger *parent = get_logger(parent_name, true);
         log->set_parent(parent);

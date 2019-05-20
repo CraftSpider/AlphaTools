@@ -118,6 +118,9 @@ void TestLogger::test_auto_parent() {
 	
 	ASSERT(test3->get_parent() == get_root_logger());
 	ASSERT(test3->get_parent() != parent);
+	
+	Logger *test4 = get_logger("test4");
+	ASSERT(test4->get_parent() == get_root_logger());
 }
 
 void run_logging_tests() {
