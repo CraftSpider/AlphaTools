@@ -1,5 +1,7 @@
 #include <iostream>
 #include <map>
+
+#include "types.h"
 #include "logging/logging.h"
 
 namespace logging {
