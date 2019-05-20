@@ -181,11 +181,6 @@ void TestToHex::from_char() {
     ASSERT(ctoh<LITTLE>(test4, false) == "-73");
 }
 
-void test_char_format() {
-    // TODO
-    throw testing::skip_test();
-}
-
 
 // TODO: Add no prefix to from_ tests
 void run_strmanip_tests() {
@@ -193,5 +188,4 @@ void run_strmanip_tests() {
     TEST(test_starts_with)
     TEST(test_ends_with)
     TEST_CLASS(TestToHex)
-    TEST(test_char_format)
 }

@@ -7,7 +7,7 @@
 
 class Form : public Formattable {
 public:
-    std::string __format__(std::string spec) override {
+    std::string __format__(std::string spec) const override {
         return "Formatted!";
     }
 };
@@ -33,6 +33,16 @@ void int_format() {
     ASSERT(format("{i:o0}", 12345) == "0o30071");
 }
 
+void bytes_format() {
+    uchar bytes[] = {0x12, 0x34, 0x56, 0x78, 0x9A};
+    
+    ASSERT(format("{b:x0,7}", bytes) == "0x12");
+    ASSERT(format("{b:X4,11}", bytes) == "0x23");
+    
+    ASSERT(format("{b:s3,6}", bytes) == "-7");
+    ASSERT(format("{b:a3,6}", bytes) == "7");
+}
+
 void object_format() {
     Form form = Form();
     NoForm noform = NoForm();
@@ -48,5 +58,6 @@ void object_format() {
 void run_format_tests() {
     TEST(ordinal_format)
     TEST(int_format)
+    TEST(bytes_format)
     TEST(object_format)
 }

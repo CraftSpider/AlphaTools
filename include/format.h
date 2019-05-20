@@ -10,7 +10,7 @@ typedef std::string(*format_handler)(std::string, const void*);
 
 class Formattable {
 public:
-    virtual std::string __format__(std::string spec) = 0;
+    virtual std::string __format__(std::string spec) const = 0;
 };
 
 class format_error : public std::runtime_error {
@@ -23,4 +23,4 @@ struct __Handlers {
     static std::map<char, char> size;
 };
 
-std::string format(const std::string& pattern, ...);
+std::string format(std::string pattern, ...);
