@@ -52,7 +52,6 @@ void test_btol() {
     ASSERT(btol<LITTLE>(test1) == 0x0102030405060708);
     
     char test2[8] = {8, 7, 6, 5, 4, 3, 2, 1};
-    std::cout << "\n" << (btol<BIG>(test2)) << "\n";
     ASSERT(btol<BIG>(test2) == 0x0807060504030201);
     ASSERT(btol<LITTLE>(test2) == 0x0102030405060708);
 }

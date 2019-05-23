@@ -6,16 +6,17 @@
 using namespace logging;
 
 void TestLogger::before_class() {
-    // TODO fix this
     old_cout = std::cout.rdbuf();
+    old_cerr = std::cerr.rdbuf();
     new_cout = std::ostringstream();
     new_cerr = std::ostringstream();
-    std::cout.basic_ios<char>::rdbuf(new_cout.rdbuf());
+    std::cout.rdbuf(new_cout.rdbuf());
     std::cerr.rdbuf(new_cerr.rdbuf());
 }
 
 void TestLogger::after_class() {
     std::cout.rdbuf(old_cout);
+    std::cerr.rdbuf(old_cerr);
 }
 
 void TestLogger::before_test(std::string) {

@@ -64,5 +64,5 @@ int main(int argc, char **argv) {
     TEST_FILE(format)
     TEST_FILE(console)
     
-    return testing::run_tests() & 0b011;
+    return testing::run_tests() & 0b011u;
 }

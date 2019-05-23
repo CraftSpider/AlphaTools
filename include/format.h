@@ -3,13 +3,13 @@
 #include <string>
 #include <map>
 
-#define FORMAT_HANDLER(type, name, size) __Handlers::handlers[type] = &name;\
-    __Handlers::size[type] = size;
+// TODO: Make this in the util space?
 
 typedef std::string(*format_handler)(std::string, const void*);
 
 class Formattable {
 public:
+    virtual void __is_formattable__() const;
     virtual std::string __format__(std::string spec) const = 0;
 };
 
@@ -20,7 +20,11 @@ public:
 
 struct __Handlers {
     static std::map<char, format_handler> handlers;
-    static std::map<char, char> size;
+    static std::map<char, size_t> size;
 };
+
+bool add_format_handler(char spec, format_handler handler, size_t size);
+
+bool remove_format_handler(char spec);
 
 std::string format(std::string pattern, ...);

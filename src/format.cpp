@@ -16,6 +16,8 @@ static void format_signal_handler(int) {
     longjmp(buf, 1);
 }
 
+void Formattable::__is_formattable__() const {}
+
 format_error::format_error(const std::string &msg) : std::runtime_error(msg) {}
 
 template<typename T>
@@ -35,6 +37,7 @@ const T spec_cast(const void* input) {
  */
 std::string int_spec(std::string spec, const void* val) {
     std::stringstream out;
+    
     bool pref = false;
     if (spec.find('0') != std::string::npos)
         pref = true;
@@ -44,13 +47,24 @@ std::string int_spec(std::string spec, const void* val) {
         out << (pref ? "0x" : "") << std::hex << std::uppercase;
     else if (spec.find('o') != std::string::npos)
         out << (pref ? "0o" : "") << std::oct;
+    
     out << spec_cast<int>(val);
     return out.str();
 }
 
 std::string long_spec(std::string spec, const void* val) {
-    // TODO: Add long specification
     std::stringstream out;
+    
+    bool pref = false;
+    if (spec.find('0') != std::string::npos)
+        pref = true;
+    if (spec.find('x') != std::string::npos)
+        out << (pref ? "0x" : "") << std::hex;
+    else if (spec.find('X') != std::string::npos)
+        out << (pref ? "0x" : "") << std::hex << std::uppercase;
+    else if (spec.find('o') != std::string::npos)
+        out << (pref ? "0o" : "") << std::oct;
+    
     out << spec_cast<long>(val);
     return out.str();
 }
@@ -131,17 +145,19 @@ std::string byte_spec(std::string spec, const void* val) {
 
 std::string object_handler(std::string spec, const void* val) {
     std::stringstream out;
+    std::string result;
+    const Formattable* form = spec_cast<Formattable*>(val);
     
     void (*old_sig)(int) = std::signal(SIGSEGV, format_signal_handler);
     if (!setjmp(buf)) {
-        const Formattable* form = spec_cast<Formattable*>(val);
-        out << form->__format__(std::move(spec));
+        form->__is_formattable__();
     } else {
         std::signal(SIGSEGV, old_sig);
         throw format_error("Non-formattable object passed to spec o");
     }
     std::signal(SIGSEGV, old_sig);
     
+    out << form->__format__(std::move(spec));
     return out.str();
 }
 
@@ -155,7 +171,7 @@ std::map<char, format_handler> __Handlers::handlers = {
     {'o', &object_handler}
 };
 
-std::map<char, char> __Handlers::size = {
+std::map<char, size_t> __Handlers::size = {
     {'i', sizeof(int)},
     {'l', sizeof(long)},
     {'f', sizeof(double)},
@@ -169,6 +185,22 @@ struct Spec {
     std::string type, args;
     int pos;
 };
+
+bool add_format_handler(char spec, format_handler handler, size_t size) {
+    if (__Handlers::handlers.count(spec))
+        return false;
+    __Handlers::handlers[spec] = handler;
+    __Handlers::size[spec] = size;
+    return true;
+}
+
+bool remove_format_handler(char spec) {
+    if (!__Handlers::handlers.count(spec))
+        return false;
+    __Handlers::handlers.erase(spec);
+    __Handlers::size.erase(spec);
+    return true;
+}
 
 std::string format(std::string pattern, ...) {
     bool escaped = false, in_spec = false;
@@ -187,15 +219,15 @@ std::string format(std::string pattern, ...) {
         } else if (in_spec) {
             if (c == '}') {
                 
-                std::string args = spec_stream.str();
-                ulong colon_pos = args.find(':');
+                std::string spec_str = spec_stream.str();
+                ulong colon_pos = spec_str.find(':');
     
-                std::string def = args.substr(0, colon_pos);
+                std::string def = spec_str.substr(0, colon_pos);
                 
                 if (colon_pos == std::string::npos) {
-                    args = "";
+                    spec_str = "";
                 } else {
-                    args = args.substr(colon_pos + 1);
+                    spec_str = spec_str.substr(colon_pos + 1);
                 }
                 
                 char type = def[0];
@@ -207,7 +239,7 @@ std::string format(std::string pattern, ...) {
                     cur_pos++;
                 }
                 
-                Spec spec = Spec {std::string(1, type), args, pos};
+                Spec spec = Spec {std::string(1, type), spec_str, pos};
                 spec_cache.emplace_back(spec);
                 
                 in_spec = false;
@@ -230,7 +262,7 @@ std::string format(std::string pattern, ...) {
         }
     }
     
-    std::vector<long> arg_cache = std::vector<long>();
+    std::vector<ulong> arg_cache = std::vector<ulong>();
     for (ulong i = 0; i < sizes_cache.size(); ++i) {
         if (!sizes_cache.count(i)) {
             throw format_error("No reference for argument position");
