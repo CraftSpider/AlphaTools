@@ -56,6 +56,7 @@ set(TEMPLATES
         include/utils/io.tpp
         include/utils/bytes.tpp
         include/utils/strmanip.tpp
+        include/tests/assertion.tpp
         include/logging/logger.tpp)
 
 set(TEST_HEADERS

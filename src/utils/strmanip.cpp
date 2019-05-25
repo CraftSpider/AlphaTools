@@ -2,6 +2,7 @@
 #include "utils/strmanip.h"
 
 #include <sstream>
+#include <cctype>
 #include "utils/bytes.h"
 
 namespace util {
@@ -24,7 +25,7 @@ bool ends_with(const std::string &val, const std::string &end) {
     return !val.compare(val.length() - end.length(), end.length(), end);
 }
 
-std::string to_uppercase(std::string str) {
+std::string to_uppercase(const std::string& str) {
     std::stringstream out;
     for (auto c : str) {
         out << (char)std::toupper(c);
@@ -32,7 +33,7 @@ std::string to_uppercase(std::string str) {
     return out.str();
 }
 
-std::string to_lowercase(std::string str) {
+std::string to_lowercase(const std::string& str) {
     std::stringstream out;
     for (auto c : str) {
         out << (char)std::tolower(c);
