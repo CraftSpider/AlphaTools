@@ -182,7 +182,6 @@ void TestToHex::from_char() {
 }
 
 
-// TODO: Add no prefix to from_ tests
 void run_strmanip_tests() {
     TEST(test_reverse_str)
     TEST(test_starts_with)

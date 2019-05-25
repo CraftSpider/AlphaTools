@@ -24,6 +24,22 @@ bool ends_with(const std::string &val, const std::string &end) {
     return !val.compare(val.length() - end.length(), end.length(), end);
 }
 
+std::string to_uppercase(std::string str) {
+    std::stringstream out;
+    for (auto c : str) {
+        out << (char)std::toupper(c);
+    }
+    return out.str();
+}
+
+std::string to_lowercase(std::string str) {
+    std::stringstream out;
+    for (auto c : str) {
+        out << (char)std::tolower(c);
+    }
+    return out.str();
+}
+
 std::string char_format(const std::string& to_format, const uchar* data) {
     std::stringstream out;
     std::stringstream format;

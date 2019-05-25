@@ -2,7 +2,7 @@
 
 #include <streambuf>
 #include <sstream>
-#include "tests/test.h"
+#include "at_tests"
 
 class TestLogger : public testing::AbstractTest {
     

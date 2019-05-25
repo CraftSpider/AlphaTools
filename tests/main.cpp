@@ -8,6 +8,7 @@
 #include "test_logging.h"
 #include "test_format.h"
 #include "test_console.h"
+#include "test_test.h"
 
 #include "network/socket.h"
 #include <thread>
@@ -55,7 +56,8 @@ int main(int argc, char **argv) {
 //    return 0;
 	
 	testing::setup_tests(argc, argv);
-    
+ 
+	TEST_FILE(test)
     TEST_FILE(algorithms)
     TEST_FILE(arrays)
     TEST_FILE(bytes)

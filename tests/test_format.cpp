@@ -33,6 +33,14 @@ void int_format() {
     ASSERT(format("{i:o0}", 12345) == "0o30071");
 }
 
+void string_format() {
+    ASSERT(format("{s}", "test string") == "test string");
+    ASSERT(format("{s:n}", "test string") == "11");
+    
+    ASSERT(format("{s:u}", "tEsT sTrInG") == "TEST STRING");
+    ASSERT(format("{s:l}", "tEsT sTrInG") == "test string");
+}
+
 void bytes_format() {
     uchar bytes[] = {0x12, 0x34, 0x56, 0x78, 0x9A};
     
@@ -58,6 +66,7 @@ void object_format() {
 void run_format_tests() {
     TEST(ordinal_format)
     TEST(int_format)
+    TEST(string_format)
     TEST(bytes_format)
     TEST(object_format)
 }

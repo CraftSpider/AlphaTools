@@ -1,5 +1,6 @@
 
 #include <chrono>
+#include <typeinfo>
 #include "tests/test.h"
 #include "console.h"
 
@@ -99,7 +100,8 @@ void __test_on_skip(const std::string& name, skip_test& e, TestType type) {
 
 void __test_on_error(const std::string& name, std::exception& e, TestType type) {
     std::stringstream stream;
-    stream << e.what() << " in " << __get_name(type) << " " << name;
+    std::string type_name = typeid(e).name();
+    stream << type_name << ": " << e.what() << " in " << __get_name(type) << " " << name;
     __Results::error_messages.push_back(stream.str());
     
     Results::errors += 1;
@@ -107,7 +109,7 @@ void __test_on_error(const std::string& name, std::exception& e, TestType type) 
 
 void setup_tests(int argc, char const* const* argv) {
 	for (int i = 0; i < argc; ++i) {
-		__Config::argv.push_back(std::string(argv[i]));
+		__Config::argv.emplace_back(std::string(argv[i]));
 	}
 }
 

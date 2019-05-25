@@ -32,7 +32,7 @@ set(HEADERS
         include/logging/logging.h
         include/logging/level.h
         include/logging/logger.h
-        include/network/socket.h)
+        include/network/socket.h include/tests/assertion.h)
 
 set(SOURCES
         src/argparser.cpp
@@ -49,7 +49,7 @@ set(SOURCES
         src/logging/level.cpp
         src/logging/handler.cpp
         src/logging/logger.cpp
-        src/network/socket.cpp)
+        src/network/socket.cpp src/tests/assertion.cpp)
 
 set(TEMPLATES
         include/utils/arrays.tpp
@@ -65,7 +65,7 @@ set(TEST_HEADERS
         tests/test_algorithms.h
         tests/test_logging.h
         tests/test_format.h
-        tests/test_console.h)
+        tests/test_console.h tests/test_test.h)
 
 set(TEST_SOURCES
         tests/main.cpp
@@ -75,13 +75,13 @@ set(TEST_SOURCES
         tests/test_algorithms.cpp
         tests/test_logging.cpp
         tests/test_format.cpp
-        tests/test_console.cpp)
+        tests/test_console.cpp tests/test_test.cpp)
 
 set(TEST_TEMPLATES)
 
 set(ALL_CODE ${HEADERS} ${TEMPLATES} ${SOURCES})
 
-set(ALL_TEST ${TEST_HEADERS} ${TEST_TEMPLATES} ${TEST_SOURCES})
+set(ALL_TEST ${TEST_HEADERS} ${TEST_TEMPLATES} ${TEST_SOURCES} tests/test_test.cpp)
 
 add_library(${PROJECT_NAME} STATIC ${ALL_CODE})
 

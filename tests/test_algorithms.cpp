@@ -1,6 +1,6 @@
 
+#include "at_tests"
 #include "test_algorithms.h"
-#include "tests/test.h"
 #include "utils/algorithms.h"
 
 void test_crc32() {

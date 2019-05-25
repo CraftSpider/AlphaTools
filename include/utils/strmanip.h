@@ -11,6 +11,10 @@ bool starts_with(const std::string& val, const std::string& start);
 
 bool ends_with(const std::string& val, const std::string& end);
 
+std::string to_uppercase(std::string str);
+
+std::string to_lowercase(std::string str);
+
 template<Endian E = BIG>
 std::string btoh(const uchar* val, const ulong length, const bool prefix = true, const bool pad = false);
 

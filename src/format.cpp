@@ -2,6 +2,7 @@
 #include <sstream>
 #include <vector>
 #include <map>
+#include <algorithm>
 #include <cstdarg>
 #include <csetjmp>
 #include <csignal>
@@ -32,8 +33,8 @@ const T spec_cast(const void* input) {
  * o: octal
  * 0: Prefix with literal type (0x or 0o)
  * @param spec Format spec string
- * @param val value to format
- * @return formatted string
+ * @param val Value to format
+ * @return Formatted string
  */
 std::string int_spec(std::string spec, const void* val) {
     std::stringstream out;
@@ -83,9 +84,31 @@ std::string double_spec(std::string spec, const void* val) {
     return out.str();
 }
 
+/**
+ * Format a character string spec. Viable options are:
+ * u: Uppercase
+ * l: Lowercase
+ * n: Replace with length of string
+ * @param spec Format spec string
+ * @param val Value to format
+ * @return Formatted string
+ */
 std::string string_spec(std::string spec, const void* val) {
-    // TODO: Add string specification
-    return std::string(spec_cast<char*>(val));
+    std::stringstream out;
+    std::string str(spec_cast<char*>(val));
+    
+    if (spec.find('u') != std::string::npos) {
+        str = util::to_uppercase(str);
+    } else if (spec.find('l') != std::string::npos) {
+        str = util::to_lowercase(str);
+    }
+    
+    if (spec.find('n') != std::string::npos)
+        out << str.size();
+    else
+        out << str;
+    
+    return out.str();
 }
 
 std::string byte_spec(std::string spec, const void* val) {
@@ -144,7 +167,6 @@ std::string byte_spec(std::string spec, const void* val) {
 }
 
 std::string object_handler(std::string spec, const void* val) {
-    std::stringstream out;
     std::string result;
     const Formattable* form = spec_cast<Formattable*>(val);
     
@@ -157,8 +179,7 @@ std::string object_handler(std::string spec, const void* val) {
     }
     std::signal(SIGSEGV, old_sig);
     
-    out << form->__format__(std::move(spec));
-    return out.str();
+    return form->__format__(std::move(spec));
 }
 
 std::map<char, format_handler> __Handlers::handlers = {

@@ -1,6 +1,6 @@
 
+#include "at_tests"
 #include "test_arrays.h"
-#include "tests/test.h"
 #include "utils/arrays.h"
 
 using namespace util;

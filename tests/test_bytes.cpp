@@ -1,6 +1,6 @@
 
+#include "at_tests"
 #include "test_bytes.h"
-#include "tests/test.h"
 #include "utils/bytes.h"
 #include "utils/arrays.h"
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "tests/test.h"
+#include "at_tests"
 
 class TestToHex : public testing::AbstractTest {
 

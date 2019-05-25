@@ -1,3 +1,4 @@
 
 #include "tests/abstract_test.h"
 #include "tests/test.h"
+#include "tests/assertion.h"
