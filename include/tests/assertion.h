@@ -51,6 +51,12 @@ void fail(std::string message = "");
 template<typename T, typename K>
 void assert_throws(K callable, std::string message = "");
 
+template<typename T, typename A, typename K>
+void assert_throws(K callable, A arg, std::string message = "");
+
+template<typename T, typename A, typename B, typename K>
+void assert_throws(K callable, A arg1, B arg2, std::string message = "");
+
 }
 
 #include "assertion.tpp"
