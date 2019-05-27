@@ -69,7 +69,7 @@ template<Endian E>
 double next_double(std::istream& file, const ulong length) {
     double data;
     file.read(reinterpret_cast<char*>(&data), length);
-    if (E == LITTLE) {
+    if (E == BIG) {
         reverse(reinterpret_cast<char*>(&data), length);
     }
     return data;
@@ -154,7 +154,7 @@ void write_float(std::ostream& file, float out, const ulong length) {
 
 template<Endian E>
 void write_double(std::ostream& file, double out, const ulong length) {
-    if (E == LITTLE) {
+    if (E == BIG) {
         reverse(reinterpret_cast<char*>(&out), length);
     }
     file.write(reinterpret_cast<char*>(&out), length);
