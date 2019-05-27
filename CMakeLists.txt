@@ -28,11 +28,12 @@ set(HEADERS
         include/utils/algorithms.h
         include/tests/test.h
         include/tests/abstract_test.h
+        include/tests/assertion.h
         include/logging/handler.h
         include/logging/logging.h
         include/logging/level.h
         include/logging/logger.h
-        include/network/socket.h include/tests/assertion.h)
+        include/network/socket.h)
 
 set(SOURCES
         src/argparser.cpp
@@ -45,11 +46,12 @@ set(SOURCES
         src/utils/algorithms.cpp
         src/tests/abstract_test.cpp
         src/tests/test.cpp
+        src/tests/assertion.cpp
         src/logging/logging.cpp
         src/logging/level.cpp
         src/logging/handler.cpp
         src/logging/logger.cpp
-        src/network/socket.cpp src/tests/assertion.cpp)
+        src/network/socket.cpp)
 
 set(TEMPLATES
         include/utils/arrays.tpp
@@ -66,7 +68,9 @@ set(TEST_HEADERS
         tests/test_algorithms.h
         tests/test_logging.h
         tests/test_format.h
-        tests/test_console.h tests/test_test.h)
+        tests/test_console.h
+        tests/test_test.h
+        tests/test_io.h)
 
 set(TEST_SOURCES
         tests/main.cpp
@@ -76,7 +80,9 @@ set(TEST_SOURCES
         tests/test_algorithms.cpp
         tests/test_logging.cpp
         tests/test_format.cpp
-        tests/test_console.cpp tests/test_test.cpp)
+        tests/test_console.cpp
+        tests/test_test.cpp
+        tests/test_io.cpp)
 
 set(TEST_TEMPLATES)
 

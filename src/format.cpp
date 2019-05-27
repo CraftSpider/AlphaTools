@@ -119,8 +119,8 @@ std::string byte_spec(std::string spec, const void* val) {
     const uchar* bytes = spec_cast<uchar*>(val);
     std::stringstream out;
     
-    int num_start = spec.find_first_of("1234567890");
-    int comma_pos = spec.find(',');
+    size_t num_start = spec.find_first_of("1234567890");
+    size_t comma_pos = spec.find(',');
     std::string mods = spec.substr(0, num_start);
     int start = std::stoi(spec.substr(num_start, comma_pos));
     int end = std::stoi(spec.substr(comma_pos + 1));

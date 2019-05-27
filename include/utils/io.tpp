@@ -59,7 +59,7 @@ template<Endian E>
 float next_float(std::istream& file, const ulong length) {
     float data;
     file.read(reinterpret_cast<char*>(&data), length);
-    if (E == LITTLE) {
+    if (E == BIG) { // TODO: Some way to tell whether the system stores floats as big or little
         reverse(reinterpret_cast<char*>(&data), length);
     }
     return data;
@@ -145,19 +145,19 @@ void write_char(std::ostream& file, const char out, const ulong length) {
 }
 
 template<Endian E>
-void write_float(std::ostream& file, const float out, const ulong length) {
-    if (E == LITTLE) {
-        reverse(reinterpret_cast<const char*>(&out), length);
+void write_float(std::ostream& file, float out, const ulong length) {
+    if (E == BIG) { // TODO: Same thought as next_float
+        reverse(reinterpret_cast<char*>(&out), length);
     }
-    file.write(reinterpret_cast<const char*>(&out), length);
+    file.write(reinterpret_cast<char*>(&out), length);
 }
 
 template<Endian E>
-void write_double(std::ostream& file, const double out, const ulong length) {
+void write_double(std::ostream& file, double out, const ulong length) {
     if (E == LITTLE) {
-        reverse(reinterpret_cast<const char*>(&out), length);
+        reverse(reinterpret_cast<char*>(&out), length);
     }
-    file.write(reinterpret_cast<const char*>(&out), length);
+    file.write(reinterpret_cast<char*>(&out), length);
 }
 
 template<Endian E>
