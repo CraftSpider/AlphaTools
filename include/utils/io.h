@@ -63,10 +63,10 @@ template<Endian E = BIG>
 void write_char(std::ostream& file, const char out, const ulong length = 1);
 
 template<Endian E = BIG>
-void write_float(std::ostream& file, const float out, const ulong length = 4);
+void write_float(std::ostream& file, float out, const ulong length = 4);
 
 template<Endian E = BIG>
-void write_double(std::ostream& file, const double out, const ulong length = 8);
+void write_double(std::ostream& file, double out, const ulong length = 8);
 
 template<Endian E = BIG>
 void write_string(std::ostream& file, const std::string& out, const ulong length = 0);

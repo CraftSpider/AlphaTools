@@ -10,15 +10,21 @@ void TestReadIO::test_next_ulong() {
 }
 
 void TestReadIO::test_next_uint() {
-    throw testing::skip_test();
+    std::istringstream input("\x01\x02\x03\x04\x05\x06\x07\x08");
+    ASSERT(util::next_uint<BIG>(input) == 0x01020304);
+    ASSERT(util::next_uint<LITTLE>(input) == 0x08070605);
 }
 
 void TestReadIO::test_next_ushort() {
-    throw testing::skip_test();
+    std::istringstream input("\x01\x02\x03\x04");
+    ASSERT(util::next_ushort<BIG>(input) == 0x0102);
+    ASSERT(util::next_ushort<LITTLE>(input) == 0x0403);
 }
 
 void TestReadIO::test_next_uchar() {
-    throw testing::skip_test();
+    std::istringstream input("\xFF\x02");
+    ASSERT(util::next_uchar<BIG>(input) == 0xFF);
+    ASSERT(util::next_uchar<LITTLE>(input) == 0x02);
 }
 
 void TestReadIO::test_next_long() {
@@ -69,15 +75,24 @@ void TestWriteIO::test_write_ulong() {
 }
 
 void TestWriteIO::test_write_uint() {
-    throw testing::skip_test();
+    std::ostringstream output;
+    util::write_uint<BIG>(output, 0x01020304);
+    util::write_uint<LITTLE>(output, 0x08070605);
+    ASSERT(output.str() == "\x01\x02\x03\x04\x05\x06\x07\x08");
 }
 
 void TestWriteIO::test_write_ushort() {
-    throw testing::skip_test();
+    std::ostringstream output;
+    util::write_ushort<BIG>(output, 0x0102);
+    util::write_ushort<LITTLE>(output, 0x0403);
+    ASSERT(output.str() == "\x01\x02\x03\x04");
 }
 
 void TestWriteIO::test_write_uchar() {
-    throw testing::skip_test();
+    std::ostringstream output;
+    util::write_uchar<BIG>(output, 0xFF);
+    util::write_uchar<LITTLE>(output, 0x02);
+    ASSERT(output.str() == "\xFF\x02");
 }
 
 void TestWriteIO::test_write_long() {
