@@ -2,3 +2,8 @@
 #include "tests/abstract_test.h"
 #include "tests/test.h"
 #include "tests/assertion.h"
+
+/**
+ * \file at_tests
+ * \brief Alpha Tests include file
+ */

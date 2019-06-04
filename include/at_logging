@@ -3,3 +3,8 @@
 #include "logging/handler.h"
 #include "logging/logger.h"
 #include "logging/logging.h"
+
+/**
+ * \file at_logging
+ * \brief Alpha Logging include file
+ */

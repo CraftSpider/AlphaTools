@@ -1,0 +1,19 @@
+
+.memname > tbody > tr:nth-last-child(2) {
+    margin-right: -.4em;
+}
+
+.memname tr {
+    float: left;
+    border-collapse: collapse;
+}
+
+.memname td {
+    border: 0px solid #000;
+    padding: 0px;
+}
+
+.paramname {
+    content: " ";
+    white-space: pre;
+}

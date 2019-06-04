@@ -3,7 +3,7 @@
 #include <sstream>
 #include "argparser.h"
 
-ArgParser::ArgParser(const int &argc, char **argv) {
+ArgParser::ArgParser(int argc, char **argv) {
     invokation = argv[0];
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];

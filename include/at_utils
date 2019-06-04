@@ -5,3 +5,8 @@
 #include "utils/bytes.h"
 #include "utils/strmanip.h"
 #include "utils/io.h"
+
+/**
+ * \file at_utils
+ * \brief Alpha Utils include file
+ */

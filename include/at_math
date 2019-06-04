@@ -1,0 +1,9 @@
+
+#include "types.h"
+#include "math/vector.h"
+#include "math/sphere.h"
+
+/**
+ * \file at_math
+ * \brief Alpha Math include file
+ */

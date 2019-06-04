@@ -16,7 +16,7 @@ class TestReadIO : public testing::AbstractTest {
     
 public:
     
-    void run();
+    void run() override;
     
 };
 
@@ -35,7 +35,7 @@ class TestWriteIO : public testing::AbstractTest {
     
 public:
     
-    void run();
+    void run() override;
     
 };
 

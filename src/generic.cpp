@@ -4,7 +4,7 @@
 
 #ifdef LINUXCOMPAT
 #include <unistd.h>
-#include <limits.h>
+#include <climits>
 #endif
 
 #ifdef WINCOMPAT

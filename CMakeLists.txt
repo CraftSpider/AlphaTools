@@ -33,7 +33,7 @@ set(HEADERS
         include/logging/logging.h
         include/logging/level.h
         include/logging/logger.h
-        include/network/socket.h)
+        include/network/socket.h include/math/vector.h include/math/sphere.h)
 
 set(SOURCES
         src/argparser.cpp
@@ -51,7 +51,7 @@ set(SOURCES
         src/logging/level.cpp
         src/logging/handler.cpp
         src/logging/logger.cpp
-        src/network/socket.cpp)
+        src/network/socket.cpp src/math/vector.cpp src/math/sphere.cpp)
 
 set(TEMPLATES
         include/utils/arrays.tpp
