@@ -42,3 +42,6 @@ CMakeFiles/
 *.cmake
 Makefile
 
+# Doxygen output
+docs/html/
+
