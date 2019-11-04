@@ -3,6 +3,7 @@
 #include "test_io.h"
 #include "utils/io.h"
 
+
 void TestReadIO::test_next_ulong() {
     std::istringstream input("\x01\x02\x03\x04\x05\x06\x07\x08\x01\x02\x03\x04\x05\x06\x07\x08");
     ASSERT(util::next_ulong<BIG>(input) == 0x0102030405060708);
@@ -28,19 +29,31 @@ void TestReadIO::test_next_uchar() {
 }
 
 void TestReadIO::test_next_long() {
-    throw testing::skip_test();
+    std::istringstream input("\xFF\xFE\xFD\xFC\xFB\xFA\xF9\xF8\xF8\xF9\xFA\xFB\xFC\xFD\xFE\xFF");
+    
+    ASSERT(util::next_long<BIG>(input) == -283686952306184l);
+    ASSERT(util::next_long<LITTLE>(input) == -283686952306184l);
 }
 
 void TestReadIO::test_next_int() {
-    throw testing::skip_test();
+    std::istringstream input(std::string("\xFF\xFF\xFF\xFE\x01\x00\x00\x00", 8));
+    
+    ASSERT(util::next_int<BIG>(input) == -2);
+    ASSERT(util::next_int<LITTLE>(input) == 1);
 }
 
 void TestReadIO::test_next_short() {
-    throw testing::skip_test();
+    std::istringstream input(std::string("\xFF\x00\x00\xFF\x00\x01\x01\x00", 8));
+    ASSERT(util::next_short<BIG>(input) == -256);
+    ASSERT(util::next_short<LITTLE>(input) == -256);
+    ASSERT(util::next_short<BIG>(input) == 1);
+    ASSERT(util::next_short<LITTLE>(input) == 1);
 }
 
 void TestReadIO::test_next_char() {
-    throw testing::skip_test();
+    std::istringstream input("\xFF\x02");
+    ASSERT(util::next_char<BIG>(input) == -1);
+    ASSERT(util::next_char<LITTLE>(input) == 2);
 }
 
 void TestReadIO::test_next_float() {
@@ -50,7 +63,9 @@ void TestReadIO::test_next_float() {
 }
 
 void TestReadIO::test_next_double() {
-    throw testing::skip_test();
+    std::istringstream input(std::string("\x3F\xF0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10\x00\xEE\x40", 16));
+    ASSERT(util::next_double<BIG>(input) == 1.);
+    ASSERT(util::next_double<LITTLE>(input) == 61440.5);
 }
 
 void TestReadIO::run() {
@@ -96,19 +111,33 @@ void TestWriteIO::test_write_uchar() {
 }
 
 void TestWriteIO::test_write_long() {
-    throw testing::skip_test();
+    std::ostringstream output;
+    util::write_long<BIG>(output, -283686952306184l);
+    util::write_long<LITTLE>(output, -283686952306184l);
+    ASSERT(output.str() == "\xFF\xFE\xFD\xFC\xFB\xFA\xF9\xF8\xF8\xF9\xFA\xFB\xFC\xFD\xFE\xFF");
 }
 
 void TestWriteIO::test_write_int() {
-    throw testing::skip_test();
+    std::ostringstream output;
+    util::write_int<BIG>(output, -2);
+    util::write_int<LITTLE>(output, 1);
+    ASSERT(output.str() == std::string("\xFF\xFF\xFF\xFE\x01\x00\x00\x00", 8));
 }
 
 void TestWriteIO::test_write_short() {
-    throw testing::skip_test();
+    std::ostringstream output;
+    util::write_short<BIG>(output, -256);
+    util::write_short<LITTLE>(output, -256);
+    util::write_short<BIG>(output, 1);
+    util::write_short<LITTLE>(output, 1);
+    ASSERT(output.str() == std::string("\xFF\x00\x00\xFF\x00\x01\x01\x00", 8));
 }
 
 void TestWriteIO::test_write_char() {
-    throw testing::skip_test();
+    std::ostringstream output;
+    util::write_char<BIG>(output, -1);
+    util::write_char<LITTLE>(output, 1);
+    ASSERT(output.str() == "\xFF\x01");
 }
 
 void TestWriteIO::test_write_float() {
@@ -119,7 +148,10 @@ void TestWriteIO::test_write_float() {
 }
 
 void TestWriteIO::test_write_double() {
-    throw testing::skip_test();
+    std::ostringstream output;
+    util::write_double<BIG>(output, 1.);
+    util::write_double<LITTLE>(output, 61440.5);
+    ASSERT(output.str() == std::string("\x3F\xF0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10\x00\xEE\x40", 16));
 }
 
 void TestWriteIO::run() {

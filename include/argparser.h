@@ -73,12 +73,59 @@ public:
      */
     ulong num_variables();
     
+    /**
+     * \brief Check whether a flag was given
+     *
+     * Returns whether a given flag was passed in any argument. This works for
+     * both single and multi-character flags
+     *
+     * \param flag Flag to check for
+     * \return Whether flag was passed
+     */
     bool has_flag(const std::string& flag);
+    /**
+     * \brief Get the number of times a flag appears
+     *
+     * Returns the total number of times a single flag appeared in the input.
+     * Accepts both single and multi-character flags. Will return 0 if flag
+     * did not appear at all, as you would expect.
+     *
+     * \param flag Flag to get count of
+     * \return Number of times flag appeared
+     */
     uint flag_count(const std::string& flag);
     
+    /**
+     * \brief Get a positional argument by index
+     *
+     * Returns the positional argument at a given index. If the index is outside
+     * the range of arguments, will throw an error
+     *
+     * \param index Index of the desired argument
+     * \return The argument at that position
+     */
     std::string get_argument(uint index);
     
+    /**
+     * \brief Check whether a variable was supplied
+     *
+     * Returns whether a given variable was passed in any argument. Does not
+     * check that it contains a non-empty value, simply that it exists at all
+     *
+     * \param var Variable to check for
+     * \return Whether the variable was passed
+     */
     bool has_variable(const std::string& var);
+    /**
+     * \brief Get the value of a variable
+     *
+     * Returns the value of a given variable. This value may be empty or invalid
+     * for the expected type, so do not attempt to blindly cast this result to
+     * a different type
+     *
+     * \param var Variable to get value of
+     * \return Value of the variable
+     */
     std::string get_variable(const std::string& var);
     
 };

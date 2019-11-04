@@ -5,6 +5,7 @@
 
 ArgParser::ArgParser(int argc, char **argv) {
     invokation = argv[0];
+    
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
         raw_args.push_back(arg);
@@ -38,7 +39,7 @@ ArgParser::ArgParser(int argc, char **argv) {
                 flags.push_back(arg);
             } else {
                 for (auto c : arg) {
-                    flags.push_back(std::string(&c, 1));
+                    flags.emplace_back(std::string(&c, 1));
                 }
             }
         } else {

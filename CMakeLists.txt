@@ -70,7 +70,7 @@ set(TEST_HEADERS
         tests/test_format.h
         tests/test_console.h
         tests/test_test.h
-        tests/test_io.h)
+        tests/test_io.h tests/test_generic.h)
 
 set(TEST_SOURCES
         tests/main.cpp
@@ -82,7 +82,7 @@ set(TEST_SOURCES
         tests/test_format.cpp
         tests/test_console.cpp
         tests/test_test.cpp
-        tests/test_io.cpp)
+        tests/test_io.cpp tests/test_generic.cpp)
 
 set(TEST_TEMPLATES)
 

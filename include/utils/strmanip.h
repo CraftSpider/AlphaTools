@@ -45,9 +45,6 @@ std::string ctoh(const uchar val, bool prefix = true, bool pad = false);
 template<Endian E = BIG>
 std::string ctoh(const char val, bool prefix = true, bool pad = false);
 
-[[deprecated]]
-std::string char_format(const std::string& format, const uchar* data);
-
 }
 
 #include "strmanip.tpp"

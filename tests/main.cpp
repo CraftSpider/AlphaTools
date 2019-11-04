@@ -10,6 +10,7 @@
 #include "test_console.h"
 #include "test_test.h"
 #include "test_io.h"
+#include "test_generic.h"
 
 #include "network/socket.h"
 #include <thread>
@@ -67,6 +68,7 @@ int main(int argc, char **argv) {
     TEST_FILE(format)
     TEST_FILE(console)
     TEST_FILE(io)
+    TEST_FILE(generic)
     
     return testing::run_tests() & 0b011u;
 }
