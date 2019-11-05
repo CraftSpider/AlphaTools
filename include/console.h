@@ -4,6 +4,17 @@
 #include <sstream>
 #include "types.h"
 
+/**
+ * \file console.h
+ * \brief Provides POSIX console code manipulation
+ */
+
+/**
+ * \brief Terminal functionality
+ *
+ * The term namespace holds both functions and constants for terminal
+ * manipulation
+ */
 namespace term {
 
 std::string SET_ICON_TITLE(std::string name);
@@ -14,6 +25,12 @@ std::string SCROLL_DOWN(ushort n = 1);
 constexpr char ALT_BUFFER[] = "\033[?1049h";
 constexpr char MAIN_BUFFER[] = "\033[?1049l";
 
+/**
+ * \brief Cursor manipulation
+ *
+ * The curs namespace allows easy manipulation of the cursor. Moving it around,
+ * settings its position, or hiding/showing it
+ */
 namespace curs {
 
 std::string UP(ushort n = 1);
@@ -35,6 +52,12 @@ constexpr char HIDE[] = "\033[?25l";
 
 }
 
+/**
+ * \brief Text manipulation
+ *
+ * The text namespace allows easy manipulation of text on screen. Inserting,
+ * deleting, and clearing text.
+ */
 namespace text {
 
 std::string INSERT(ushort n = 1);
@@ -57,6 +80,12 @@ std::string CLEAR_LINE(ushort option = 2);
 
 }
 
+/**
+ * \brief Visual effects
+ *
+ * The effect namespace implements visual effects, such as blink or invert.
+ * It contains no functions, all effects are hardcoded escape strings
+ */
 namespace effect {
 
 constexpr char BOLD[] = "\033[1m";
@@ -76,6 +105,11 @@ constexpr char RESET_HIDDEN[] = "\033[28m";
 
 }
 
+/**
+ * \brief Foreground Colors
+ *
+ * The fore namespace provides the escape codes for foreground colors
+ */
 namespace fore {
 
 constexpr char DEFAULT[] = "\033[39m";
@@ -98,6 +132,11 @@ constexpr char WHITE[] = "\033[97m";
 
 }
 
+/**
+ * \brief Background colors
+ *
+ * The back namespace provides the escape codes for background colors
+ */
 namespace back {
 
 constexpr char DEFAULT[] = "\033[49m";

@@ -8,3 +8,11 @@
  * \file at_logging
  * \brief Alpha Logging include file
  */
+ 
+/**
+ * \namespace logging
+ * \brief Logging functionality
+ *
+ * Provides the ability to create loggers, both statically and dynamically,
+ * and configure their output and levels.
+ */

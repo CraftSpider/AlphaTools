@@ -7,3 +7,11 @@
  * \file at_math
  * \brief Alpha Math include file
  */
+ 
+/**
+ * \namespace math
+ * \brief Mathematical classes/operations
+ *
+ * Provides classes and operations for more advanced mathematical operations.
+ * Vectors, sphere, triangles, and more.
+ */

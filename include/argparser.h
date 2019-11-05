@@ -52,6 +52,7 @@ public:
      * \return Total number of command line flags
      */
     ulong num_flags();
+    
     /**
      * \brief The total number of positional arguments
      *
@@ -61,6 +62,7 @@ public:
      * \return Total number of positional arguments
      */
     ulong num_arguments();
+    
     /**
      * \brief The total number of variables
      *
@@ -83,6 +85,7 @@ public:
      * \return Whether flag was passed
      */
     bool has_flag(const std::string& flag);
+    
     /**
      * \brief Get the number of times a flag appears
      *
@@ -116,6 +119,7 @@ public:
      * \return Whether the variable was passed
      */
     bool has_variable(const std::string& var);
+    
     /**
      * \brief Get the value of a variable
      *

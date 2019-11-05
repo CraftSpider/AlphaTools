@@ -7,3 +7,12 @@
  * \file at_tests
  * \brief Alpha Tests include file
  */
+
+/**
+ * \namespace testing
+ * \brief Provides a simple testing framework for C++
+ *
+ * The testing namespace provides a relatively uncomplicated testing framework,
+ * with assert macros for generation of messages, before and after test hooks,
+ * and relatively simple usage
+ */

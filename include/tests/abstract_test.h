@@ -5,6 +5,8 @@
 namespace testing {
 
 /**
+ * \brief Superclass for automated test handling
+ *
  * A class that contains tests and any necessary boilerplate.
  * To delegate test methods, use the `TEST_METHOD(name)` macro
  * in the run() method definition.
