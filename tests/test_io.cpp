@@ -31,8 +31,8 @@ void TestReadIO::test_next_uchar() {
 void TestReadIO::test_next_long() {
     std::istringstream input("\xFF\xFE\xFD\xFC\xFB\xFA\xF9\xF8\xF8\xF9\xFA\xFB\xFC\xFD\xFE\xFF");
     
-    ASSERT(util::next_long<BIG>(input) == -283686952306184l);
-    ASSERT(util::next_long<LITTLE>(input) == -283686952306184l);
+    ASSERT(util::next_long<BIG>(input) == -283686952306184L);
+    ASSERT(util::next_long<LITTLE>(input) == -283686952306184L);
 }
 
 void TestReadIO::test_next_int() {

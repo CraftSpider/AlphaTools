@@ -18,16 +18,16 @@ template<Endian E = BIG>
 uchar next_uchar(std::istream& file, const ulong length = 1);
 
 template<Endian E = BIG>
-long next_long(std::istream& file, const ulong length = 8);
+slong next_long(std::istream& file, const ulong length = 8);
 
 template<Endian E = BIG>
-int next_int(std::istream& file, const ulong length = 4);
+sint next_int(std::istream& file, const ulong length = 4);
 
 template<Endian E = BIG>
-short next_short(std::istream& file, const ulong length = 2);
+sshort next_short(std::istream& file, const ulong length = 2);
 
 template<Endian E = BIG>
-char next_char(std::istream& file, const ulong length = 1);
+schar next_char(std::istream& file, const ulong length = 1);
 
 template<Endian E = BIG>
 float next_float(std::istream& file, const ulong length = 4);

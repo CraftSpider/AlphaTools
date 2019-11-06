@@ -32,8 +32,8 @@ uchar next_uchar(std::istream& file, const ulong length) {
 }
 
 template<Endian E>
-long next_long(std::istream& file, const ulong length) {
-    long out = 0;
+slong next_long(std::istream& file, const ulong length) {
+    slong out = 0;
     char* data = new char[length];
     file.read(data, length);
     out = btol<E>(data, length);
@@ -42,18 +42,18 @@ long next_long(std::istream& file, const ulong length) {
 }
 
 template<Endian E>
-int next_int(std::istream& file, const ulong length) {
-    return (int)next_long<E>(file, length);
+sint next_int(std::istream& file, const ulong length) {
+    return (sint)next_long<E>(file, length);
 }
 
 template<Endian E>
-short next_short(std::istream& file, const ulong length) {
-    return (short)next_long<E>(file, length);
+sshort next_short(std::istream& file, const ulong length) {
+    return (sshort)next_long<E>(file, length);
 }
 
 template<Endian E>
-char next_char(std::istream& file, const ulong length) {
-    return (char)next_long<E>(file, length);
+schar next_char(std::istream& file, const ulong length) {
+    return (schar)next_long<E>(file, length);
 }
 
 template<Endian E>
