@@ -124,24 +124,24 @@ void write_uchar(std::ostream& file, const uchar out, const ulong length) {
 }
 
 template<Endian E>
-void write_long(std::ostream& file, const long out, const ulong length) {
+void write_long(std::ostream& file, const slong out, const ulong length) {
     const char* to_write = ltob<E>(out, length);
     file.write(to_write, length);
     delete[] to_write;
 }
 
 template<Endian E>
-void write_int(std::ostream& file, const int out, const ulong length) {
+void write_int(std::ostream& file, const sint out, const ulong length) {
     write_long<E>(file, out, length);
 }
 
 template<Endian E>
-void write_short(std::ostream& file, const short out, const ulong length) {
+void write_short(std::ostream& file, const sshort out, const ulong length) {
     write_long<E>(file, out, length);
 }
 
 template<Endian E>
-void write_char(std::ostream& file, const char out, const ulong length) {
+void write_char(std::ostream& file, const schar out, const ulong length) {
     write_long<E>(file, out, length);
 }
 

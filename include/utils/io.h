@@ -51,16 +51,16 @@ template<Endian E = BIG>
 void write_uchar(std::ostream& file, const uchar out, const ulong length = 1);
 
 template<Endian E = BIG>
-void write_long(std::ostream& file, const long out, const ulong length = 8);
+void write_long(std::ostream& file, const slong out, const ulong length = 8);
 
 template<Endian E = BIG>
-void write_int(std::ostream& file, const int out, const ulong length = 4);
+void write_int(std::ostream& file, const sint out, const ulong length = 4);
 
 template<Endian E = BIG>
-void write_short(std::ostream& file, const short out, const ulong length = 2);
+void write_short(std::ostream& file, const sshort out, const ulong length = 2);
 
 template<Endian E = BIG>
-void write_char(std::ostream& file, const char out, const ulong length = 1);
+void write_char(std::ostream& file, const schar out, const ulong length = 1);
 
 template<Endian E = BIG>
 void write_float(std::ostream& file, float out, const ulong length = 4);
