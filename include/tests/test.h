@@ -2,61 +2,35 @@
 
 #include <vector>
 #include <iostream>
+#include <type_traits>
 #include "types.h"
+#include "utils/sfinae.h"
 #include "tests/abstract_test.h"
 
-#define TEST(name) try {\
-    name();\
-    testing::__test_on_success(#name);\
-} catch (testing::assertion_failure &e) {\
-    testing::__test_on_failure(#name, e);\
-} catch (testing::skip_test &e) {\
-    testing::__test_on_skip(#name, e);\
-} catch (std::exception &e) {\
-    testing::__test_on_error(#name, e);\
+#define TEST_METHOD(name) {\
+    this->delegated = true;\
+    if (this->skip_test(#name)) {\
+        testing::__test_on_skip(#name, testing::METHOD);\
+    } else {\
+        this->before_test(#name);\
+        try {\
+            this->name();\
+            testing::__test_on_success(#name, testing::METHOD);\
+        } catch (testing::assertion_failure &e) {\
+            testing::__test_on_failure(#name, e, testing::METHOD);\
+        } catch (testing::skip_test &e) {\
+            testing::__test_on_skip(#name, e, testing::METHOD);\
+        } catch (std::exception &e) {\
+            testing::__test_on_error(#name, e, testing::METHOD);\
+        }\
+        this->after_test(#name);\
+    }\
 }
 
-#define TEST_CLASS(name) testing::AbstractTest* test##name = new name();\
-if (test##name->skip_class()) {\
-    testing::__test_on_skip(#name, testing::CLASS);\
-} else {\
-    test##name->before_class();\
-    try {\
-        test##name->run();\
-        if (!test##name->delegated) {\
-            testing::__test_on_success(#name, testing::CLASS);\
-        }\
-    } catch (testing::assertion_failure &e) {\
-        if (!test##name->delegated) {\
-            testing::__test_on_failure(#name, e, testing::CLASS);\
-        }\
-    } catch (testing::skip_test &e) {\
-        testing::__test_on_skip(#name, e, testing::CLASS);\
-    } catch (std::exception &e) {\
-        if (!test##name->delegated) {\
-            testing::__test_on_error(#name, e, testing::CLASS);\
-        }\
-    }\
-    test##name->after_class();\
-}\
-delete test##name;
-
-#define TEST_METHOD(name) this->delegated = true;\
-if (this->skip_test(#name)) {\
-    testing::__test_on_skip(#name, testing::METHOD);\
-} else {\
-    this->before_test(#name);\
-    try {\
-        this->name();\
-        testing::__test_on_success(#name, testing::METHOD);\
-    } catch (testing::assertion_failure &e) {\
-        testing::__test_on_failure(#name, e, testing::METHOD);\
-    } catch (testing::skip_test &e) {\
-        testing::__test_on_skip(#name, e, testing::METHOD);\
-    } catch (std::exception &e) {\
-        testing::__test_on_error(#name, e, testing::METHOD);\
-    }\
-    this->after_test(#name);\
+#define TEST(name) {\
+    auto __val1 = name;\
+    util::MakePtr<decltype(__val1)>::type __var = util::MakePtr<decltype(__val1)>::make_ptr(__val1);\
+    testing::__TestCase<decltype(__var)>(__var, #name).run();\
 }
 
 #define TEST_FILE(name) testing::__Config::tests.push_back(&run_##name##_tests);
@@ -114,6 +88,98 @@ void __test_on_failure(const std::string& name, assertion_failure& e, TestType t
 void __test_on_skip(const std::string& name, TestType type = FUNCTION);
 void __test_on_skip(const std::string& name, skip_test& e, TestType type = FUNCTION);
 void __test_on_error(const std::string& name, std::exception& e, TestType type = FUNCTION);
+
+template<typename T>
+class __TestCase {
+    
+    T instance;
+    std::string name;
+    
+public:
+    
+    __TestCase(T inst, const std::string& name) {
+        this->instance = inst;
+        this->name = name;
+    }
+    
+    template<typename C, std::enable_if_t<util::TypeFinder<C>::function, int> = 0>
+    void __run() {
+        try {
+            (*this->instance)();
+            testing::__test_on_success(name);
+        } catch (testing::assertion_failure &e) {
+            testing::__test_on_failure(name, e);
+        } catch (testing::skip_test &e) {
+            testing::__test_on_skip(name, e);
+        } catch (std::exception &e) {
+            testing::__test_on_error(name, e);
+        }
+    }
+    
+    template<typename C, std::enable_if_t<util::TypeFinder<C>::pointer, int> = 0>
+    void __run() {
+        if (instance->skip_class()) {
+            testing::__test_on_skip(name, testing::CLASS);
+        } else {
+            instance->before_class();
+            try {
+                instance->run();
+                if (!instance->delegated) {
+                    testing::__test_on_success(name, testing::CLASS);
+                }
+            } catch (testing::assertion_failure &e) {
+                if (!instance->delegated) {
+                    testing::__test_on_failure(name, e, testing::CLASS);
+                }
+            } catch (testing::skip_test &e) {
+                testing::__test_on_skip(name, e, testing::CLASS);
+            } catch (std::exception &e) {
+                if (!instance->delegated) {
+                    testing::__test_on_error(name, e, testing::CLASS);
+                }
+            }
+            instance->after_class();
+        }
+    }
+    
+    template<typename C, std::enable_if_t<util::TypeFinder<C>::method, int> = 0>
+    void __run() {}
+    
+    template<typename C, typename K, std::enable_if_t<!util::TypeFinder<C>::method, int> = 0>
+    void __run(K* self) {}
+    
+    template<typename C, typename K, std::enable_if_t<util::TypeFinder<C>::method, int> = 0>
+    void __run(K* self) {
+        self->delegated = true;
+        if (self->skip_test(name)) {
+            testing::__test_on_skip(name, testing::METHOD);
+        } else {
+            self->before_test(name);
+            try {
+                (self->*instance)();
+                testing::__test_on_success(name, testing::METHOD);
+            } catch (testing::assertion_failure &e) {
+                testing::__test_on_failure(name, e, testing::METHOD);
+            } catch (testing::skip_test &e) {
+                testing::__test_on_skip(name, e, testing::METHOD);
+            } catch (std::exception &e) {
+                testing::__test_on_error(name, e, testing::METHOD);
+            }
+            self->after_test(name);
+        }
+    }
+    
+    void run() {
+        __run<T>();
+    }
+    
+    template<typename K>
+    void run(K* self) {
+        __run<T, K>(self);
+    }
+    
+};
+
 
 /**
  * Prepare the test suite to run. Passed the arguments given to main,

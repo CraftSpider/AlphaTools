@@ -43,6 +43,10 @@ void _throws() {
 
 void _noop() {}
 
+struct B {
+    void method();
+};
+
 void test_assert_throws() {
     testing::assert_throws<std::runtime_error>(_throws);
     

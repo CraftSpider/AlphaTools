@@ -128,5 +128,5 @@ void TestLogger::test_auto_parent() {
 }
 
 void run_logging_tests() {
-    TEST_CLASS(TestLogger)
+    TEST(TestLogger())
 }

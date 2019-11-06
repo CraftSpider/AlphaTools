@@ -169,6 +169,6 @@ void TestWriteIO::run() {
 
 
 void run_io_tests() {
-    TEST_CLASS(TestReadIO)
-    TEST_CLASS(TestWriteIO)
+    TEST(TestReadIO())
+    TEST(TestWriteIO())
 }

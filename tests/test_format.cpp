@@ -57,7 +57,7 @@ void object_format() {
     
     ASSERT(format("{o}", &form) == "Formatted!");
     
-    testing::assert_throws<format_error>(format, "{o}", &noform, "Formatting unformattable object didn't throw an error");
+    testing::assert_throws<format_error, std::string, NoForm*>(format, "{o}", &noform, "Formatting unformattable object didn't throw an error");
 }
 
 void run_format_tests() {

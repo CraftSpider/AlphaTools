@@ -48,6 +48,63 @@ struct MakePtr<T, false> {
     static T* make_ptr(T& val);
 };
 
+template<typename>
+struct FunctionTraits {
+    enum {
+        valid = 0,
+        invalid = 1
+    };
+};
+
+template<typename Ret, typename... Args>
+struct FunctionTraits<Ret(Args...)> {
+    typedef Ret return_type;
+    typedef Ret(*pointer_type)(Args...);
+    
+    static constexpr size_t num_args = sizeof...(Args);
+    
+    enum {
+        valid = 1,
+        invalid = 0
+    };
+};
+
+template<typename Ret, typename... Args>
+struct FunctionTraits<Ret(*)(Args...)> {
+    typedef Ret return_type;
+    typedef Ret(raw_type)(Args...);
+    
+    static constexpr size_t num_args = sizeof...(Args);
+    
+    enum {
+        valid = 1,
+        invalid = 0
+    };
+};
+
+template<typename>
+struct MethodTraits {
+    typedef void class_type;
+    
+    enum {
+        valid = 0,
+        invalid = 1
+    };
+};
+
+template<typename Ret, typename Cls, typename... Args>
+struct MethodTraits<Ret(Cls::*)(Args...)> {
+    typedef Ret return_type;
+    typedef Cls class_type;
+    
+    static constexpr size_t num_args = sizeof...(Args);
+    
+    enum {
+        valid = 1,
+        invalid = 0
+    };
+};
+
 }
 
 #include "sfinae.tpp"

@@ -186,5 +186,5 @@ void run_strmanip_tests() {
     TEST(test_reverse_str)
     TEST(test_starts_with)
     TEST(test_ends_with)
-    TEST_CLASS(TestToHex)
+    TEST(TestToHex())
 }
