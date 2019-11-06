@@ -47,12 +47,14 @@ void test_functiontraits() {
     
     ASSERT(Traits::valid && !Traits::invalid);
     ASSERT(std::is_same<Traits::return_type, void>::value);
+    ASSERT(std::is_same<Traits::raw_type, void()>::value);
     ASSERT(std::is_same<Traits::pointer_type, void(*)()>::value);
     ASSERT(Traits::num_args == 0);
     
     ASSERT(Traits2::valid && !Traits2::invalid);
     ASSERT(std::is_same<Traits2::return_type, void>::value);
     ASSERT(std::is_same<Traits2::raw_type, void()>::value);
+    ASSERT(std::is_same<Traits2::pointer_type, void(*)()>::value);
     ASSERT(Traits2::num_args == 0);
     
     ASSERT(!Invalid::valid && Invalid::invalid);

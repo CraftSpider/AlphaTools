@@ -59,6 +59,8 @@ struct FunctionTraits {
 template<typename Ret, typename... Args>
 struct FunctionTraits<Ret(Args...)> {
     typedef Ret return_type;
+    
+    typedef Ret(raw_type)(Args...);
     typedef Ret(*pointer_type)(Args...);
     
     static constexpr size_t num_args = sizeof...(Args);
@@ -72,7 +74,9 @@ struct FunctionTraits<Ret(Args...)> {
 template<typename Ret, typename... Args>
 struct FunctionTraits<Ret(*)(Args...)> {
     typedef Ret return_type;
+    
     typedef Ret(raw_type)(Args...);
+    typedef Ret(*pointer_type)(Args...);
     
     static constexpr size_t num_args = sizeof...(Args);
     
