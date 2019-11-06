@@ -33,7 +33,7 @@ set(HEADERS
         include/logging/logging.h
         include/logging/level.h
         include/logging/logger.h
-        include/network/socket.h include/math/vector.h include/math/sphere.h)
+        include/network/socket.h include/math/vector.h include/math/sphere.h include/utils/sfinae.h)
 
 set(SOURCES
         src/argparser.cpp
@@ -70,7 +70,7 @@ set(TEST_HEADERS
         tests/test_format.h
         tests/test_console.h
         tests/test_test.h
-        tests/test_io.h tests/test_generic.h)
+        tests/test_io.h tests/test_generic.h tests/test_sfinae.h)
 
 set(TEST_SOURCES
         tests/main.cpp
@@ -82,7 +82,7 @@ set(TEST_SOURCES
         tests/test_format.cpp
         tests/test_console.cpp
         tests/test_test.cpp
-        tests/test_io.cpp tests/test_generic.cpp)
+        tests/test_io.cpp tests/test_generic.cpp tests/test_sfinae.cpp)
 
 set(TEST_TEMPLATES)
 
