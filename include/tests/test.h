@@ -97,86 +97,27 @@ class __TestCase {
     
 public:
     
-    __TestCase(T inst, const std::string& name) {
-        this->instance = inst;
-        this->name = name;
-    }
+    __TestCase(T inst, const std::string& name);
     
     template<typename C, std::enable_if_t<util::TypeFinder<C>::function, int> = 0>
-    void __run() {
-        try {
-            (*this->instance)();
-            testing::__test_on_success(name);
-        } catch (testing::assertion_failure &e) {
-            testing::__test_on_failure(name, e);
-        } catch (testing::skip_test &e) {
-            testing::__test_on_skip(name, e);
-        } catch (std::exception &e) {
-            testing::__test_on_error(name, e);
-        }
-    }
+    void __run();
     
     template<typename C, std::enable_if_t<util::TypeFinder<C>::pointer, int> = 0>
-    void __run() {
-        if (instance->skip_class()) {
-            testing::__test_on_skip(name, testing::CLASS);
-        } else {
-            instance->before_class();
-            try {
-                instance->run();
-                if (!instance->delegated) {
-                    testing::__test_on_success(name, testing::CLASS);
-                }
-            } catch (testing::assertion_failure &e) {
-                if (!instance->delegated) {
-                    testing::__test_on_failure(name, e, testing::CLASS);
-                }
-            } catch (testing::skip_test &e) {
-                testing::__test_on_skip(name, e, testing::CLASS);
-            } catch (std::exception &e) {
-                if (!instance->delegated) {
-                    testing::__test_on_error(name, e, testing::CLASS);
-                }
-            }
-            instance->after_class();
-        }
-    }
+    void __run();
     
     template<typename C, std::enable_if_t<util::TypeFinder<C>::method, int> = 0>
-    void __run() {}
+    void __run();
     
     template<typename C, typename K, std::enable_if_t<!util::TypeFinder<C>::method, int> = 0>
-    void __run(K* self) {}
+    void __run(K* self);
     
     template<typename C, typename K, std::enable_if_t<util::TypeFinder<C>::method, int> = 0>
-    void __run(K* self) {
-        self->delegated = true;
-        if (self->skip_test(name)) {
-            testing::__test_on_skip(name, testing::METHOD);
-        } else {
-            self->before_test(name);
-            try {
-                (self->*instance)();
-                testing::__test_on_success(name, testing::METHOD);
-            } catch (testing::assertion_failure &e) {
-                testing::__test_on_failure(name, e, testing::METHOD);
-            } catch (testing::skip_test &e) {
-                testing::__test_on_skip(name, e, testing::METHOD);
-            } catch (std::exception &e) {
-                testing::__test_on_error(name, e, testing::METHOD);
-            }
-            self->after_test(name);
-        }
-    }
+    void __run(K* self);
     
-    void run() {
-        __run<T>();
-    }
+    void run();
     
     template<typename K>
-    void run(K* self) {
-        __run<T, K>(self);
-    }
+    void run(K* self);
     
 };
 
@@ -196,3 +137,5 @@ void setup_tests(int argc, char const* const* argv);
 uint run_tests(const std::string& name = "Alpha Tools");
 
 }
+
+#include "test.tpp"
