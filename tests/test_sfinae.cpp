@@ -35,7 +35,7 @@ void test_makeptr() {
 
     int a = 1;
 
-    ASSERT(std::is_same<Type1, Type2>::value);
+    ASSERT((std::is_same<Type1, Type2>::value));
     ASSERT(util::MakePtr<int>::make_ptr(a) == &a);
     ASSERT(util::MakePtr<int*>::make_ptr(&a) == &a);
 }
@@ -46,15 +46,15 @@ void test_functiontraits() {
     typedef util::FunctionTraits<int> Invalid;
     
     ASSERT(Traits::valid && !Traits::invalid);
-    ASSERT(std::is_same<Traits::return_type, void>::value);
-    ASSERT(std::is_same<Traits::raw_type, void()>::value);
-    ASSERT(std::is_same<Traits::pointer_type, void(*)()>::value);
+    ASSERT((std::is_same<Traits::return_type, void>::value));
+    ASSERT((std::is_same<Traits::raw_type, void()>::value));
+    ASSERT((std::is_same<Traits::pointer_type, void(*)()>::value));
     ASSERT(Traits::num_args == 0);
     
     ASSERT(Traits2::valid && !Traits2::invalid);
-    ASSERT(std::is_same<Traits2::return_type, void>::value);
-    ASSERT(std::is_same<Traits2::raw_type, void()>::value);
-    ASSERT(std::is_same<Traits2::pointer_type, void(*)()>::value);
+    ASSERT((std::is_same<Traits2::return_type, void>::value));
+    ASSERT((std::is_same<Traits2::raw_type, void()>::value));
+    ASSERT((std::is_same<Traits2::pointer_type, void(*)()>::value));
     ASSERT(Traits2::num_args == 0);
     
     ASSERT(!Invalid::valid && Invalid::invalid);
@@ -65,12 +65,12 @@ void test_methodtraits() {
     typedef util::MethodTraits<int> Invalid;
     
     ASSERT(Traits::valid && !Traits::invalid);
-    ASSERT(std::is_same<Traits::class_type, B>::value);
-    ASSERT(std::is_same<Traits::return_type, void>::value);
+    ASSERT((std::is_same<Traits::class_type, B>::value));
+    ASSERT((std::is_same<Traits::return_type, void>::value));
     ASSERT(Traits::num_args == 0);
     
     ASSERT(!Invalid::valid && Invalid::invalid);
-    ASSERT(std::is_same<Invalid::class_type, void>::value);
+    ASSERT((std::is_same<Invalid::class_type, void>::value));
 }
 
 void run_sfinae_tests() {

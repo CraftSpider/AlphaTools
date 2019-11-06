@@ -10,3 +10,13 @@
  * \file at_utils
  * \brief Alpha Utils include file
  */
+
+/**
+ * \namespace util
+ * \brief All sorts of utilities, from IO to SFINAE
+ *
+ * The util namespace provides various utility functions. String manipulation,
+ * binary reading and writing from a file, byte manipulation, and more. It also
+ * provides classes for use with SFINAE programming, type traits and conditional
+ * manipulators
+ */
