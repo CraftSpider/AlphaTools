@@ -34,7 +34,7 @@ void test_fail() {
     try {
         testing::fail();
         throw testing::assertion_failure("");
-    } catch (testing::assertion_failure &e) {}
+    } catch (testing::assertion_failure&) {}
 }
 
 void _throws() {

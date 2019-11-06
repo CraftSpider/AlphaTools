@@ -19,7 +19,7 @@ ulong get_range(const uchar *data, const ulong start, const ulong end) {
 long get_signed_range(const uchar *data, const ulong start, const ulong end) {
     ulong value = get_range(data, start, end);
     ulong num_bits = (end - start) + 1;
-    if (value & (1u << (num_bits - 1))) {
+    if (value & ((ulong)1 << (num_bits - 1))) {
         ulong mask = ~0ul << num_bits;
         return (long)(value | mask);
     } else {

@@ -19,7 +19,7 @@ ArgParser::ArgParser(int argc, char **argv) {
             }
             if (var) {
                 if (arg[0] == '-') {
-                    arg.substr(1, arg.size());
+                    arg = arg.substr(1, arg.size());
                 }
                 std::stringstream name, option;
                 var = false;

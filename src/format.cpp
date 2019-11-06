@@ -167,7 +167,6 @@ std::string byte_spec(std::string spec, const void* val) {
 }
 
 std::string object_handler(std::string spec, const void* val) {
-    std::string result;
     const Formattable* form = spec_cast<Formattable*>(val);
     
     void (*old_sig)(int) = std::signal(SIGSEGV, format_signal_handler);
@@ -204,7 +203,7 @@ std::map<char, size_t> __Handlers::size = {
 
 struct Spec {
     std::string type, args;
-    int pos;
+    size_t pos;
 };
 
 bool add_format_handler(char spec, format_handler handler, size_t size) {
@@ -232,7 +231,7 @@ std::string format(std::string pattern, ...) {
     std::vector<Spec> spec_cache = std::vector<Spec>();
     
     // Generate a list of format specifications
-    int cur_pos = 0;
+    size_t cur_pos = 0;
     
     for (auto c : pattern) {
         if (escaped) {
@@ -252,9 +251,9 @@ std::string format(std::string pattern, ...) {
                 }
                 
                 char type = def[0];
-                int pos;
+                size_t pos;
                 if (def.size() > 1) {
-                    pos = std::stoi(def.substr(1));
+                    pos = (size_t)std::stoi(def.substr(1));
                 } else {
                     pos = cur_pos;
                     cur_pos++;
@@ -276,7 +275,7 @@ std::string format(std::string pattern, ...) {
     }
     
     // Read in each argument, as implied by the specifications
-    std::map<int, int> sizes_cache;
+    std::map<size_t, size_t> sizes_cache;
     for (Spec spec : spec_cache) {
         if (!sizes_cache.count(spec.pos)) {
             sizes_cache[spec.pos] = __Handlers::size[spec.type[0]];
@@ -284,7 +283,7 @@ std::string format(std::string pattern, ...) {
     }
     
     std::vector<ulong> arg_cache = std::vector<ulong>();
-    for (ulong i = 0; i < sizes_cache.size(); ++i) {
+    for (size_t i = 0; i < sizes_cache.size(); ++i) {
         if (!sizes_cache.count(i)) {
             throw format_error("No reference for argument position");
         }

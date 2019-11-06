@@ -40,7 +40,7 @@ void assert_throws(K callable, Args... args, std::string message) {
     try {
         callable(args...);
         fail(message);
-    } catch(T &e) {}
+    } catch(T&) {}
 }
 
 }

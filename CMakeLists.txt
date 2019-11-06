@@ -7,6 +7,10 @@ include_directories(./include)
 
 if(MSVC)
     add_definitions(-W4)
+    # C4003: Macro 'too many' or 'too few' warnings
+    # C4458: Declaration shadows class member
+    # C4611: Interaction between 'setjmp' and C++ object destruction is non-portable
+    add_definitions(-wd4003 -wd4458 -wd4611)
     add_compile_definitions(_CRT_NO_VA_START_VALIDATION)
 else()
     add_definitions(-Wall -Wextra -pedantic)
