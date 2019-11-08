@@ -49,7 +49,10 @@ void assert_not_equal(T* first, T* second, std::string message = "");
 void fail(std::string message = "");
 
 template<typename T, typename ...Args, typename K>
-void assert_throws(K callable, Args... args, std::string message = "");
+void assert_throws(K callable, Args... args);
+
+template<typename T, typename ...Args, typename K>
+void assert_throws(std::string message, K callable, Args... args);
 
 }
 

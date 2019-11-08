@@ -14,9 +14,12 @@ struct Row {
     Row();
     explicit Row(ulong length);
     Row(const Row& row);
+    Row(Row&& row) noexcept;
     ~Row();
     
-    T operator[](ulong index);
+    Row<T>& operator=(Row row);
+    T& operator[](ulong index);
+    const T& operator[](ulong index) const;
     
     void set_length(ulong length);
     
@@ -29,11 +32,15 @@ struct Matrix {
     
     Row<T>* data;
     
+    Matrix(ulong rows, ulong cols, T** content);
+    Matrix(ulong rows, ulong cols, T* content);
     Matrix(ulong rows, ulong cols);
     Matrix(const Matrix& matrix);
+    Matrix(Matrix&& matrix) noexcept;
     ~Matrix();
     
     Row<T>& operator[](ulong index);
+    const Row<T>& operator[](ulong index) const;
     
     Matrix<T> operator*(const Matrix<T>& matrix);
     

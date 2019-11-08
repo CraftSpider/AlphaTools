@@ -68,8 +68,11 @@ set(TEMPLATES
         include/utils/io.tpp
         include/utils/bytes.tpp
         include/utils/strmanip.tpp
+        include/utils/sfinae.tpp
         include/tests/assertion.tpp
+        include/tests/test.tpp
         include/logging/logger.tpp
+        include/math/vector.tpp
         include/math/matrix.tpp)
 
 set(TEST_HEADERS
@@ -81,7 +84,10 @@ set(TEST_HEADERS
         tests/test_format.h
         tests/test_console.h
         tests/test_test.h
-        tests/test_io.h tests/test_generic.h tests/test_sfinae.h)
+        tests/test_io.h
+        tests/test_generic.h
+        tests/test_sfinae.h
+        tests/test_matrix.h)
 
 set(TEST_SOURCES
         tests/main.cpp
@@ -93,13 +99,16 @@ set(TEST_SOURCES
         tests/test_format.cpp
         tests/test_console.cpp
         tests/test_test.cpp
-        tests/test_io.cpp tests/test_generic.cpp tests/test_sfinae.cpp tests/test_matrix.cpp)
+        tests/test_io.cpp
+        tests/test_generic.cpp
+        tests/test_sfinae.cpp
+        tests/test_matrix.cpp)
 
 set(TEST_TEMPLATES)
 
 set(ALL_CODE ${HEADERS} ${TEMPLATES} ${SOURCES})
 
-set(ALL_TEST ${TEST_HEADERS} ${TEST_TEMPLATES} ${TEST_SOURCES} tests/test_test.cpp tests/test_matrix.h)
+set(ALL_TEST ${TEST_HEADERS} ${TEST_TEMPLATES} ${TEST_SOURCES})
 
 add_library(${PROJECT_NAME} STATIC ${ALL_CODE})
 

@@ -53,6 +53,16 @@ std::string int_spec(std::string spec, const void* val) {
     return out.str();
 }
 
+/**
+ * Format a long spec. Viable options are:
+ * x: Lowercase hex
+ * X: Uppercase hex
+ * o: octal
+ * 0: Prefix with literal type (0x or 0o)
+ * @param spec Format spec string
+ * @param val Value to format
+ * @return Formatted string
+ */
 std::string long_spec(std::string spec, const void* val) {
     std::stringstream out;
     
@@ -73,14 +83,14 @@ std::string long_spec(std::string spec, const void* val) {
 std::string float_spec(std::string spec, const void* val) {
     // TODO: Add float specification
     std::stringstream out;
-    out << spec_cast<float>(val);
+    out << spec << spec_cast<float>(val);
     return out.str();
 }
 
 std::string double_spec(std::string spec, const void* val) {
     // TODO: Add double specification
     std::stringstream out;
-    out << spec_cast<double>(val);
+    out << spec << spec_cast<double>(val);
     return out.str();
 }
 

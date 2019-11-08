@@ -17,13 +17,20 @@ Row<T>::Row(ulong length) {
 }
 
 template<typename T>
-Row<T>::Row(const math::Row<T> &row) {
+Row<T>::Row(const Row &row) {
     length = row.length;
     
-    data = new T[length];
+    data = new T[length]();
     for (ulong i = 0; i < length; ++i) {
         data[i] = row.data[i];
     }
+}
+
+template<typename T>
+Row<T>::Row(Row&& row) noexcept {
+    length = row.length;
+    data = row.data;
+    row.data = nullptr;
 }
 
 template<typename T>
@@ -32,13 +39,34 @@ Row<T>::~Row() {
 }
 
 template<typename T>
-T Row<T>::operator[](ulong index) {
-    if (index > length) {
+Row<T>& Row<T>::operator=(Row row) {
+    length = row.length;
+    
+    data = new T[length]();
+    for (ulong i = 0; i < length; ++i) {
+        data[i] = row.data[i];
+    }
+    
+    return *this;
+}
+
+template<typename T>
+T& Row<T>::operator[](ulong index) {
+    if (index >= length) {
         std::stringstream s;
         s << "Invalid column index " << index;
         throw std::out_of_range(s.str());
     }
-    
+    return data[index];
+}
+
+template<typename T>
+const T& Row<T>::operator[](ulong index) const {
+    if (index >= length) {
+        std::stringstream s;
+        s << "Invalid column index " << index;
+        throw std::out_of_range(s.str());
+    }
     return data[index];
 }
 
@@ -46,7 +74,35 @@ template<typename T>
 void Row<T>::set_length(ulong length) {
     delete[] data;
     this->length = length;
-    data = new T[length];
+    data = new T[length]();
+}
+
+template<typename T>
+Matrix<T>::Matrix(ulong rows, ulong cols, T** content) {
+    this->rows = rows;
+    this->columns = cols;
+    
+    data = new Row<T>[rows];
+    for (ulong i = 0; i < rows; ++i) {
+        data[i].set_length(cols);
+        for (ulong j = 0; j < columns; ++j) {
+            data[i][j] = content[i][j];
+        }
+    }
+}
+
+template<typename T>
+Matrix<T>::Matrix(ulong rows, ulong cols, T* content) {
+    this->rows = rows;
+    this->columns = cols;
+    
+    data = new Row<T>[rows];
+    for (ulong i = 0; i < rows; ++i) {
+        data[i].set_length(cols);
+        for (ulong j = 0; j < columns; ++j) {
+            data[i][j] = content[columns*i + j];
+        }
+    }
 }
 
 template<typename T>
@@ -61,7 +117,7 @@ Matrix<T>::Matrix(ulong rows, ulong cols) {
 }
 
 template<typename T>
-Matrix<T>::Matrix(const math::Matrix<T> &matrix) {
+Matrix<T>::Matrix(const Matrix &matrix) {
     rows = matrix.rows;
     columns = matrix.columns;
     
@@ -72,13 +128,31 @@ Matrix<T>::Matrix(const math::Matrix<T> &matrix) {
 }
 
 template<typename T>
+Matrix<T>::Matrix(Matrix&& matrix) noexcept {
+    rows = matrix.rows;
+    columns = matrix.columns;
+    data = matrix.data;
+    matrix.data = nullptr;
+}
+
+template<typename T>
 Matrix<T>::~Matrix() {
     delete[] data;
 }
 
 template<typename T>
 Row<T>& Matrix<T>::operator[](ulong index) {
-    if (index > rows) {
+    if (index >= rows) {
+        std::stringstream s;
+        s << "Invalid row index " << index;
+        throw std::out_of_range(s.str());
+    }
+    return data[index];
+}
+
+template<typename T>
+const Row<T>& Matrix<T>::operator[](ulong index) const {
+    if (index >= rows) {
         std::stringstream s;
         s << "Invalid row index " << index;
         throw std::out_of_range(s.str());
@@ -96,9 +170,15 @@ Matrix<T> Matrix<T>::operator*(const math::Matrix<T> &matrix) {
     
     for (ulong i = 0; i < this->rows; ++i) {
         for (ulong j = 0; j < matrix.columns; ++j) {
-            // TODO
+            T val = 0;
+            for (ulong k = 0; k < this->columns; ++k) {
+                val += (*this)[i][k] * matrix[k][j];
+            }
+            out[i][j] = val;
         }
     }
+    
+    return out;
 }
 
 }
