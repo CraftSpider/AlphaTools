@@ -12,6 +12,7 @@
 #include "test_io.h"
 #include "test_generic.h"
 #include "test_sfinae.h"
+#include "test_matrix.h"
 
 #include "network/socket.h"
 #include <thread>
@@ -71,6 +72,7 @@ int main(int argc, char **argv) {
     TEST_FILE(io)
     TEST_FILE(generic)
     TEST_FILE(sfinae)
+    TEST_FILE(matrix)
     
     return testing::run_tests() & 0b011u;
 }

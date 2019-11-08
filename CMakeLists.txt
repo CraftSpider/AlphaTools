@@ -30,6 +30,7 @@ set(HEADERS
         include/utils/strmanip.h
         include/utils/bytes.h
         include/utils/algorithms.h
+        include/utils/sfinae.h
         include/tests/test.h
         include/tests/abstract_test.h
         include/tests/assertion.h
@@ -37,7 +38,10 @@ set(HEADERS
         include/logging/logging.h
         include/logging/level.h
         include/logging/logger.h
-        include/network/socket.h include/math/vector.h include/math/sphere.h include/utils/sfinae.h)
+        include/network/socket.h
+        include/math/vector.h
+        include/math/sphere.h
+        include/math/matrix.h)
 
 set(SOURCES
         src/argparser.cpp
@@ -55,7 +59,9 @@ set(SOURCES
         src/logging/level.cpp
         src/logging/handler.cpp
         src/logging/logger.cpp
-        src/network/socket.cpp src/math/vector.cpp src/math/sphere.cpp)
+        src/network/socket.cpp
+        src/math/vector.cpp
+        src/math/sphere.cpp)
 
 set(TEMPLATES
         include/utils/arrays.tpp
@@ -63,7 +69,8 @@ set(TEMPLATES
         include/utils/bytes.tpp
         include/utils/strmanip.tpp
         include/tests/assertion.tpp
-        include/logging/logger.tpp)
+        include/logging/logger.tpp
+        include/math/matrix.tpp)
 
 set(TEST_HEADERS
         tests/test_bytes.h
@@ -86,13 +93,13 @@ set(TEST_SOURCES
         tests/test_format.cpp
         tests/test_console.cpp
         tests/test_test.cpp
-        tests/test_io.cpp tests/test_generic.cpp tests/test_sfinae.cpp)
+        tests/test_io.cpp tests/test_generic.cpp tests/test_sfinae.cpp tests/test_matrix.cpp)
 
 set(TEST_TEMPLATES)
 
 set(ALL_CODE ${HEADERS} ${TEMPLATES} ${SOURCES})
 
-set(ALL_TEST ${TEST_HEADERS} ${TEST_TEMPLATES} ${TEST_SOURCES} tests/test_test.cpp)
+set(ALL_TEST ${TEST_HEADERS} ${TEST_TEMPLATES} ${TEST_SOURCES} tests/test_test.cpp tests/test_matrix.h)
 
 add_library(${PROJECT_NAME} STATIC ${ALL_CODE})
 
