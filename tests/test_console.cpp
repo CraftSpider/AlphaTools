@@ -1,7 +1,7 @@
 
 #include "test_console.h"
 #include "console.h"
-#include "tests/test.h"
+#include "at_tests"
 
 void test_effect() {
     using namespace term;

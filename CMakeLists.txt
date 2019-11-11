@@ -41,7 +41,7 @@ set(HEADERS
         include/network/socket.h
         include/math/vector.h
         include/math/sphere.h
-        include/math/matrix.h)
+        include/math/matrix.h include/tests/test_case.h include/tests/errors.h)
 
 set(SOURCES
         src/argparser.cpp
@@ -61,7 +61,7 @@ set(SOURCES
         src/logging/logger.cpp
         src/network/socket.cpp
         src/math/vector.cpp
-        src/math/sphere.cpp)
+        src/math/sphere.cpp src/tests/errors.cpp)
 
 set(TEMPLATES
         include/utils/arrays.tpp

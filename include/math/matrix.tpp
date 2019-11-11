@@ -141,6 +141,19 @@ Matrix<T>::~Matrix() {
 }
 
 template<typename T>
+bool Matrix<T>::operator==(const Matrix<T>& matrix) const {
+    if (this->rows != matrix.rows || this->columns != matrix.columns)
+        return false;
+    for (ulong i = 0; i < this->rows; ++i) {
+        for (ulong j = 0; j < this->columns; ++j) {
+            if ((*this)[i][j] != matrix[i][j])
+                return false;
+        }
+    }
+    return true;
+}
+
+template<typename T>
 Row<T>& Matrix<T>::operator[](ulong index) {
     if (index >= rows) {
         std::stringstream s;
@@ -161,7 +174,24 @@ const Row<T>& Matrix<T>::operator[](ulong index) const {
 }
 
 template<typename T>
-Matrix<T> Matrix<T>::operator*(const math::Matrix<T> &matrix) {
+Matrix<T> Matrix<T>::operator+(const Matrix<T> &matrix) const {
+    if (this->rows != matrix.rows || this->columns != matrix.columns) {
+        throw std::invalid_argument("Matrix addition requires matrices to be the same size");
+    }
+    
+    Matrix<T> out = Matrix(this->rows, this->columns);
+    
+    for (ulong i = 0; i < this->rows; ++i) {
+        for (ulong j = 0; j < this->columns; ++j) {
+            out[i][j] = (*this)[i][j] + matrix[i][j];
+        }
+    }
+    
+    return out;
+}
+
+template<typename T>
+Matrix<T> Matrix<T>::operator*(const Matrix<T> &matrix) const {
     if (this->columns != matrix.rows) {
         throw std::invalid_argument("Matrix A columns must match Matrix B rows");
     }
@@ -179,6 +209,17 @@ Matrix<T> Matrix<T>::operator*(const math::Matrix<T> &matrix) {
     }
     
     return out;
+}
+
+template<typename T>
+template<typename M>
+Matrix<T> Matrix<T>::operator*(const M scale) const {
+    Matrix<T> out = Matrix<T>(this->rows, this->columns);
+    for (ulong i = 0; i < this->rows; ++i) {
+        for (ulong j = 0; j < this->columns; ++j) {
+            out[i][j] == (*this)[i][j] * scale;
+        }
+    }
 }
 
 }

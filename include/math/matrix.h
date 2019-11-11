@@ -39,10 +39,15 @@ struct Matrix {
     Matrix(Matrix&& matrix) noexcept;
     ~Matrix();
     
+    bool operator==(const Matrix<T>& matrix) const;
+    
     Row<T>& operator[](ulong index);
     const Row<T>& operator[](ulong index) const;
     
-    Matrix<T> operator*(const Matrix<T>& matrix);
+    Matrix<T> operator+(const Matrix<T>& matrix) const;
+    Matrix<T> operator*(const Matrix<T>& matrix) const;
+    template<typename M>
+    Matrix<T> operator*(const M scale) const;
     
 };
 

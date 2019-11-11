@@ -5,6 +5,7 @@
 #include <type_traits>
 #include "types.h"
 #include "utils/sfinae.h"
+#include "tests/errors.h"
 #include "tests/abstract_test.h"
 
 #define TEST_METHOD(name) {\
@@ -28,28 +29,45 @@
 }
 
 #define TEST(name) {\
-    auto __val1 = name;\
-    util::MakePtr<decltype(__val1)>::type __var = util::MakePtr<decltype(__val1)>::make_ptr(__val1);\
-    testing::__TestCase<decltype(__var)>(__var, #name).run();\
+    auto __var1 = name;\
+    testing::__TestPtr<decltype(__var1)>::type __var2 = testing::__TestPtr<decltype(__var1)>::make_ptr(__var1);\
+    testing::__Config::test_cases.push_back(new testing::__TestCase<decltype(__var2)>(__var2, #name));\
 }
 
-#define TEST_FILE(name) testing::__Config::tests.push_back(&run_##name##_tests);
+#define TEST_FILE(name) testing::__Config::test_files.push_back(#name);run_##name##_tests();
 
 namespace testing {
 
+class TestCase;
+
+enum TestType {
+    FUNCTION, METHOD, CLASS
+};
+
+template<typename T, bool = std::is_pointer<T>::value>
+struct __TestPtr {
+    typedef T type;
+    
+    static T make_ptr(T val);
+};
+
+template<typename T>
+struct __TestPtr<T, false> {
+    typedef T* type;
+    
+    static T* make_ptr(T& val);
+};
+
 struct __Config {
 	static std::vector<std::string> argv;
-    static std::vector<void (*)()> tests;
+	static std::vector<std::string> test_files;
+    static std::vector<TestCase*> test_cases;
 };
 
 struct __Results {
     static std::vector<std::string> failure_messages;
     static std::vector<std::string> skip_messages;
     static std::vector<std::string> error_messages;
-};
-
-enum TestType {
-    FUNCTION, METHOD, CLASS
 };
 
 struct Results {
@@ -65,22 +83,6 @@ struct Results {
     static int skipped_percent();
 };
 
-class test_error : public std::runtime_error {
-protected:
-    explicit test_error(const std::string& msg);
-};
-
-class assertion_failure : public test_error {
-public:
-    explicit assertion_failure(const std::string& msg);
-};
-
-class skip_test : public test_error {
-public:
-    skip_test();
-    explicit skip_test(const std::string& msg);
-};
-
 std::string __get_name(TestType type);
 
 void __test_on_success(const std::string& name, TestType type = FUNCTION);
@@ -88,38 +90,6 @@ void __test_on_failure(const std::string& name, assertion_failure& e, TestType t
 void __test_on_skip(const std::string& name, TestType type = FUNCTION);
 void __test_on_skip(const std::string& name, skip_test& e, TestType type = FUNCTION);
 void __test_on_error(const std::string& name, std::exception& e, TestType type = FUNCTION);
-
-template<typename T>
-class __TestCase {
-    
-    T instance;
-    std::string name;
-    
-public:
-    
-    __TestCase(T inst, const std::string& name);
-    
-    template<typename C, std::enable_if_t<util::TypeFinder<C>::function, int> = 0>
-    void __run();
-    
-    template<typename C, std::enable_if_t<util::TypeFinder<C>::pointer, int> = 0>
-    void __run();
-    
-    template<typename C, std::enable_if_t<util::TypeFinder<C>::method, int> = 0>
-    void __run();
-    
-    template<typename C, typename K, std::enable_if_t<!util::TypeFinder<C>::method, int> = 0>
-    void __run(K* self);
-    
-    template<typename C, typename K, std::enable_if_t<util::TypeFinder<C>::method, int> = 0>
-    void __run(K* self);
-    
-    void run();
-    
-    template<typename K>
-    void run(K* self);
-    
-};
 
 
 /**
