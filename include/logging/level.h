@@ -4,6 +4,13 @@
 
 namespace logging {
 
+/**
+ * \brief Defines a logging detail level
+ *
+ * A level determines what messages a logger will or will not log. They have a name,
+ * and are comparable. They can be converted to a string by name. By default, the logging
+ * module provides levels from TRACE to FATAL. NO_LEVEL will print all logs.
+ */
 class Level {
     
     std::string name;

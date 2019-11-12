@@ -1,14 +1,17 @@
 
 #include <cstdlib>
+#include <system_error>
 #include "generic.h"
 
 #ifdef LINUXCOMPAT
 #include <unistd.h>
 #include <climits>
+#include <cxxabi.h>
 #endif
 
 #ifdef WINCOMPAT
 #include <windows.h>
+#include <dbghelp.h>
 #include <lmcons.h>
 #endif
 
@@ -39,5 +42,25 @@ std::string get_computer_name() {
     return std::string(hostname);
 #else
     return std::getenv("HOSTNAME");
+#endif
+}
+
+std::string demangle(std::string name) {
+#ifdef LINUXCOMPAT
+    int status = 1;
+    const char* str = abi::__cxa_demangle(name.c_str(), NULL, NULL, &status);
+    std::string result = std::string(str);
+    delete str;
+    return result;
+#elif defined(WINCOMPAT)
+    static char symbolname[2048];
+    symbolname[0] = '\0';
+    DWORD length = UnDecorateSymbolName(name.c_str(), (PSTR)&symbolname, 2048, 0x2000);
+    if (length == 0) {
+        throw std::runtime_error("Demangler name return failed");
+    }
+    return std::string(symbolname);
+#else
+    return name;
 #endif
 }

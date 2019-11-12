@@ -119,6 +119,6 @@ endif()
 add_executable(test_${PROJECT_NAME} ${ALL_CODE} ${ALL_TEST})
 
 if(MSVC)
-    target_link_libraries(${PROJECT_NAME} ws2_32)
-    target_link_libraries(test_${PROJECT_NAME} ws2_32)
+    target_link_libraries(${PROJECT_NAME} ws2_32 dbghelp)
+    target_link_libraries(test_${PROJECT_NAME} ws2_32 dbghelp)
 endif()

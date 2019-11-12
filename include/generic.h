@@ -16,6 +16,8 @@ std::string get_username();
 
 std::string get_computer_name();
 
+std::string demangle(std::string name);
+
 class SysInfo {
 public:
     
