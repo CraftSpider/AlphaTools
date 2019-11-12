@@ -7,7 +7,7 @@ T __TestPtr<T, B>::make_ptr(T val) {
 }
 
 template<typename T>
-T* __TestPtr<T, false>::make_ptr(T& val) {
+T* __TestPtr<T, false>::make_ptr(T&) {
     return new T();
 }
 

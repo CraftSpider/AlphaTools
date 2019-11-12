@@ -5,6 +5,7 @@
 #include "utils/bytes.h"
 #include "utils/strmanip.h"
 #include "utils/io.h"
+#include "utils/format.h"
 
 /**
  * \file at_utils
