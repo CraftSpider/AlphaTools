@@ -2,62 +2,63 @@
 #include <iostream>
 #include "at_tests"
 #include "utils/strmanip.h"
+#include "utils/format.h"
 #include "test_format.h"
-#include "format.h"
 
-class Form : public Formattable {
+class Form {
 public:
-    std::string __format__(std::string spec) const override {
+    std::string __format__(std::string) const {
         return "Formatted!";
     }
 };
 
-class NoForm {};
-
 void ordinal_format() {
-    ASSERT(format("{s1} {s0}", "world", "Hello") == "Hello world");
-    ASSERT(format("{i1} == {i}", 100, 200) == "200 == 100");
+    ASSERT(util::format("{1:} {0:}", "world", "Hello") == "Hello world");
+    ASSERT(util::format("{1:} == {}", 100, 200) == "200 == 100");
 }
 
 void int_format() {
-    ASSERT(format("{i}", 12345) == "12345");
-    ASSERT(format("{i:0}", 12345) == "12345");
+    ASSERT(util::format("{}", 12345) == "12345");
+    ASSERT(util::format("{0}", 12345) == "12345");
     
-    ASSERT(format("{i:x}", 54321) == "d431");
-    ASSERT(format("{i:x0}", 54321) == "0xd431");
+    ASSERT(util::format("{x}", 54321) == "d431");
+    ASSERT(util::format("{x0}", 54321) == "0xd431");
     
-    ASSERT(format("{i:X}", 54321) == "D431");
-    ASSERT(format("{i:X0}", 54321) == "0xD431");
+    ASSERT(util::format("{X}", 54321) == "D431");
+    ASSERT(util::format("{X0}", 54321) == "0xD431");
     
-    ASSERT(format("{i:o}", 12345) == "30071");
-    ASSERT(format("{i:o0}", 12345) == "0o30071");
+    ASSERT(util::format("{o}", 12345) == "30071");
+    ASSERT(util::format("{o0}", 12345) == "0o30071");
 }
 
 void string_format() {
-    ASSERT(format("{s}", "test string") == "test string");
-    ASSERT(format("{s:n}", "test string") == "11");
+    ASSERT(util::format("{}", "test string") == "test string");
+    ASSERT(util::format("{n}", "test string") == "11");
     
-    ASSERT(format("{s:u}", "tEsT sTrInG") == "TEST STRING");
-    ASSERT(format("{s:l}", "tEsT sTrInG") == "test string");
+    ASSERT(util::format("{u}", "tEsT sTrInG") == "TEST STRING");
+    ASSERT(util::format("{l}", "tEsT sTrInG") == "test string");
 }
 
 void bytes_format() {
     uchar bytes[] = {0x12, 0x34, 0x56, 0x78, 0x9A};
     
-    ASSERT(format("{b:x0,7}", bytes) == "0x12");
-    ASSERT(format("{b:X4,11}", bytes) == "0x23");
+    ASSERT(util::format("{x0,7}", bytes) == "0x12");
+    ASSERT(util::format("{X4,11}", bytes) == "0x23");
     
-    ASSERT(format("{b:s3,6}", bytes) == "-7");
-    ASSERT(format("{b:a3,6}", bytes) == "7");
+    ASSERT(util::format("{s3,6}", bytes) == "-7");
+    ASSERT(util::format("{a3,6}", bytes) == "7");
 }
 
 void object_format() {
-    Form form = Form();
-    NoForm noform = NoForm();
+    // Can't assert 'this doesn't compile' so no more NoForm test
+    Form* form = new Form();
     
-    ASSERT(format("{o}", &form) == "Formatted!");
+    auto x = util::spec_handler<Form*>;
+    x(std::string(), &form);
     
-    testing::assert_throws<format_error, std::string, NoForm*>(format, "{o}", &noform, "Formatting unformattable object didn't throw an error");
+    ASSERT(util::format("{}", form) == "Formatted!");
+    
+    delete form;
 }
 
 void run_format_tests() {

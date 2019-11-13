@@ -2,6 +2,7 @@
 #include <chrono>
 #include <typeinfo>
 #include "tests/test.h"
+#include "tests/test_case.h"
 #include "console.h"
 
 #if defined(_Win32) || defined(__CYGWIN__)
@@ -10,10 +11,9 @@
 
 namespace testing {
 
-static std::string skip_def_msg = "Skipped test";
-
 std::vector<std::string> __Config::argv = std::vector<std::string>();
-std::vector<void(*)()> __Config::tests = std::vector<void (*)()>();
+std::vector<std::string> __Config::test_files = std::vector<std::string>();
+std::vector<TestCase*> __Config::test_cases = std::vector<TestCase*>();
 
 std::vector<std::string> __Results::failure_messages = std::vector<std::string>();
 std::vector<std::string> __Results::skip_messages = std::vector<std::string>();
@@ -43,13 +43,6 @@ int Results::error_percent() {
 int Results::skipped_percent() {
     return 100 * skipped / total();
 }
-
-test_error::test_error(const std::string &msg) : runtime_error(msg) {}
-
-assertion_failure::assertion_failure(const std::string &msg) : test_error(msg) {}
-
-skip_test::skip_test() : test_error(skip_def_msg) {}
-skip_test::skip_test(const std::string &msg) : test_error(msg) {}
 
 constexpr char fill_char = '=';
 constexpr char blank_char = '-';
@@ -118,8 +111,8 @@ uint run_tests(const std::string& name) {
     using namespace term;
     
     time_point start = high_resolution_clock::now();
-    for (auto test : __Config::tests) {
-        test();
+    for (auto test : __Config::test_cases) {
+        test->run();
     }
     
     time_point end = high_resolution_clock::now();
