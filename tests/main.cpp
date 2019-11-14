@@ -18,7 +18,6 @@
 #include <thread>
 
 void serv_socket() {
-    
     network::Socket soc = network::Socket();
     int val = 1;
     soc.setopt(network::SockOpt::REUSEADDR, &val);
@@ -37,7 +36,6 @@ void serv_socket() {
 }
 
 void client_socket() {
-    
     network::Socket soc = network::Socket();
     soc.connect("127.0.0.1", 8081);
     soc.send("hello", 6);
@@ -58,9 +56,9 @@ int main(int argc, char **argv) {
 //    client.join();
 //
 //    return 0;
-	
+
 	testing::setup_tests(argc, argv);
- 
+	
 	TEST_FILE(test)
     TEST_FILE(algorithms)
     TEST_FILE(arrays)
@@ -74,5 +72,5 @@ int main(int argc, char **argv) {
     TEST_FILE(sfinae)
     TEST_FILE(matrix)
     
-    return testing::run_tests() & 0b011u;
+    return (int)(testing::run_tests() & 0b011u);
 }

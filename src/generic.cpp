@@ -1,5 +1,4 @@
 
-#include <cstdlib>
 #include <system_error>
 #include "generic.h"
 
@@ -49,6 +48,9 @@ std::string demangle(std::string name) {
 #ifdef LINUXCOMPAT
     int status = 1;
     const char* str = abi::__cxa_demangle(name.c_str(), NULL, NULL, &status);
+    if (status < 0) {
+        throw std::runtime_error("Demangler name return failed");
+    }
     std::string result = std::string(str);
     delete str;
     return result;

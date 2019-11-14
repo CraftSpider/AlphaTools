@@ -53,7 +53,7 @@ void test_assert_throws() {
     try {
         testing::assert_throws<std::length_error>(_noop);
         testing::fail();
-    } catch (testing::assertion_failure &e) {}
+    } catch (testing::assertion_failure&) {}
 }
 
 void run_test_tests() {

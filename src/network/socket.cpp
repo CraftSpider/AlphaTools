@@ -26,12 +26,14 @@ const SockOpt SockOpt::SNDLOWAT = SockOpt("Send Low Accept", SO_SNDLOWAT, sizeof
 const SockOpt SockOpt::SNDTIMEO = SockOpt("Send Timeout", SO_SNDTIMEO, sizeof(timeval));
 
 Socket::Socket(int sockfd, ushort domain, uint type) {
+    this->addr = nullptr;
     this->sockfd = sockfd;
     this->domain = domain;
     this->type = type;
 }
 
 Socket::Socket(ushort domain, uint type) {
+    this->addr = nullptr;
     this->domain = domain;
     this->type = type;
     

@@ -34,7 +34,7 @@
     testing::__Config::test_cases.push_back(new testing::__TestCase<decltype(__var2)>(__var2, #name));\
 }
 
-#define TEST_FILE(name) testing::__Config::test_files.push_back(#name);run_##name##_tests();
+#define TEST_FILE(name) testing::__Config::test_files.emplace_back(#name);run_##name##_tests();
 
 namespace testing {
 
