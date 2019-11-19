@@ -46,6 +46,12 @@ void assert_not_equal(T first, T second, std::string message = "");
 template<typename T>
 void assert_not_equal(T* first, T* second, std::string message = "");
 
+template<typename T, typename U>
+void assert_files_equal(T& first, U& second, std::string message = "");
+
+template<typename T, typename U>
+void assert_files_not_equal(T& first, U& second, std::string message = "");
+
 void fail(std::string message = "");
 
 template<typename T, typename ...Args, typename K>

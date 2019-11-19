@@ -42,3 +42,8 @@ if(MSVC)
     target_link_libraries(${PROJECT_NAME} ws2_32 dbghelp)
     target_link_libraries(test_${PROJECT_NAME} ws2_32 dbghelp)
 endif()
+
+add_custom_command(TARGET test_${PROJECT_NAME} POST_BUILD
+        COMMAND rm -rf ${CMAKE_BINARY_DIR}/resources
+        COMMAND mkdir -p ${CMAKE_BINARY_DIR}/resources
+        COMMAND cp ${CMAKE_SOURCE_DIR}/tests/resources/* ${CMAKE_BINARY_DIR}/resources/)
