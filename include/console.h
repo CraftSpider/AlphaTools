@@ -6,7 +6,7 @@
 
 /**
  * \file console.h
- * \brief Provides POSIX console code manipulation
+ * \brief POSIX console code manipulation
  */
 
 /**

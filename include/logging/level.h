@@ -18,9 +18,24 @@ class Level {
 
 public:
     
+    /**
+     * \internal
+     *
+     * Construct a new 'invalid' Level, with no priority and a name indicating that
+     * it was incorrectly initialized
+     */
     Level() noexcept;
+    /**
+     * Construct a new level with the given name and priority.
+     * @param priority Priority of the new Level
+     * @param name Name of the new Level
+     */
     Level(const int& priority, const std::string& name) noexcept;
     
+    /**
+     * Get the name of this level, as a string
+     * @return Level name
+     */
     std::string get_name();
     
     bool operator==(const Level& level) const;
@@ -30,6 +45,10 @@ public:
     bool operator>(const Level& level) const;
     bool operator<(const Level& level) const;
     
+    /**
+     * Levels can be cast to a string, if done so explicitly
+     * @return Level as a string
+     */
     explicit operator std::string() const;
     
 };
@@ -42,6 +61,11 @@ extern Level* WARN;
 extern Level* ERROR;
 extern Level* FATAL;
 
+/**
+ * \internal
+ *
+ * Ensures that the default logging levels have been initialized correctly
+ */
 void __ensure_levels();
 
 }

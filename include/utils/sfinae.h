@@ -4,6 +4,11 @@
 
 namespace util {
 
+/**
+ * Class that provides compile-time determination of a type. Seperates into class,
+ * function, method, or pointer. Anything not under those possible types is currently not considered.
+ * @tparam T Type to determine classification of
+ */
 template<typename T>
 class TypeFinder {
 

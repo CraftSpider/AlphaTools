@@ -1,4 +1,6 @@
 
+#include <sstream>
+
 namespace logging {
 
 template<typename T>

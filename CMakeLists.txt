@@ -16,7 +16,7 @@ else()
     add_definitions(-Wall -Wextra -pedantic)
 endif()
 
-file(GLOB_RECURSE HEADERS CONFIGURE_DEPENDS include/*.h)
+file(GLOB_RECURSE HEADERS CONFIGURE_DEPENDS include/*.h include/at_*)
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS src/*.cpp)
 file(GLOB_RECURSE TEMPLATES CONFIGURE_DEPENDS include/*.tpp)
 
