@@ -6,6 +6,7 @@
 void A() {}
 
 struct B {
+    float D;
     void C() {}
 };
 
@@ -60,6 +61,18 @@ void test_functiontraits() {
     ASSERT(!Invalid::valid && Invalid::invalid);
 }
 
+void test_membertraits() {
+    typedef util::MemberTraits<decltype(&B::D)> Traits;
+    typedef util::MemberTraits<float> Invalid;
+    
+    ASSERT(Traits::valid && !Traits::invalid);
+    ASSERT((std::is_same<Traits::class_type, B>::value));
+    ASSERT((std::is_same<Traits::member_type, float>::value));
+    
+    ASSERT(!Invalid::valid && Invalid::invalid);
+    ASSERT((std::is_same<Invalid::class_type, void>::value));
+}
+
 void test_methodtraits() {
     typedef util::MethodTraits<decltype(&B::C)> Traits;
     typedef util::MethodTraits<int> Invalid;
@@ -76,6 +89,7 @@ void test_methodtraits() {
 void run_sfinae_tests() {
     TEST(test_typefinder)
     TEST(test_makeptr)
+    TEST(test_membertraits)
     TEST(test_functiontraits)
     TEST(test_methodtraits)
 }

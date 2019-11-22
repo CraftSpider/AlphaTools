@@ -92,6 +92,27 @@ struct FunctionTraits<Ret(*)(Args...)> {
 };
 
 template<typename>
+struct MemberTraits {
+    typedef void class_type;
+    
+    enum {
+        valid = 0,
+        invalid = 1
+    };
+};
+
+template<typename Val, typename Cls>
+struct MemberTraits<Val Cls::*> {
+    typedef Cls class_type;
+    typedef Val member_type;
+    
+    enum {
+        valid = 1,
+        invalid = 0
+    };
+};
+
+template<typename>
 struct MethodTraits {
     typedef void class_type;
     

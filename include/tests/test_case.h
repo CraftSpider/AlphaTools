@@ -1,17 +1,22 @@
 #pragma once
 
+#include <string>
+#include "utils/sfinae.h"
+
 namespace testing {
 
 class TestCase {
+protected:
+    std::string name;
 public:
     virtual void run() = 0;
+    std::string get_name();
 };
 
 template<typename T>
 class __TestCase : public TestCase {
     
     T instance;
-    std::string name;
 
 public:
     

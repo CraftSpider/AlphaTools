@@ -35,6 +35,8 @@ public:
     
     /**
      * Set the current logging level of this handler. Logs below this level won't be output
+     *
+     * @param level New level to log at
      */
     void set_level(Level* level);
     
@@ -82,7 +84,14 @@ class FileHandler : public Handler {
 
 public:
     
+    /**
+     * Construct a new FileHandler that appends to a given file
+     * @param filename File to log to
+     */
     explicit FileHandler(const std::string& filename);
+    /**
+     * Deconstruct a FileHandler, releasing hold of the file
+     */
     ~FileHandler();
     
     void log(const std::string& message, const Level* level) override;
