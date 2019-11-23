@@ -48,8 +48,6 @@ void test_sockets() {
     serv.join();
     client.join();
     
-    std::cout << stream->str();
-    
     ASSERT(stream->str() == "hello world");
 }
 
