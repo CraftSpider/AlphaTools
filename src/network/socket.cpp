@@ -27,25 +27,25 @@ const SockOpt SockOpt::SNDTIMEO = SockOpt("Send Timeout", SO_SNDTIMEO, sizeof(ti
 
 
 static void __setup_sockets() {
-    static bool initialized = false;
-    if (!initialized) {
-
 #if defined(_WIN32)
-        WSADATA wsadata;
-        int result;
-        
-        result = WSAStartup(MAKEWORD(2, 2), &wsadata);
-        if (result != 0) {
-            throw socket_error("Socket initialization failed");
-        }
-#endif
-        
-        initialized = true;
+    WSADATA wsadata;
+    int result;
+    
+    result = WSAStartup(MAKEWORD(2, 2), &wsadata);
+    if (result != 0) {
+        throw socket_error("Socket initialization failed");
     }
+#endif
+}
+
+static void __teardown_sockets() {
+#if defined(_WIN32)
+    WSACleanup();
+#endif
 }
 
 
-Socket::Socket(int sockfd, ushort domain, uint type) {
+Socket::Socket(ulong sockfd, ushort domain, uint type) {
     __setup_sockets();
     this->addr = nullptr;
     this->sockfd = sockfd;
@@ -63,6 +63,10 @@ Socket::Socket(ushort domain, uint type) {
     if (sockfd == 0) {
         throw socket_error("Failed to create socket");
     }
+}
+
+Socket::~Socket() {
+    __teardown_sockets();
 }
 
 void Socket::setopt(SockOpt option, const void *val) {

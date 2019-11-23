@@ -64,7 +64,7 @@ struct IPAddr {
  */
 class Socket {
     
-    explicit Socket(int sockfd, ushort domain = AF_INET, uint type = SOCK_STREAM);
+    explicit Socket(ulong sockfd, ushort domain = AF_INET, uint type = SOCK_STREAM);
     
     ushort domain;
     ulong sockfd;
@@ -75,6 +75,7 @@ class Socket {
 public:
     
     explicit Socket(ushort domain = AF_INET, uint type = SOCK_STREAM);
+    ~Socket();
     
     void setopt(SockOpt option, const void* val);
     void getopt(SockOpt option, void* val);
