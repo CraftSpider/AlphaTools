@@ -25,7 +25,28 @@ const SockOpt SockOpt::RCVTIMEO = SockOpt("Receive Timeout", SO_RCVTIMEO, sizeof
 const SockOpt SockOpt::SNDLOWAT = SockOpt("Send Low Accept", SO_SNDLOWAT, sizeof(int));
 const SockOpt SockOpt::SNDTIMEO = SockOpt("Send Timeout", SO_SNDTIMEO, sizeof(timeval));
 
+
+static void __setup_sockets() {
+    static bool initialized = false;
+    if (!initialized) {
+
+#if defined(_WIN32)
+        WSADATA wsadata;
+        int result;
+        
+        result = WSAStartup(MAKEWORD(2, 2), &wsadata);
+        if (result != 0) {
+            throw socket_error("Socket initialization failed");
+        }
+#endif
+        
+        initialized = true;
+    }
+}
+
+
 Socket::Socket(int sockfd, ushort domain, uint type) {
+    __setup_sockets();
     this->addr = nullptr;
     this->sockfd = sockfd;
     this->domain = domain;
@@ -33,6 +54,7 @@ Socket::Socket(int sockfd, ushort domain, uint type) {
 }
 
 Socket::Socket(ushort domain, uint type) {
+    __setup_sockets();
     this->addr = nullptr;
     this->domain = domain;
     this->type = type;
@@ -90,7 +112,7 @@ void Socket::listen(uint backlog) {
 
 Socket Socket::accept() {
     socklen_t size = (socklen_t)sizeof(*addr);
-    int accepted = ::accept(sockfd, addr, &size);
+    ulong accepted = ::accept(sockfd, addr, &size);
     return Socket(accepted, domain, type);
 }
 

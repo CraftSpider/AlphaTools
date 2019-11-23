@@ -35,14 +35,15 @@ struct SockOpt {
     int sock_name;
     socklen_t length;
     
+    static const SockOpt DEBUG, BROADCAST, REUSEADDR, KEEPALIVE, LINGER, OOBINLINE, SNDBUF, RCVBUF, DONTROUTE,
+            RCVLOWAT, RCVTIMEO, SNDLOWAT, SNDTIMEO;
+    
+protected:
     SockOpt(const std::string& name, int sock_name, socklen_t length) {
         this->name = name;
         this->sock_name = sock_name;
         this->length = length;
     }
-    
-    static const SockOpt DEBUG, BROADCAST, REUSEADDR, KEEPALIVE, LINGER, OOBINLINE, SNDBUF, RCVBUF, DONTROUTE,
-            RCVLOWAT, RCVTIMEO, SNDLOWAT, SNDTIMEO;
 };
 
 struct IPAddr {
@@ -66,7 +67,7 @@ class Socket {
     explicit Socket(int sockfd, ushort domain = AF_INET, uint type = SOCK_STREAM);
     
     ushort domain;
-    int sockfd;
+    ulong sockfd;
     uint type;
     
     sockaddr* addr;

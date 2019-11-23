@@ -13,50 +13,9 @@
 #include "test_generic.h"
 #include "test_sfinae.h"
 #include "test_matrix.h"
-
-#include "network/socket.h"
-#include <thread>
-
-void serv_socket() {
-    network::Socket soc = network::Socket();
-    int val = 1;
-    soc.setopt(network::SockOpt::REUSEADDR, &val);
-    soc.bind(8081);
-    soc.listen(2);
-    network::Socket accepted = soc.accept();
-    
-    const char* stuff = accepted.recv(6);
-    for (uint i = 0; i < 6; ++i) {
-        std::cout << stuff[i];
-    }
-    std::cout << std::endl;
-    delete stuff;
-    
-    accepted.send("world", 6);
-}
-
-void client_socket() {
-    network::Socket soc = network::Socket();
-    soc.connect("127.0.0.1", 8081);
-    soc.send("hello", 6);
-    
-    const char* stuff = soc.recv(6);
-    for (uint i = 0; i < 6; ++i) {
-        std::cout << stuff[i];
-    }
-    std::cout << std::endl;
-    delete stuff;
-}
+#include "test_socket.h"
 
 int main(int argc, char **argv) {
-//    std::thread serv(serv_socket);
-//    std::thread client(client_socket);
-//
-//    serv.join();
-//    client.join();
-//
-//    return 0;
-
 	testing::setup_tests(argc, argv);
 	
 	TEST_FILE(test)
@@ -71,6 +30,7 @@ int main(int argc, char **argv) {
     TEST_FILE(generic)
     TEST_FILE(sfinae)
     TEST_FILE(matrix)
+    TEST_FILE(socket)
     
     return (int)(testing::run_tests() & 0b011u);
 }
