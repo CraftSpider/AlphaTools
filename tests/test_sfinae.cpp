@@ -10,6 +10,11 @@ struct B {
     void C() {}
 };
 
+struct E {
+    float F;
+    int G;
+};
+
 void test_typefinder() {
     typedef util::TypeFinder<decltype(&A)> FuncFinder;
     typedef util::TypeFinder<B> ClassFinder;
@@ -39,6 +44,28 @@ void test_makeptr() {
     ASSERT((std::is_same<Type1, Type2>::value));
     ASSERT(util::MakePtr<int>::make_ptr(a) == &a);
     ASSERT(util::MakePtr<int*>::make_ptr(&a) == &a);
+}
+
+void test_derefptr() {
+    typedef util::DerefPointer<int>::type Type1;
+    typedef util::DerefPointer<int*>::type Type2;
+    typedef util::DerefPointer<int**>::type Type3;
+    
+    typedef util::DerefPointer<void()>::type Type4;
+    typedef util::DerefPointer<void(*)()>::type Type5;
+    
+    typedef util::DerefPointer<void(B::*)()>::type Type6;
+    typedef util::DerefPointer<void(B::**)()>::type Type7;
+    
+    ASSERT((std::is_same<Type1, int>::value));
+    ASSERT((std::is_same<Type2, int>::value));
+    ASSERT((std::is_same<Type3, int>::value));
+    
+    ASSERT((std::is_same<Type4, void()>::value));
+    ASSERT((std::is_same<Type5, void()>::value));
+    
+    ASSERT((std::is_same<Type6, void(B::*)()>::value));
+    ASSERT((std::is_same<Type7, void(B::*)()>::value));
 }
 
 void test_functiontraits() {
@@ -86,10 +113,41 @@ void test_methodtraits() {
     ASSERT((std::is_same<Invalid::class_type, void>::value));
 }
 
+void test_rawdata() {
+    typedef util::RawData<E> RawE;
+    static constexpr uchar expected[] = {0x04, 0x02, 0x02, 0x04, 0x03, 0x01, 0x01, 0x03};
+    
+    E temp = E();
+    RawE raw_temp = RawE(temp);
+    
+    temp.F = 1.5282352E-36f;
+    temp.G = 50397443;
+    
+    for (size_t i = 0; i < RawE::size; ++i) {
+        ASSERT(raw_temp[i] == expected[i]);
+    }
+    
+    ASSERT(raw_temp.get_value<int>(0) == 67240452);
+    ASSERT(raw_temp.get_value<float>(4) == 3.7910854E-37f);
+    
+    raw_temp.set_value<int>(0, 16908801);
+    raw_temp.set_value<float>(4, 2.4063055E-38f);
+    
+    ASSERT(temp.F == 2.3878667E-38f);
+    ASSERT(temp.G == 16974593);
+    
+    try {
+        raw_temp[RawE::size];
+        testing::fail("Access beyond size didn't throw error");
+    } catch (std::out_of_range&) {}
+}
+
 void run_sfinae_tests() {
     TEST(test_typefinder)
     TEST(test_makeptr)
+    TEST(test_derefptr)
     TEST(test_membertraits)
     TEST(test_functiontraits)
     TEST(test_methodtraits)
+    TEST(test_rawdata)
 }
