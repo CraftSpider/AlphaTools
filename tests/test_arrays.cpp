@@ -5,7 +5,7 @@
 
 using namespace util;
 
-void test_compare() {
+static void test_compare() {
     uchar test1[4] = {1, 2, 3, 4};
     uchar test2[4] = {1, 2, 3, 4};
     uchar test3[4] = {4, 3, 2, 1};
@@ -13,7 +13,7 @@ void test_compare() {
     ASSERT(!compare(test1, test3, 4));
 }
 
-void test_compare_2D() {
+static void test_compare_2D() {
     uchar **test1 = new uchar*[3];
     for (uint i = 0; i < 3; ++i) {
         test1[i] = new uchar[3] {1, 2, 3};
@@ -30,7 +30,7 @@ void test_compare_2D() {
     ASSERT(!compare_2D(test1, test3, 3));
 }
 
-void test_copy() {
+static void test_copy() {
     uchar test1[4] = {1, 2, 3, 4};
     uchar test2[4];
     copy(test1, test2, 4);
@@ -41,7 +41,7 @@ void test_copy() {
     ASSERT(compare(test3, test4, 4));
 }
 
-void test_copy_2D() {
+static void test_copy_2D() {
     uchar **test1 = new uchar*[3];
     for (uint i = 0; i < 3; ++i) {
         test1[i] = new uchar[3] {1, 2, 3};
@@ -55,7 +55,7 @@ void test_copy_2D() {
     ASSERT(compare_2D(test1, test2, 3));
 }
 
-void test_reverse_arr() {
+static void test_reverse_arr() {
     uchar test1[4] = {1, 2, 3, 4};
     uchar result1[4] = {4, 3, 2, 1};
     uchar result2[4] = {1, 2, 3, 4};
@@ -64,7 +64,7 @@ void test_reverse_arr() {
     ASSERT(compare(test1, result2, 4));
 }
 
-void test_convert() {
+static void test_convert() {
     uchar test1[8] = {1, 2, 3, 4, 5, 6, 7, 8};
     uchar result1[8] = {4, 3, 2, 1, 8, 7, 6, 5};
     endian_convert(test1, 8);

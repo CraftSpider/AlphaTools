@@ -14,6 +14,7 @@
 #include "test_sfinae.h"
 #include "test_matrix.h"
 #include "test_socket.h"
+#include "test_memory.h"
 
 int main(int argc, char **argv) {
 	testing::setup_tests(argc, argv);
@@ -31,6 +32,7 @@ int main(int argc, char **argv) {
     TEST_FILE(sfinae)
     TEST_FILE(matrix)
     TEST_FILE(socket)
+    TEST_FILE(memory)
     
     return (int)(testing::run_tests() & 0b011u);
 }
