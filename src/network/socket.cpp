@@ -3,7 +3,7 @@
 
 namespace network {
 
-socket_error::socket_error(const std::string &msg) : runtime_error(msg) {};
+socket_error::socket_error(const std::string &msg) : runtime_error(msg) {}
 
 bind_error::bind_error(int errnum, const std::string &msg) : socket_error(msg) {
     this->errnum = errnum;

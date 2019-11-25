@@ -1,4 +1,6 @@
 
+#include <sstream>
+
 namespace util {
 
 struct __Spec {

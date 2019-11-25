@@ -1,6 +1,6 @@
 
 #include <sstream>
-#include <system_error>
+#include <stdexcept>
 
 namespace math {
 
