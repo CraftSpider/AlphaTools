@@ -25,6 +25,7 @@ public:
 };
 
 class bind_error : public socket_error {
+    int errnum;
 public:
     explicit bind_error(int errnum, const std::string& msg);
 };
