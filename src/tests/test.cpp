@@ -5,7 +5,7 @@
 #include "tests/test_case.h"
 #include "console.h"
 
-#if defined(_Win32) || defined(__CYGWIN__)
+#if defined(__CYGWIN__)
 #warning Most console codes will not work on windows terminals before Win10
 #endif
 
