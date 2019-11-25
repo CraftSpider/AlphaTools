@@ -53,6 +53,19 @@ struct MakePtr<T, false> {
     static T* make_ptr(T& val);
 };
 
+template<typename T, typename U>
+struct __DerefPointer {
+    typedef U type;
+};
+
+template<typename T, typename U>
+struct __DerefPointer<T, U*> {
+    typedef typename __DerefPointer<U, U>::type type;
+};
+
+template<typename T>
+struct DerefPointer : public __DerefPointer<T, T> {};
+
 template<typename>
 struct FunctionTraits {
     enum {
@@ -133,6 +146,28 @@ struct MethodTraits<Ret(Cls::*)(Args...)> {
         valid = 1,
         invalid = 0
     };
+};
+
+template<typename T>
+class RawData {
+    
+    uchar* data;
+    
+public:
+    
+    static constexpr size_t size = sizeof(T);
+    
+    explicit RawData(T& obj);
+    explicit RawData(T* obj);
+    
+    uchar& operator[](size_t pos);
+    
+    template<typename U>
+    U get_value(size_t pos);
+    
+    template<typename U>
+    void set_value(size_t pos, U val);
+    
 };
 
 }
