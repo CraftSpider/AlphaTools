@@ -39,7 +39,6 @@ test_alpha_tools
 # CMake outputs
 CMakeCache.txt
 CMakeFiles/
-*.cmake
 Makefile
 
 # Doxygen output
