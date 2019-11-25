@@ -20,7 +20,7 @@ void serv_socket() {
         *stream << stuff[i];
         i++;
     } while (stuff[i] != '\0');
-    delete stuff;
+    delete[] stuff;
     
     accepted.send("world", 6);
 }
@@ -36,7 +36,7 @@ void client_socket() {
         *stream << stuff[i];
         i++;
     } while (stuff[i] != '\0');
-    delete stuff;
+    delete[] stuff;
 }
 
 void test_sockets() {

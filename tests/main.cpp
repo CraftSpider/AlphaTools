@@ -34,5 +34,9 @@ int main(int argc, char **argv) {
     TEST_FILE(socket)
     TEST_FILE(memory)
     
-    return (int)(testing::run_tests() & 0b011u);
+    int result = (int)(testing::run_tests() & 0b011u);
+    
+	testing::teardown_tests();
+	
+    return result;
 }

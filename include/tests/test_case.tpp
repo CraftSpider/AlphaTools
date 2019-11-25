@@ -10,6 +10,13 @@ __TestCase<T>::__TestCase(T inst, const std::string& name) {
 }
 
 template<typename T>
+__TestCase<T>::~__TestCase() {
+    if constexpr (std::is_class<typename std::remove_pointer<T>::type>::value) {
+        delete instance;
+    }
+}
+
+template<typename T>
 template<typename C, std::enable_if_t<util::TypeFinder<C>::function, int>>
 void __TestCase<T>::__run() {
     try {

@@ -2,8 +2,15 @@
 namespace util {
 
 template<typename T>
+struct __Temp {
+    uchar data[sizeof(T)];
+};
+
+template<typename T>
 T* raw_copy(T& obj) {
-    uchar *dst = new uchar[sizeof(T)];
+    static_assert(sizeof(__Temp<T>) == sizeof(T));
+    
+    uchar *dst = (uchar*)new __Temp<T>;
     uchar *src = (uchar*)&obj;
     
     for (size_t i = 0; i < sizeof(T); ++i) {
@@ -15,7 +22,9 @@ T* raw_copy(T& obj) {
 
 template<typename T>
 T* raw_move(T& source) {
-    uchar *dst = new uchar[sizeof(T)];
+    static_assert(sizeof(__Temp<T>) == sizeof(T));
+    
+    uchar *dst = (uchar*)new __Temp<T>;
     uchar *src = (uchar*)&source;
     
     for (size_t i = 0; i < sizeof(T); ++i) {

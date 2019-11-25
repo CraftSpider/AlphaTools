@@ -185,5 +185,11 @@ uint run_tests(const std::string& name) {
     return out;
 }
 
+void teardown_tests() {
+    for (auto tc : __Config::test_cases) {
+        delete tc;
+    }
+}
+
 }
 

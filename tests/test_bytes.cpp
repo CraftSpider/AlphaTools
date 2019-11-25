@@ -87,92 +87,168 @@ void test_btoc() {
 }
 
 void test_ltob() {
+    uchar *temp;
+    char *temp2;
+    
     ulong test1 = 0xFFFEFDFCFBFAF9F8;
     uchar expected1[8] = {255, 254, 253, 252, 251, 250, 249, 248};
-    ASSERT(compare(ltob<BIG>(test1, 8), expected1, 8));
-    ASSERT(compare(ltob<LITTLE>(test1, 8), reverse(expected1, 8), 8));
+    temp = ltob<BIG>(test1, 8);
+    ASSERT(compare(temp, expected1, 8));
+    delete[] temp;
+    temp = ltob<LITTLE>(test1, 8);
+    ASSERT(compare(temp, reverse(expected1, 8), 8));
+    delete[] temp;
     
     ulong test2 = 0x0;
     uchar expected2[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-    ASSERT(compare(ltob<BIG>(test2, 8), expected2, 8));
-    ASSERT(compare(ltob<LITTLE>(test2, 8), reverse(expected2, 8), 8));
+    temp = ltob<BIG>(test2, 8);
+    ASSERT(compare(temp, expected2, 8));
+    delete[] temp;
+    temp = ltob<BIG>(test2, 8);
+    ASSERT(compare(temp, reverse(expected2, 8), 8));
+    delete[] temp;
     
     slong test3 = 0xFFFEFDFCFBFAF9F8;
     char expected3[8] = {-1, -2, -3, -4, -5, -6, -7, -8};
-    ASSERT(compare(ltob<BIG>(test3, 8), expected3, 8));
-    ASSERT(compare(ltob<LITTLE>(test3, 8), reverse(expected3, 8), 8));
+    temp2 = ltob<BIG>(test3, 8);
+    ASSERT(compare(temp2, expected3, 8));
+    delete[] temp2;
+    temp2 = ltob<LITTLE>(test3, 8);
+    ASSERT(compare(temp2, reverse(expected3, 8), 8));
+    delete[] temp2;
     
     slong test4 = 0x0;
     char expected4[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-    ASSERT(compare(ltob<BIG>(test4, 8), expected4, 8));
-    ASSERT(compare(ltob<LITTLE>(test4, 8), reverse(expected4, 8), 8));
+    temp2 = ltob<BIG>(test4, 8);
+    ASSERT(compare(temp2, expected4, 8));
+    delete[] temp2;
+    temp2 = ltob<LITTLE>(test4, 8);
+    ASSERT(compare(temp2, reverse(expected4, 8), 8));
+    delete[] temp2;
 }
 
 void test_itob() {
+    uchar *temp;
+    char *temp2;
+    
     uint test1 = 0xFFFEFDFC;
     uchar expected1[4] = {255, 254, 253, 252};
-    ASSERT(compare(itob<BIG>(test1, 4), expected1, 4));
-    ASSERT(compare(itob<LITTLE>(test1, 4), reverse(expected1, 4), 4));
+    temp = itob<BIG>(test1, 4);
+    ASSERT(compare(temp, expected1, 4));
+    delete[] temp;
+    temp = itob<LITTLE>(test1, 4);
+    ASSERT(compare(temp, reverse(expected1, 4), 4));
+    delete[] temp;
     
     uint test2 = 0x0;
     uchar expected2[4] = {0, 0, 0, 0};
-    ASSERT(compare(itob<BIG>(test2, 4), expected2, 4));
-    ASSERT(compare(itob<LITTLE>(test2, 4), reverse(expected2, 4), 4));
+    temp = itob<BIG>(test2, 4);
+    ASSERT(compare(temp, expected2, 4));
+    delete[] temp;
+    temp = itob<LITTLE>(test2, 4);
+    ASSERT(compare(temp, reverse(expected2, 4), 4));
+    delete[] temp;
     
     int test3 = 0xFFFEFDFC;
     char expected3[4] = {-1, -2, -3, -4};
-    ASSERT(compare(itob<BIG>(test3, 4), expected3, 4));
-    ASSERT(compare(itob<LITTLE>(test3, 4), reverse(expected3, 4), 4));
+    temp2 = itob<BIG>(test3, 4);
+    ASSERT(compare(temp2, expected3, 4));
+    delete[] temp2;
+    temp2 = itob<LITTLE>(test3, 4);
+    ASSERT(compare(temp2, reverse(expected3, 4), 4));
+    delete[] temp2;
     
     int test4 = 0x0;
     char expected4[4] = {0, 0, 0, 0};
-    ASSERT(compare(itob<BIG>(test4, 4), expected4, 4));
-    ASSERT(compare(itob<LITTLE>(test4, 4), reverse(expected4, 4), 4));
+    temp2 = itob<BIG>(test4, 4);
+    ASSERT(compare(temp2, expected4, 4));
+    delete[] temp2;
+    temp2 = itob<LITTLE>(test4, 4);
+    ASSERT(compare(temp2, reverse(expected4, 4), 4));
+    delete[] temp2;
 }
 
 void test_stob() {
+    uchar *temp;
+    char *temp2;
+    
     ushort test1 = 0xFFFE;
     uchar expected1[2] = {255, 254};
-    ASSERT(compare(stob<BIG>(test1, 2), expected1, 2));
-    ASSERT(compare(stob<LITTLE>(test1, 2), reverse(expected1, 2), 2));
+    temp = stob<BIG>(test1, 2);
+    ASSERT(compare(temp, expected1, 2));
+    delete[] temp;
+    temp = stob<LITTLE>(test1, 2);
+    ASSERT(compare(temp, reverse(expected1, 2), 2));
+    delete[] temp;
     
     ushort test2 = 0x0;
     uchar expected2[2] = {0, 0};
-    ASSERT(compare(stob<BIG>(test2, 2), expected2, 2));
-    ASSERT(compare(stob<LITTLE>(test2, 2), reverse(expected2, 2), 2));
+    temp = stob<BIG>(test2, 2);
+    ASSERT(compare(temp, expected2, 2));
+    delete[] temp;
+    temp = stob<LITTLE>(test2, 2);
+    ASSERT(compare(temp , reverse(expected2, 2), 2));
+    delete[] temp;
     
     short test3 = (short)0xFFFE;
     char expected3[2] = {-1, -2};
-    ASSERT(compare(stob<BIG>(test3, 2), expected3, 2));
-    ASSERT(compare(stob<LITTLE>(test3, 2), reverse(expected3, 2), 2));
+    temp2 = stob<BIG>(test3, 2);
+    ASSERT(compare(temp2, expected3, 2));
+    delete[] temp2;
+    temp2 = stob<LITTLE>(test3, 2);
+    ASSERT(compare(temp2, reverse(expected3, 2), 2));
+    delete[] temp2;
     
     short test4 = 0x0;
     char expected4[2] = {0, 0};
-    ASSERT(compare(stob<BIG>(test4, 2), expected4, 2));
-    ASSERT(compare(stob<LITTLE>(test4, 2), reverse(expected4, 2), 2));
+    temp2 = stob<BIG>(test4, 2);
+    ASSERT(compare(temp2, expected4, 2));
+    delete[] temp2;
+    temp2 = stob<LITTLE>(test4, 2);
+    ASSERT(compare(temp2, reverse(expected4, 2), 2));
+    delete[] temp2;
 }
 
 void test_ctob() {
+    uchar* temp;
+    char* temp2;
+    
     uchar test1 = 0xFF;
     uchar expected1[1] = {255};
-    ASSERT(compare(ctob<BIG>(test1, 1), expected1, 1));
-    ASSERT(compare(ctob<LITTLE>(test1, 1), reverse(expected1, 1), 1));
+    temp = ctob<BIG>(test1, 1);
+    ASSERT(compare(temp, expected1, 1));
+    delete[] temp;
+    temp = ctob<LITTLE>(test1, 1);
+    ASSERT(compare(temp, reverse(expected1, 1), 1));
+    delete[] temp;
     
     uchar test2 = 0x0;
     uchar expected2[1] = {0};
-    ASSERT(compare(ctob<BIG>(test2, 1), expected2, 1));
-    ASSERT(compare(ctob<LITTLE>(test2, 1), reverse(expected2, 1), 1));
+    temp = ctob<BIG>(test2, 1);
+    ASSERT(compare(temp, expected2, 1));
+    delete[] temp;
+    temp = ctob<LITTLE>(test2, 1);
+    ASSERT(compare(temp, reverse(expected2, 1), 1));
+    delete[] temp;
     
     char test3 = (char)0xFF;
     char expected3[1] = {-1};
-    ASSERT(compare(ctob<BIG>(test3, 1), expected3, 1));
-    ASSERT(compare(ctob<LITTLE>(test3, 1), reverse(expected3, 1), 1));
+    
+    temp2 = ctob<BIG>(test3, 1);
+    ASSERT(compare(temp2, expected3, 1));
+    delete[] temp2;
+    temp2 = ctob<LITTLE>(test3, 1);
+    ASSERT(compare(temp2, reverse(expected3, 1), 1));
+    delete[] temp2;
     
     char test4 = 0x0;
     char expected4[1] = {0};
-    ASSERT(compare(ctob<BIG>(test4, 1), expected4, 1));
-    ASSERT(compare(ctob<LITTLE>(test4, 1), reverse(expected4, 1), 1));
-    
+    temp2 = ctob<BIG>(test4, 1);
+    ASSERT(compare(temp2, expected4, 1));
+    delete[] temp2;
+    temp2 = ctob<LITTLE>(test4, 1);
+    ASSERT(compare(temp2, reverse(expected4, 1), 1));
+    delete[] temp2;
 }
 
 void run_bytes_tests() {

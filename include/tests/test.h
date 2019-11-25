@@ -112,6 +112,14 @@ void setup_tests(int argc, char const* const* argv);
  */
 uint run_tests(const std::string& name = "Alpha Tools");
 
+/**
+ * Called after the test suite is complete, to ensure all memory is de-allocated. Not automatically
+ * called in case the user wants to do their own results and test case handling. Fine to not call
+ * if the program exits immediately after tests are run, but memory managers will warn about unfreed
+ * memory all over the place.
+ */
+void teardown_tests();
+
 }
 
 #include "test.tpp"

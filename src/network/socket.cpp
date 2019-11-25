@@ -64,6 +64,7 @@ Socket::Socket(ushort domain, uint type) {
 }
 
 Socket::~Socket() {
+    delete addr;
     __teardown_sockets();
 }
 

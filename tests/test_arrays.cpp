@@ -15,19 +15,25 @@ static void test_compare() {
 
 static void test_compare_2D() {
     uchar **test1 = new uchar*[3];
-    for (uint i = 0; i < 3; ++i) {
-        test1[i] = new uchar[3] {1, 2, 3};
-    }
     uchar **test2 = new uchar*[3];
-    for (uint i = 0; i < 3; ++i) {
-        test2[i] = new uchar[3] {1, 2, 3};
-    }
     uchar **test3 = new uchar*[3];
     for (uint i = 0; i < 3; ++i) {
+        test1[i] = new uchar[3] {1, 2, 3};
+        test2[i] = new uchar[3] {1, 2, 3};
         test3[i] = new uchar[3] {3, 2, 1};
     }
+    
     ASSERT(compare_2D(test1, test2, 3));
     ASSERT(!compare_2D(test1, test3, 3));
+    
+    for (uint i = 0; i < 3; ++i) {
+        delete[] test1[i];
+        delete[] test2[i];
+        delete[] test3[i];
+    }
+    delete[] test1;
+    delete[] test2;
+    delete[] test3;
 }
 
 static void test_copy() {
@@ -43,16 +49,22 @@ static void test_copy() {
 
 static void test_copy_2D() {
     uchar **test1 = new uchar*[3];
-    for (uint i = 0; i < 3; ++i) {
-        test1[i] = new uchar[3] {1, 2, 3};
-    }
     uchar **test2 = new uchar*[3];
     for (uint i = 0; i < 3; ++i) {
+        test1[i] = new uchar[3] {1, 2, 3};
         test2[i] = new uchar[3]();
     }
+    
     ASSERT(!compare_2D(test1, test2, 3));
     copy_2D(test1, test2, 3);
     ASSERT(compare_2D(test1, test2, 3));
+    
+    for (uint i = 0; i < 3; ++i) {
+        delete[] test1[i];
+        delete[] test2[i];
+    }
+    delete[] test1;
+    delete[] test2;
 }
 
 static void test_reverse_arr() {
