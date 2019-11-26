@@ -15,6 +15,16 @@ public:
 template<typename T>
 std::string spec_handler(std::string spec, T* arg);
 
+// Specializations provided
+template<>
+std::string spec_handler<std::string>(std::string spec, std::string* arg);
+template<>
+std::string spec_handler<int>(std::string spec, int* arg);
+template<>
+std::string spec_handler<const char*>(std::string spec, const char** arg);
+template<>
+std::string spec_handler<uchar*>(std::string spec, uchar** arg);
+
 template<typename... Args>
 std::string format(std::string format, Args... args);
 
