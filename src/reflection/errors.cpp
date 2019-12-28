@@ -1,0 +1,12 @@
+
+#include "reflection/errors.h"
+
+namespace reflect {
+
+reflection_error::reflection_error(const std::string &msg) : runtime_error(msg) {}
+
+invalid_size::invalid_size(const std::string &msg) : reflection_error(msg) {}
+
+invalid_type::invalid_type(const std::string &msg) : reflection_error(msg) {}
+
+}

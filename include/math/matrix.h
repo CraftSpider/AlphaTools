@@ -49,7 +49,7 @@ struct Matrix {
     template<typename M>
     Matrix<T> operator*(const M scale) const;
     
-    bool invertable() const;
+    bool invertable() const; // TODO: This and lower
     
     Matrix<T> get_invert() const;
     void invert();

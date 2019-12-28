@@ -5,9 +5,11 @@ namespace network {
 
 socket_error::socket_error(const std::string &msg) : runtime_error(msg) {}
 
+
 bind_error::bind_error(int errnum, const std::string &msg) : socket_error(msg) {
     this->errnum = errnum;
 }
+
 
 const SockOpt SockOpt::DEBUG = SockOpt("Debug", SO_DEBUG, sizeof(int));
 const SockOpt SockOpt::BROADCAST = SockOpt("Broadcast", SO_BROADCAST, sizeof(int));
@@ -23,6 +25,25 @@ const SockOpt SockOpt::RCVTIMEO = SockOpt("Receive Timeout", SO_RCVTIMEO, sizeof
 const SockOpt SockOpt::SNDLOWAT = SockOpt("Send Low Accept", SO_SNDLOWAT, sizeof(int));
 const SockOpt SockOpt::SNDTIMEO = SockOpt("Send Timeout", SO_SNDTIMEO, sizeof(timeval));
 
+SockOpt::SockOpt(const std::string &name, int sock_name, socklen_t length) {
+    this->name = name;
+    this->sock_name = sock_name;
+    this->length = length;
+}
+
+
+IPAddr::IPAddr(const std::string &text) : addr() {
+    this->text = text;
+    inet_pton(AF_INET, text.c_str(), &addr);
+}
+
+
+IPAddr::IPAddr(const in_addr& addr) : addr() {
+    char _text[16];
+    this->text = inet_ntop(AF_INET, &addr, _text, 16);
+    this->addr = addr;
+}
+
 
 static void __setup_sockets() {
 #if defined(_WIN32)
@@ -35,6 +56,7 @@ static void __setup_sockets() {
     }
 #endif
 }
+
 
 static void __teardown_sockets() {
 #if defined(_WIN32)

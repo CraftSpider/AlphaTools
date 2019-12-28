@@ -1,6 +1,7 @@
 #pragma once
 
 #include <type_traits>
+#include "types.h"
 
 namespace util {
 
@@ -55,12 +56,14 @@ struct MakePtr<T, false> {
 
 template<typename T, typename U>
 struct __DerefPointer {
-    typedef U type;
+    typedef T type;
+    static constexpr size_t depth = 0;
 };
 
 template<typename T, typename U>
 struct __DerefPointer<T, U*> {
     typedef typename __DerefPointer<U, U>::type type;
+    static constexpr size_t depth = __DerefPointer<U, U>::depth + 1;
 };
 
 template<typename T>

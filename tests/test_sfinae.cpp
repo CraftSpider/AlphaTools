@@ -47,9 +47,9 @@ void test_makeptr() {
 }
 
 void test_derefptr() {
-    typedef util::DerefPointer<int>::type Type1;
-    typedef util::DerefPointer<int*>::type Type2;
-    typedef util::DerefPointer<int**>::type Type3;
+    typedef util::DerefPointer<int> Type1;
+    typedef util::DerefPointer<int*> Type2;
+    typedef util::DerefPointer<int**> Type3;
     
     typedef util::DerefPointer<void()>::type Type4;
     typedef util::DerefPointer<void(*)()>::type Type5;
@@ -57,9 +57,12 @@ void test_derefptr() {
     typedef util::DerefPointer<void(B::*)()>::type Type6;
     typedef util::DerefPointer<void(B::**)()>::type Type7;
     
-    ASSERT((std::is_same<Type1, int>::value));
-    ASSERT((std::is_same<Type2, int>::value));
-    ASSERT((std::is_same<Type3, int>::value));
+    ASSERT((std::is_same<Type1::type, int>::value));
+    ASSERT((std::is_same<Type2::type, int>::value));
+    ASSERT((std::is_same<Type3::type, int>::value));
+    ASSERT(Type1::depth == 0);
+    ASSERT(Type2::depth == 1);
+    ASSERT(Type3::depth == 2);
     
     ASSERT((std::is_same<Type4, void()>::value));
     ASSERT((std::is_same<Type5, void()>::value));

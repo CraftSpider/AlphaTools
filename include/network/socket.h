@@ -13,6 +13,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #endif
+
 #include <string>
 #include <stdexcept>
 #include "types.h"
@@ -40,24 +41,19 @@ struct SockOpt {
             RCVLOWAT, RCVTIMEO, SNDLOWAT, SNDTIMEO;
     
 protected:
-    SockOpt(const std::string& name, int sock_name, socklen_t length) {
-        this->name = name;
-        this->sock_name = sock_name;
-        this->length = length;
-    }
+    
+    SockOpt(const std::string& name, int sock_name, socklen_t length);
+    
 };
 
+
 struct IPAddr {
-    
     std::string text;
     in_addr addr;
     
-    explicit IPAddr(const std::string& text) : addr() {
-        this->text = text;
-        // TODO: implement this here, as it will be more portable then
-        inet_pton(AF_INET, text.c_str(), &addr);
-    }
+    explicit IPAddr(const std::string& text);
     
+    explicit IPAddr(const in_addr& addr);
 };
 
 /**

@@ -16,6 +16,9 @@
 #include "test_socket.h"
 #include "test_memory.h"
 
+#include "reflection/test_constructor.h"
+#include "reflection/test_type.h"
+
 int main(int argc, char **argv) {
 	testing::setup_tests(argc, argv);
 	
@@ -33,6 +36,8 @@ int main(int argc, char **argv) {
     TEST_FILE(matrix)
     TEST_FILE(socket)
     TEST_FILE(memory)
+    TEST_FILE(constructor)
+    TEST_FILE(type)
     
     int result = (int)(testing::run_tests() & 0b011u);
     
