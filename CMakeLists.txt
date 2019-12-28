@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(alpha_tools)
 
+include(AlphaTest.cmake)
+
 set(CMAKE_CXX_STANDARD 17)
 set(TEST_PROJECT_NAME test_${PROJECT_NAME})
 
@@ -36,8 +38,6 @@ endif()
 
 add_executable(${TEST_PROJECT_NAME} ${ALL_CODE} ${ALL_TEST})
 
-include(AlphaTest.cmake)
-
 find_package(Threads REQUIRED)
 target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(${TEST_PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
@@ -45,3 +45,5 @@ if(MSVC)
     target_link_libraries(${PROJECT_NAME} ws2_32 dbghelp)
     target_link_libraries(${TEST_PROJECT_NAME} ws2_32 dbghelp)
 endif()
+
+copy_test_resources(${TEST_PROJECT_NAME})
