@@ -4,13 +4,13 @@
 namespace reflect {
 
 template<typename T, typename... Args, size_t... I>
-T* construct_impl(std::vector<Variant> args, util::TemplateRange<I...>) {
+T* __construct_impl(std::vector<Variant> args, util::TemplateRange<I...>) {
     return new T(args[I].get_value_ref<Args>()...);
 }
 
 template<typename T, typename... Args>
 T* ConstructorMeta<T, Args...>::construct(std::vector<Variant> args) {
-    return construct_impl<T, Args...>(args, util::VariadicRange<Args...>());
+    return __construct_impl<T, Args...>(args, util::VariadicRange<Args...>());
 }
 
 template<typename T, typename... Args>
