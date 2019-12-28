@@ -20,7 +20,7 @@ Type* Type::from() {
     std::string name = MetaType<T>::get_name();
     
     if (name == "[UNKNOWN TYPE]") {
-        throw invalid_type("Attempt to get unregistered type '" + name + "'. Make sure to DECLARE_TYPE(typename).");
+        throw invalid_type("Attempt to get unregistered type '" + std::string(typeid(T).name()) + "'. Make sure to DECLARE_TYPE(typename).");
     }
     
     if (types.count(name) == 0) {
@@ -36,7 +36,7 @@ Type* Type::from_instance(T*) {
     std::string name = MetaType<T>::get_name();
     
     if (name == "[UNKNOWN TYPE]") {
-        throw invalid_type("Attempt to get unregistered type '" + name + "'. Make sure to DECLARE_TYPE(typename).");
+        throw invalid_type("Attempt to get unregistered type '" + std::string(typeid(T).name()) + "'. Make sure to DECLARE_TYPE(typename).");
     }
     
     if (types.count(name) == 0) {
@@ -48,7 +48,7 @@ Type* Type::from_instance(T*) {
 
 template<typename... Args>
 std::vector<Type*> Type::from_list() {
-    return std::vector<Type*> {from<Args>()...};
+    return {from<Args>()...};
 }
 
 }

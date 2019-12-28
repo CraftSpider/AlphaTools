@@ -173,6 +173,27 @@ public:
     
 };
 
+template<size_t... I>
+struct TemplateRange {};
+
+namespace VariadicRangeBuilder {
+    
+    template<size_t MIN, size_t N, size_t... I>
+    struct range_builder;
+    
+    template<size_t MIN, size_t... I>
+    struct range_builder<MIN, MIN, I...> {
+        typedef TemplateRange<I...> range;
+    };
+    
+    template<size_t MIN, size_t N, size_t... I>
+    struct range_builder : public range_builder<MIN, N - 1, N - 1, I...> {};
+    
+}
+
+template<typename... Args>
+using VariadicRange = typename VariadicRangeBuilder::range_builder<0, sizeof...(Args)>::range;
+
 }
 
 #include "sfinae.tpp"

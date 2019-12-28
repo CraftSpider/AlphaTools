@@ -1,7 +1,7 @@
 
-#include <at_tests>
-#include "test_constructor.h"
+#include "at_tests"
 #include "at_reflect"
+
 
 struct A {
     int a = 0;
@@ -18,13 +18,13 @@ DECLARE_TYPE(A)
 
 void make_too_few() {
     reflect::Constructor c2 = reflect::Constructor::from<A, int>();
-    c2.construct(std::vector<reflect::Variant>());
+    c2.construct({});
 }
 
 void make_too_many() {
     reflect::Constructor c2 = reflect::Constructor::from<A, int>();
     c2.construct(
-        std::vector<reflect::Variant> {reflect::Variant::from_instance(2), reflect::Variant::from_instance(3)}
+        {reflect::Variant::from_instance(2), reflect::Variant::from_instance(3)}
     );
 }
 

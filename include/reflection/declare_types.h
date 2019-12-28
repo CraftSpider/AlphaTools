@@ -110,10 +110,60 @@ static_block { \
     ); \
 }
 
-#define DECLARE_MEMBER_DATA(T, NAME, K)
+#define DECLARE_MEMBER_DATA(T, NAME, K) \
+static_block { \
+    reflect::Type::from<T>()->__add_member_property( \
+        &reflect::MemberProperty::from<T, K>(&T::NAME, #NAME) \
+    ); \
+}
 
 #define DECLARE_MEMBER_FUNC(T, NAME, K, ...)
 
 #define DECLARE_STATIC_DATA(T, NAME, K)
 
 #define DECLARE_STATIC_FUNC(T, NAME, K, ...)
+
+
+#define DECLARE_TYPE_HEADER(T) \
+template<> \
+std::string reflect::MetaType<T>::get_name(); \
+template<> \
+std::string reflect::MetaType<const T>::get_name(); \
+template<> \
+std::string reflect::MetaType<volatile T>::get_name(); \
+template<> \
+std::string reflect::MetaType<T&>::get_name(); \
+template<> \
+std::string reflect::MetaType<const T&>::get_name(); \
+template<> \
+std::string reflect::MetaType<volatile T&>::get_name(); \
+template<> \
+std::string reflect::MetaType<T&&>::get_name(); \
+template<> \
+std::string reflect::MetaType<const T&&>::get_name(); \
+template<> \
+std::string reflect::MetaType<volatile T&&>::get_name(); \
+
+
+DECLARE_TYPE_HEADER(char)
+DECLARE_TYPE_HEADER(short)
+DECLARE_TYPE_HEADER(int)
+DECLARE_TYPE_HEADER(long)
+DECLARE_TYPE_HEADER(long long)
+
+DECLARE_TYPE_HEADER(unsigned char)
+DECLARE_TYPE_HEADER(unsigned short)
+DECLARE_TYPE_HEADER(unsigned int)
+DECLARE_TYPE_HEADER(unsigned long)
+DECLARE_TYPE_HEADER(unsigned long long)
+
+DECLARE_TYPE_HEADER(bool)
+DECLARE_TYPE_HEADER(float)
+DECLARE_TYPE_HEADER(double)
+DECLARE_TYPE_HEADER(nullptr_t)
+
+DECLARE_TYPE_HEADER(std::string)
+
+DECLARE_TYPE_HEADER(reflect::Type)
+DECLARE_TYPE_HEADER(reflect::Variant)
+DECLARE_TYPE_HEADER(reflect::Constructor)

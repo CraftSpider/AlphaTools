@@ -14,10 +14,6 @@ template<typename T, typename... Args>
 class ConstructorMeta {
 public:
     
-    static constexpr size_t num_args = sizeof...(Args);
-    
-    static std::vector<Type*> get_arg_types();
-    
     static T* construct(std::vector<Variant> args);
     
     static ConstructFuncRef get_construct_func();
@@ -27,7 +23,7 @@ public:
 class Constructor {
     
     Type *type;
-    std::vector<Type *> arg_types;
+    std::vector<Type*> arg_types;
     
     ConstructFuncRef ptr;
     size_t num_args;
@@ -43,6 +39,8 @@ public:
     Variant construct(std::vector<Variant> args);
     
     Type* get_type();
+    
+    const std::vector<Type*>& get_arg_types();
     
     size_t get_num_args();
     

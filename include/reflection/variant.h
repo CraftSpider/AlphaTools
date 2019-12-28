@@ -14,10 +14,10 @@ class Variant final {
 public:
     
     template<typename T>
-    static Variant from_instance(T* obj);
+    static Variant from_ptr(T* obj);
     
     template<typename T>
-    static Variant from_instance(T& obj);
+    static Variant from_ref(T& obj);
     
     template<typename T>
     static Variant from_instance(T obj);

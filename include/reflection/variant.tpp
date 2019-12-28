@@ -2,7 +2,7 @@
 namespace reflect {
 
 template<typename T>
-Variant Variant::from_instance(T* obj) {
+Variant Variant::from_ptr(T* obj) {
     Variant out = Variant();
     out.type = Type::from<T>();
     out.data = reinterpret_cast<void*>(obj);
@@ -10,7 +10,7 @@ Variant Variant::from_instance(T* obj) {
 }
 
 template<typename T>
-Variant Variant::from_instance(T& obj) {
+Variant Variant::from_ref(T& obj) {
     Variant out = Variant();
     out.type = Type::from<T>();
     out.data = reinterpret_cast<void*>(&obj);
@@ -18,7 +18,7 @@ Variant Variant::from_instance(T& obj) {
 }
 
 template<typename T>
-Variant Variant::from_instance(T obj) {
+Variant Variant::from_instance(T obj) { // TODO: concept of ownership, delete data when Variant dies?
     Variant out = Variant();
     out.type = Type::from<T>();
     out.data = new T(obj);
@@ -27,16 +27,28 @@ Variant Variant::from_instance(T obj) {
 
 template<typename T>
 typename std::remove_reference_t<T>* Variant::get_value_ptr() {
+    if (Type::from<T>() != type) {
+        throw invalid_type("Attempt to retrieve value as wrong type: Expected '" + type->get_name() + "', got '" + Type::from<T>()->get_name() + "'");
+    }
+    
     return reinterpret_cast<typename std::remove_reference_t<T>*>(data);
 }
 
 template<typename T>
 typename std::remove_reference_t<T>& Variant::get_value_ref() {
+    if (Type::from<T>() != type) {
+        throw invalid_type("Attempt to retrieve value as wrong type: Expected '" + type->get_name() + "', got '" + Type::from<T>()->get_name() + "'");
+    }
+    
     return *reinterpret_cast<typename std::remove_reference_t<T>*>(data);
 }
 
 template<typename T>
 T Variant::get_value() {
+    if (Type::from<T>() != type) {
+        throw invalid_type("Attempt to retrieve value as wrong type: Expected '" + type->get_name() + "', got '" + Type::from<T>()->get_name() + "'");
+    }
+    
     return *reinterpret_cast<typename std::remove_reference_t<T>*>(data);
 }
 

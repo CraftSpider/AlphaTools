@@ -1,16 +1,17 @@
 #pragma once
 
 #include "type.h"
+#include "variant.h"
 
 namespace reflect {
 
-typedef void(*DestructFuncRef)(void*);
+typedef void(*DestructFuncRef)(Variant);
 
 template<typename T>
 class DestructorMeta {
 public:
     
-    static void destruct(typename std::remove_reference_t<T>* instance);
+    static void destruct(Variant instance);
     
     static DestructFuncRef get_destruct_func();
     
@@ -30,7 +31,7 @@ public:
     template<typename T>
     static Destructor& from();
     
-    void destruct(void* instance);
+    void destruct(Variant instance);
     
     Type* get_type();
     

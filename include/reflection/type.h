@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <vector>
 #include <map>
 
@@ -55,6 +56,8 @@ public:
     
     void __add_constructor(Constructor* constructor);
     
+    void __add_member_property(MemberProperty* property);
+    
     void __set_destructor(Destructor* destructor);
     
     const std::string& get_name();
@@ -62,6 +65,8 @@ public:
     const std::vector<Constructor*>& get_constructors();
     
     const std::vector<MemberProperty*>& get_properties();
+    
+    MemberProperty* get_property(std::string name);
     
     const std::vector<MemberFunction*>& get_functions();
     

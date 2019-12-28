@@ -3,6 +3,7 @@
 #include "reflection/type.h"
 #include "reflection/variant.h"
 #include "reflection/constructor.h"
+#include "reflection/member_prop.h"
 #include "reflection/destructor.h"
 
 #include "reflection/declare_types.h"

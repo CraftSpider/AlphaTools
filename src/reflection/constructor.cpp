@@ -23,6 +23,10 @@ Type* Constructor::get_type() {
     return type;
 }
 
+const std::vector<Type*>& Constructor::get_arg_types() {
+    return arg_types;
+}
+
 size_t Constructor::get_num_args() {
     return num_args;
 }

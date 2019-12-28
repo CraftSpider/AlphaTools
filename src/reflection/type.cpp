@@ -1,6 +1,7 @@
 
+#include <algorithm>
 #include "reflection/type.h"
-#include <iostream>
+#include "reflection/member_prop.h"
 
 namespace reflect {
 
@@ -20,14 +21,20 @@ Type* Type::from_name(const std::string &name) {
 }
 
 void Type::__add_constructor(reflect::Constructor* constructor) {
-    // TODO: Check to ensure it's not already in there, throw already_reflected
+    if (std::find(constructors.begin(), constructors.end(), constructor) != constructors.end()) {
+        throw already_reflected("Constructor for type '" + name + "' has already been added");
+    }
     this->constructors.emplace_back(constructor);
 }
 
-void Type::__set_destructor(Destructor* destructor) {
-    if (name == "volatile char&&") {
-        std::cout << name;
+void Type::__add_member_property(MemberProperty *property) {
+    if (std::find(member_properties.begin(), member_properties.end(), property) != member_properties.end()) {
+        throw already_reflected("Member Property for type '" + name + "' has already been added");
     }
+    this->member_properties.emplace_back(property);
+}
+
+void Type::__set_destructor(Destructor* destructor) {
     if (this->destructor != nullptr) {
         throw already_reflected("Destructor for type '" + name + "' has already been set");
     }
@@ -44,6 +51,15 @@ const std::vector<Constructor*>& Type::get_constructors() {
 
 const std::vector<MemberProperty*>& Type::get_properties() {
     return member_properties;
+}
+
+MemberProperty* Type::get_property(std::string name) {
+    for (auto p : member_properties) {
+        if (p->get_name() == name) {
+            return p;
+        }
+    }
+    return nullptr;
 }
 
 const std::vector<MemberFunction*>& Type::get_functions() {

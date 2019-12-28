@@ -18,6 +18,7 @@
 
 #include "reflection/test_constructor.h"
 #include "reflection/test_type.h"
+#include "reflection/test_reflection.h"
 
 int main(int argc, char **argv) {
 	testing::setup_tests(argc, argv);
@@ -38,6 +39,7 @@ int main(int argc, char **argv) {
     TEST_FILE(memory)
     TEST_FILE(constructor)
     TEST_FILE(type)
+    TEST_FILE(reflection)
     
     int result = (int)(testing::run_tests() & 0b011u);
     

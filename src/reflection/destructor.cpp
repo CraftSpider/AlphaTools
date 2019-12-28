@@ -3,7 +3,11 @@
 
 namespace reflect {
 
-void Destructor::destruct(void* instance) {
+void Destructor::destruct(Variant instance) {
+    if (instance.get_type() != type) {
+        throw invalid_type("Attempt to destruct instance with invalid type");
+    }
+    
     ptr(instance);
 }
 

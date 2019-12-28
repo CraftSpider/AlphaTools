@@ -1,5 +1,6 @@
 
 #include "reflection/variant.h"
+#include "reflection/destructor.h"
 
 namespace reflect {
 
