@@ -31,10 +31,10 @@ public:
     void* get_value_unsafe();
     
     template<typename T>
-    T* get_value_ptr();
+    typename std::remove_reference_t<T>* get_value_ptr();
     
     template<typename T>
-    T& get_value_ref();
+    typename std::remove_reference_t<T>& get_value_ref();
     
     template<typename T>
     T get_value();

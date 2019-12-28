@@ -9,7 +9,7 @@ std::vector<Type*> ConstructorMeta<T, Args...>::get_arg_types() {
 template<typename T, typename... Args>
 T* ConstructorMeta<T, Args...>::construct(std::vector<Variant> args) {
     size_t i = 0;
-    return new T((*args[i++].get_value_ptr<Args>())...);
+    return new T(*args[i++].get_value_ptr<Args>()...);
 }
 
 template<typename T, typename... Args>
@@ -18,9 +18,9 @@ ConstructFuncRef ConstructorMeta<T, Args...>::get_construct_func() {
 }
 
 template<typename T, typename... Args>
-Constructor::Constructor(reflect::Type* t, reflect::ConstructorMeta<T, Args...> meta) {
+Constructor::Constructor(reflect::ConstructorMeta<T, Args...> meta) {
     (void)meta;
-    type = t;
+    type = Type::from<T>();
     arg_types = ConstructorMeta<T, Args...>::get_arg_types();
     ptr = ConstructorMeta<T, Args...>::get_construct_func();
     num_args = ConstructorMeta<T, Args...>::num_args;
@@ -28,10 +28,7 @@ Constructor::Constructor(reflect::Type* t, reflect::ConstructorMeta<T, Args...> 
 
 template<typename T, typename... Args>
 Constructor& Constructor::from() {
-    static Constructor constructor = Constructor(
-        Type::from<T>(),
-        ConstructorMeta<T, Args...>()
-    );
+    static Constructor constructor = Constructor(ConstructorMeta<T, Args...>());
     
     return constructor;
 }

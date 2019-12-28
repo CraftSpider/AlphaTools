@@ -12,7 +12,6 @@ typedef void*(*ConstructFuncRef)(std::vector<Variant>);
 
 template<typename T, typename... Args>
 class ConstructorMeta {
-
 public:
     
     static constexpr size_t num_args = sizeof...(Args);
@@ -34,7 +33,7 @@ class Constructor {
     size_t num_args;
     
     template<typename T, typename... Args>
-    explicit Constructor(Type* t, ConstructorMeta<T, Args...> meta);
+    explicit Constructor(ConstructorMeta<T, Args...> meta);
     
 public:
     

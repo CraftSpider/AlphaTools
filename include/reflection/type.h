@@ -9,6 +9,8 @@ namespace reflect {
 class Constructor;
 class MemberProperty;
 class MemberFunction;
+class StaticProperty;
+class StaticFunction;
 class Destructor;
 
 
@@ -29,6 +31,8 @@ class Type {
     std::vector<Constructor*> constructors;
     std::vector<MemberProperty*> member_properties;
     std::vector<MemberFunction*> member_functions;
+    std::vector<StaticProperty*> static_properties;
+    std::vector<StaticFunction*> static_functions;
     Destructor* destructor = nullptr;
     
     template<typename T>
@@ -51,6 +55,8 @@ public:
     
     void __add_constructor(Constructor* constructor);
     
+    void __set_destructor(Destructor* destructor);
+    
     const std::string& get_name();
     
     const std::vector<Constructor*>& get_constructors();
@@ -58,6 +64,10 @@ public:
     const std::vector<MemberProperty*>& get_properties();
     
     const std::vector<MemberFunction*>& get_functions();
+    
+    const std::vector<StaticProperty*>& get_static_properties();
+    
+    const std::vector<StaticFunction*>& get_static_functions();
     
     Destructor* get_destructor();
     

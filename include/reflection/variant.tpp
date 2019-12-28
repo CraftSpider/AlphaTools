@@ -26,18 +26,18 @@ Variant Variant::from_instance(T obj) {
 }
 
 template<typename T>
-T* Variant::get_value_ptr() {
-    return reinterpret_cast<T*>(data);
+typename std::remove_reference_t<T>* Variant::get_value_ptr() {
+    return reinterpret_cast<typename std::remove_reference_t<T>*>(data);
 }
 
 template<typename T>
-T& Variant::get_value_ref() {
-    return *reinterpret_cast<T*>(data);
+typename std::remove_reference_t<T>& Variant::get_value_ref() {
+    return *reinterpret_cast<typename std::remove_reference_t<T>*>(data);
 }
 
 template<typename T>
 T Variant::get_value() {
-    return *reinterpret_cast<T*>(data);
+    return *reinterpret_cast<typename std::remove_reference_t<T>*>(data);
 }
 
 }
