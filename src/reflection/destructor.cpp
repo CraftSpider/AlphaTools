@@ -8,6 +8,10 @@ void Destructor::destruct(Variant instance) {
         throw invalid_type("Attempt to destruct instance with invalid type");
     }
     
+    ptr(instance.get_value_unsafe());
+}
+
+void Destructor::unsafe_destruct(void *instance) {
     ptr(instance);
 }
 

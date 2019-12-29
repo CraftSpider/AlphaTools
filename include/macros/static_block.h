@@ -3,9 +3,9 @@
 #include "macros/utils.h"
 
 #define AT_STATIC_IMPL2(varname, funcname) \
-static void funcname(); \
+static void funcname() noexcept; \
 static int varname = (funcname(), 0); \
-static void funcname()
+static void funcname() noexcept
 
 #define AT_STATIC_IMPL1(id) AT_STATIC_IMPL2(AT_CONCATENATE(id, _VAR), AT_CONCATENATE(id, _FUNC))
 

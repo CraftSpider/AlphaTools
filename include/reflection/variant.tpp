@@ -18,7 +18,7 @@ Variant Variant::from_ref(T& obj) {
 }
 
 template<typename T>
-Variant Variant::from_instance(T obj) { // TODO: concept of ownership, delete data when Variant dies?
+Variant Variant::from_instance(T obj) {
     Variant out = Variant();
     out.type = Type::from<T>();
     out.data = new T(obj);

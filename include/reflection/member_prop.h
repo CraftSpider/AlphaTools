@@ -37,6 +37,9 @@ class MemberProperty {
     
 public:
     
+    MemberProperty(MemberProperty&) = delete;
+    MemberProperty(MemberProperty&&) = delete;
+    
     template<typename T, typename Ret>
     static MemberProperty& from(Ret T::* ptr, std::string name);
     

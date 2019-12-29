@@ -5,13 +5,13 @@
 
 namespace reflect {
 
-typedef void(*DestructFuncRef)(Variant);
+typedef void(*DestructFuncRef)(void*);
 
 template<typename T>
 class DestructorMeta {
 public:
     
-    static void destruct(Variant instance);
+    static void destruct(typename std::remove_reference_t<T>* instance);
     
     static DestructFuncRef get_destruct_func();
     
@@ -28,10 +28,15 @@ class Destructor {
     
 public:
     
+    Destructor(Destructor&) = delete;
+    Destructor(Destructor&&) = delete;
+    
     template<typename T>
     static Destructor& from();
     
     void destruct(Variant instance);
+    
+    void unsafe_destruct(void* instance);
     
     Type* get_type();
     

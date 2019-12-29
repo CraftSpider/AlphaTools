@@ -17,6 +17,11 @@ if(MSVC)
     add_compile_definitions(_CRT_NO_VA_START_VALIDATION)
 else()
     add_definitions(-Wall -Wextra -pedantic)
+
+# Uncomment these following lines to run the compile with libubsan, which will print at runtime any undefined behavior used.
+#    set(SANITIZE_FLAGS "-fsanitize=undefined -fsanitize=address -fsanitize=leak -fsanitize=shift -fsanitize=integer-divide-by-zero -fsanitize=unreachable -fsanitize=vla-bound -fsanitize=null -fsanitize=return -fsanitize=bounds -fsanitize=bounds-strict -fsanitize=alignment -fsanitize=object-size -fsanitize=float-divide-by-zero -fsanitize=float-cast-overflow -fsanitize=nonnull-attribute -fsanitize=returns-nonnull-attribute -fsanitize=bool -fsanitize=enum -fsanitize=vptr")
+#    add_definitions(${SANITIZE_FLAGS})
+#    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${SANITIZE_FLAGS}")
 endif()
 
 file(GLOB_RECURSE HEADERS CONFIGURE_DEPENDS include/*.h include/at_*)

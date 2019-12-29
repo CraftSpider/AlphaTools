@@ -8,7 +8,7 @@ struct A {
     
     A() = default;
     
-    A(int b) {
+    explicit A(int b) {
         a = b;
     }
     
@@ -17,39 +17,39 @@ struct A {
 DECLARE_TYPE(A)
 
 void make_too_few() {
-    reflect::Constructor c2 = reflect::Constructor::from<A, int>();
+    reflect::Constructor& c2 = reflect::Constructor::from<A, int>();
     c2.construct({});
 }
 
 void make_too_many() {
-    reflect::Constructor c2 = reflect::Constructor::from<A, int>();
+    reflect::Constructor& c2 = reflect::Constructor::from<A, int>();
     c2.construct(
         {reflect::Variant::from_instance(2), reflect::Variant::from_instance(3)}
     );
 }
 
 void make_wrong_type() {
-    reflect::Constructor c2 = reflect::Constructor::from<A, int>();
+    reflect::Constructor& c2 = reflect::Constructor::from<A, int>();
     c2.construct(
             std::vector<reflect::Variant> {reflect::Variant::from_instance(2.f)}
     );
 }
 
 void test_num_args() {
-    reflect::Constructor c1 = reflect::Constructor::from<A>();
-    reflect::Constructor c2 = reflect::Constructor::from<A, int>();
+    reflect::Constructor& c1 = reflect::Constructor::from<A>();
+    reflect::Constructor& c2 = reflect::Constructor::from<A, int>();
     
     ASSERT(c1.get_num_args() == 0);
     ASSERT(c2.get_num_args() == 1);
 }
 
 void test_construct_correct() {
-    reflect::Constructor c1 = reflect::Constructor::from<A>();
-    reflect::Constructor c2 = reflect::Constructor::from<A, int>();
+    reflect::Constructor& c1 = reflect::Constructor::from<A>();
+    reflect::Constructor& c2 = reflect::Constructor::from<A, int>();
     
-    A* a1 = c1.construct(std::vector<reflect::Variant>()).get_value_ptr<A>();
+    A* a1 = c1.construct({}).get_value_ptr<A>();
     A* a2 = c2.construct(
-            std::vector<reflect::Variant> {reflect::Variant::from_instance(2)}
+            {reflect::Variant::from_instance(2)}
     ).get_value_ptr<A>();
     
     ASSERT(a1->a == 0);

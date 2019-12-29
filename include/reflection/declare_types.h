@@ -53,6 +53,17 @@ std::string reflect::MetaType<volatile T&&>::get_name() { \
     return "volatile " #T "&&"; \
 } \
 static_block { \
+    reflect::__MaybeConstructor<T>::add(); \
+    reflect::__MaybeConstructor<T, T>::add(); \
+    reflect::__MaybeConstructor<T, const T>::add(); \
+    reflect::__MaybeConstructor<T, volatile T>::add(); \
+    reflect::__MaybeConstructor<T, T&>::add(); \
+    reflect::__MaybeConstructor<T, const T&>::add(); \
+    reflect::__MaybeConstructor<T, volatile T&>::add(); \
+    reflect::__MaybeConstructor<T, T&&>::add(); \
+    reflect::__MaybeConstructor<T, const T&&>::add(); \
+    reflect::__MaybeConstructor<T, volatile T&&>::add(); \
+     \
     reflect::Type::from<T>()->__set_destructor( \
         &reflect::Destructor::from<T>() \
     ); \
@@ -83,20 +94,6 @@ static_block { \
 }
 
 /**
- * \brief Reflect a type's default constructor
- *
- * Declares a type as having a reflected default constructor.
- * This will allow you to zero-arg construct the type, through the reflection
- * system.
- */
-#define DECLARE_DEFAULT_CONSTRUCTOR(T) \
-static_block { \
-    reflect::Type::from<T>()->__add_constructor( \
-        &reflect::Constructor::from<T>() \
-    ); \
-}
-
-/**
  * \brief Reflect a type's non-default constructors
  *
  * Declares non-default constructors for a type.
@@ -110,16 +107,33 @@ static_block { \
     ); \
 }
 
-#define DECLARE_MEMBER_DATA(T, NAME, K) \
+/**
+ * \brief Reflect a type's data member by name
+ *
+ * Declares a data member of a type.
+ * This will allow you to get and set this member on the type,
+ * through the reflection system.
+ */
+#define DECLARE_MEMBER_DATA(T, NAME) \
 static_block { \
     reflect::Type::from<T>()->__add_member_property( \
-        &reflect::MemberProperty::from<T, K>(&T::NAME, #NAME) \
+        &reflect::MemberProperty::from(&T::NAME, #NAME) \
     ); \
 }
 
-#define DECLARE_MEMBER_FUNC(T, NAME, K, ...)
+#define DECLARE_MEMBER_FUNC(T, NAME) \
+static_block { \
+    reflect::Type::from<T>()->__add_member_function( \
+        &reflect::MemberFunction::from(&T::NAME, #NAME) \
+    ); \
+}
 
-#define DECLARE_STATIC_DATA(T, NAME, K)
+#define DECLARE_STATIC_DATA(T, NAME, K) \
+static_block { \
+    reflect::Type::from<T>()->__add_static_property( \
+         \
+    ) \
+}
 
 #define DECLARE_STATIC_FUNC(T, NAME, K, ...)
 
@@ -143,6 +157,30 @@ template<> \
 std::string reflect::MetaType<const T&&>::get_name(); \
 template<> \
 std::string reflect::MetaType<volatile T&&>::get_name(); \
+
+
+namespace reflect {
+
+template<typename T, typename... Args>
+struct __MaybeConstructor {
+    
+    template<typename K, typename... Args1>
+    static std::enable_if_t<std::is_constructible_v<K, Args1...>, void> add_impl() {
+        reflect::Type::from<K>()->__add_constructor(
+            &reflect::Constructor::from<K, Args1...>()
+        );
+    }
+    
+    template<typename K, typename... Args1>
+    static std::enable_if_t<!std::is_constructible_v<K, Args1...>, void> add_impl() {}
+    
+    static void add() {
+        add_impl<T, Args...>();
+    }
+    
+};
+
+}
 
 
 DECLARE_TYPE_HEADER(char)

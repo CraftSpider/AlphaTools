@@ -58,11 +58,19 @@ public:
     
     void __add_member_property(MemberProperty* property);
     
+    void __add_member_function(MemberFunction* function);
+    
+    void __add_static_property(StaticProperty* property);
+    
+    void __add_static_function(StaticFunction* function);
+    
     void __set_destructor(Destructor* destructor);
     
     const std::string& get_name();
     
     const std::vector<Constructor*>& get_constructors();
+    
+    Constructor* get_constructor(std::vector<Type*> types);
     
     const std::vector<MemberProperty*>& get_properties();
     
@@ -70,9 +78,15 @@ public:
     
     const std::vector<MemberFunction*>& get_functions();
     
+    MemberFunction* get_function(std::string name);
+    
     const std::vector<StaticProperty*>& get_static_properties();
     
+    StaticProperty* get_static_property(std::string name);
+    
     const std::vector<StaticFunction*>& get_static_functions();
+    
+    StaticFunction* get_static_function(std::string name);
     
     Destructor* get_destructor();
     

@@ -2,8 +2,8 @@
 namespace reflect {
 
 template<typename T>
-void DestructorMeta<T>::destruct(Variant instance) {
-    delete instance.get_value_ptr<T>();
+void DestructorMeta<T>::destruct(typename std::remove_reference_t<T>* instance) {
+    delete instance;
 }
 
 template<typename T>

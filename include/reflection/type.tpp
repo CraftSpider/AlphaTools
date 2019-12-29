@@ -1,4 +1,5 @@
 
+#include <typeinfo>
 #include "reflection/errors.h"
 
 namespace reflect {

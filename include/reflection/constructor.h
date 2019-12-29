@@ -33,10 +33,15 @@ class Constructor {
     
 public:
     
+    Constructor(Constructor&) = delete;
+    Constructor(Constructor&&) = delete;
+    
     template<typename T, typename... Args>
     static Constructor& from();
     
     Variant construct(std::vector<Variant> args);
+    
+    void* construct_unsafe(std::vector<Variant> args);
     
     Type* get_type();
     

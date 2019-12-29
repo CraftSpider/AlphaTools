@@ -13,6 +13,12 @@ class Variant final {
 
 public:
     
+    Variant(const Variant& other);
+    
+    Variant(Variant&& other) noexcept;
+    
+    ~Variant();
+    
     template<typename T>
     static Variant from_ptr(T* obj);
     

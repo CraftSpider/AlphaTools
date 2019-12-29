@@ -1,6 +1,7 @@
 
 #include <algorithm>
 #include "reflection/type.h"
+#include "reflection/constructor.h"
 #include "reflection/member_prop.h"
 
 namespace reflect {
@@ -34,6 +35,27 @@ void Type::__add_member_property(MemberProperty *property) {
     this->member_properties.emplace_back(property);
 }
 
+void Type::__add_member_function(MemberFunction *function) {
+    if (std::find(member_functions.begin(), member_functions.end(), function) != member_functions.end()) {
+        throw already_reflected("Member function for type '" + name + "' has already been added");
+    }
+    this->member_functions.emplace_back(function);
+}
+
+void Type::__add_static_property(StaticProperty* property) {
+    if (std::find(static_properties.begin(), static_properties.end(), property) != static_properties.end()) {
+        throw already_reflected("Member function for type '" + name + "' has already been added");
+    }
+    this->static_properties.emplace_back(property);
+}
+
+void Type::__add_static_function(StaticFunction *function) {
+    if (std::find(static_functions.begin(), static_functions.end(), function) != static_functions.end()) {
+        throw already_reflected("Member function for type '" + name + "' has already been added");
+    }
+    this->static_functions.emplace_back(function);
+}
+
 void Type::__set_destructor(Destructor* destructor) {
     if (this->destructor != nullptr) {
         throw already_reflected("Destructor for type '" + name + "' has already been set");
@@ -47,6 +69,21 @@ const std::string& Type::get_name() {
 
 const std::vector<Constructor*>& Type::get_constructors() {
     return constructors;
+}
+
+Constructor* Type::get_constructor(std::vector<Type*> types) {
+    for (auto c : constructors) {
+        if (types.size() != c->get_arg_types().size()) {
+            continue;
+        }
+        for (size_t i = 0; i < types.size(); ++i) {
+            if (types[i] != c->get_arg_types()[i]) {
+                continue;
+            }
+        }
+        return c;
+    }
+    return nullptr;
 }
 
 const std::vector<MemberProperty*>& Type::get_properties() {

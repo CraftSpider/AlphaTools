@@ -28,18 +28,20 @@ public:
 DECLARE_TYPE(TestClass)
 DECLARE_TYPE(TestClass*)
 
-DECLARE_DEFAULT_CONSTRUCTOR(TestClass)
 DECLARE_CONSTRUCTOR(TestClass, int, TestClass*)
-DECLARE_MEMBER_DATA(TestClass, a, int)
-DECLARE_MEMBER_DATA(TestClass, b, TestClass*)
+DECLARE_MEMBER_DATA(TestClass, a)
+DECLARE_MEMBER_DATA(TestClass, b)
 
 
 void test_construction() {
     Type* t = Type::from<TestClass>();
     
     std::vector<Constructor*> constructors = t->get_constructors();
-    Constructor* c1 = constructors[0];
-    Constructor* c2 = constructors[1];
+    
+    Constructor* c1 = t->get_constructor({});
+    ASSERT(c1 != nullptr);
+    Constructor* c2 = t->get_constructor({Type::from<int>(), Type::from<TestClass*>()});
+    ASSERT(c2 != nullptr);
     
     TestClass tc1 = c1->construct({}).get_value_ref<TestClass>();
     TestClass tc2 = c2->construct(
@@ -57,7 +59,7 @@ void test_construction() {
 void test_member_data() {
     Type* t = Type::from<TestClass>();
     
-    Constructor* c = t->get_constructors()[1];
+    Constructor* c = t->get_constructor({Type::from<int>(), Type::from<TestClass*>()});
     
     TestClass tc = c->construct(
         {Variant::from_instance(-10), Variant::from_instance((TestClass*)nullptr)}
@@ -94,8 +96,8 @@ void test_fully_variant() {
     Type* int_type = Type::from_name("int");
     Type* tc_type = Type::from_name("TestClass");
     
-    Variant int_instance = int_type->get_constructors()[0]->construct({});
-    Variant tc_instance = tc_type->get_constructors()[0]->construct({});
+    Variant int_instance = int_type->get_constructor({})->construct({});
+    Variant tc_instance = tc_type->get_constructor({})->construct({});
     
     tc_type->get_property("a")->set(tc_instance, int_instance);
     
@@ -113,5 +115,5 @@ void run_reflection_tests() {
     TEST(test_member_data)
     TEST(test_destruction)
     
-    TEST(test_fully_variant);
+    TEST(test_fully_variant)
 }
