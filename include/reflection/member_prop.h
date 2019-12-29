@@ -5,16 +5,16 @@
 
 namespace reflect {
 
-typedef Variant(*MemberPropertyGetFuncRef)(void* ptr, Variant);
-typedef void(*MemberPropertySetFuncRef)(void* ptr, Variant, Variant);
+typedef Variant(*MemberPropertyGetFuncRef)(void* ptr, Variant&);
+typedef void(*MemberPropertySetFuncRef)(void* ptr, Variant&, Variant&);
 
 template<typename T, typename Ret>
 class MemberPropertyMeta {
 public:
     
-    static Variant get(Ret T::** ptr, Variant instance);
+    static Variant get(Ret T::** ptr, Variant& instance);
     
-    static void set(Ret T::** ptr, Variant instance, Variant data);
+    static void set(Ret T::** ptr, Variant& instance, Variant& data);
     
     static MemberPropertyGetFuncRef get_get_func();
     
@@ -33,7 +33,7 @@ class MemberProperty {
     MemberPropertySetFuncRef set_ptr;
     
     template<typename T, typename Ret>
-    MemberProperty(Ret T::* ptr, std::string name, MemberPropertyMeta<T, Ret> meta);
+    MemberProperty(Ret T::* ptr, std::string name);
     
 public:
     

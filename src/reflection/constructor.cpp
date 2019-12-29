@@ -9,13 +9,13 @@ Variant Constructor::construct(std::vector<Variant> args) {
     }
     for (size_t i = 0; i < num_args; ++i) {
         if (args[i].get_type() != arg_types[i]) {
-            throw invalid_type("Invalid argument type [type]");
+            throw invalid_type("Invalid argument type " + args[i].get_type()->get_name());
         }
     }
     
     return Variant::from_pair(
         type,
-        ptr(std::move(args))
+        ptr(args)
     );
 }
 
@@ -25,11 +25,11 @@ void* Constructor::construct_unsafe(std::vector<Variant> args) {
     }
     for (size_t i = 0; i < num_args; ++i) {
         if (args[i].get_type() != arg_types[i]) {
-            throw invalid_type("Invalid argument type [type]");
+            throw invalid_type("Invalid argument type " + args[i].get_type()->get_name());
         }
     }
     
-    return ptr(std::move(args));
+    return ptr(args);
 }
 
 Type* Constructor::get_type() {

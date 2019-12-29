@@ -2,12 +2,12 @@
 namespace reflect {
 
 template<typename T, typename Ret>
-Variant MemberPropertyMeta<T, Ret>::get(Ret T::** ptr, Variant instance) {
+Variant MemberPropertyMeta<T, Ret>::get(Ret T::** ptr, Variant& instance) {
     return Variant::from_ref(instance.get_value_ref<T>().*(*ptr));
 }
 
 template<typename T, typename Ret>
-void MemberPropertyMeta<T, Ret>::set(Ret T::** ptr, Variant instance, Variant data) {
+void MemberPropertyMeta<T, Ret>::set(Ret T::** ptr, Variant& instance, Variant& data) {
     instance.get_value_ref<T>().*(*ptr) = data.get_value_ref<Ret>();
 }
 
@@ -22,8 +22,7 @@ MemberPropertySetFuncRef MemberPropertyMeta<T, Ret>::get_set_func() {
 }
 
 template<typename T, typename Ret>
-MemberProperty::MemberProperty(Ret T::* ptr, std::string name, MemberPropertyMeta<T, Ret> meta) {
-    (void)meta;
+MemberProperty::MemberProperty(Ret T::* ptr, std::string name) {
     type = Type::from<T>();
     property_type = Type::from<Ret>();
     this->name = std::move(name);
@@ -37,8 +36,7 @@ template<typename T, typename Ret>
 MemberProperty& MemberProperty::from(Ret T::* ptr, std::string name) {
     static MemberProperty member_property = MemberProperty(
         ptr,
-        name,
-        MemberPropertyMeta<T, Ret>()
+        name
     );
     
     return member_property;

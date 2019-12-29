@@ -8,13 +8,13 @@
 
 namespace reflect {
 
-typedef void*(*ConstructFuncRef)(std::vector<Variant>);
+typedef void*(*ConstructFuncRef)(std::vector<Variant>&);
 
 template<typename T, typename... Args>
 class ConstructorMeta {
 public:
     
-    static T* construct(std::vector<Variant> args);
+    static T* construct(std::vector<Variant>& args);
     
     static ConstructFuncRef get_construct_func();
     

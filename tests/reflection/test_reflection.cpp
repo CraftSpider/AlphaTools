@@ -22,6 +22,14 @@ public:
     
     ~TestClass() = default;
     
+    void increment() {
+        a++;
+    }
+    
+    int multiply(int factor) {
+        return a*factor;
+    }
+    
 };
 
 
@@ -31,6 +39,8 @@ DECLARE_TYPE(TestClass*)
 DECLARE_CONSTRUCTOR(TestClass, int, TestClass*)
 DECLARE_MEMBER_DATA(TestClass, a)
 DECLARE_MEMBER_DATA(TestClass, b)
+DECLARE_MEMBER_FUNC(TestClass, increment)
+DECLARE_MEMBER_FUNC(TestClass, multiply)
 
 
 void test_construction() {
@@ -83,6 +93,21 @@ void test_member_data() {
 }
 
 
+void test_member_function() {
+    Type* t = Type::from<TestClass>();
+    
+    TestClass tc = t->get_constructor({})->construct({}).get_value_ref<TestClass>();
+    
+    ASSERT(tc.a == 5);
+    t->get_function("increment")->invoke(Variant::from_ref(tc), {});
+    ASSERT(tc.a == 6, "Function wasn't called correctly");
+    int result = t->get_function("multiply")->invoke(Variant::from_ref(tc), {Variant::from_instance(2)}).get_value_ref<int>();
+    ASSERT(result == 12, "Multiply function returned incorrect value");
+    result = t->get_function("multiply")->invoke(Variant::from_ref(tc), {Variant::from_instance(5)}).get_value_ref<int>();
+    ASSERT(result == 30, "Multiply function returned incorrect value");
+}
+
+
 void test_destruction() {
     Type* t = Type::from<TestClass>();
     
@@ -105,14 +130,25 @@ void test_fully_variant() {
     
     ASSERT(a_value.get_value_ref<int>() == 0); // This is the only place we actually use non-reflection a type!
     
+    tc_type->get_function("increment")->invoke(tc_instance, {});
+    
+    ASSERT(a_value.get_value_ref<int>() == 1);
+    
+    Variant multiply_result = tc_type->get_function("multiply")->invoke(tc_instance, {int_instance});
+    
+    ASSERT(multiply_result.get_value_ref<int>() == 0);
+    
     int_type->get_destructor()->destruct(int_instance);
     tc_type->get_destructor()->destruct(tc_instance);
 }
 
 
 void run_reflection_tests() {
+    std::string test;
+    
     TEST(test_construction)
     TEST(test_member_data)
+    TEST(test_member_function)
     TEST(test_destruction)
     
     TEST(test_fully_variant)

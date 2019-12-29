@@ -3,6 +3,7 @@
 #include "reflection/type.h"
 #include "reflection/constructor.h"
 #include "reflection/member_prop.h"
+#include "reflection/member_func.h"
 
 namespace reflect {
 
@@ -101,6 +102,15 @@ MemberProperty* Type::get_property(std::string name) {
 
 const std::vector<MemberFunction*>& Type::get_functions() {
     return member_functions;
+}
+
+MemberFunction* Type::get_function(std::string name) {
+    for (auto f : member_functions) {
+        if (f->get_name() == name) {
+            return f;
+        }
+    }
+    return nullptr;
 }
 
 const std::vector<StaticProperty*>& Type::get_static_properties() {

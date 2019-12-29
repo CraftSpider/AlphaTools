@@ -5,21 +5,15 @@
 
 namespace reflect {
 
-typedef void(*MemberFunctionFuncRef)(Variant, std::vector<Variant>, Variant&);
+typedef Variant(*MemberFunctionFuncRef)(void*, Variant&, std::vector<Variant>&);
 
 template<typename T, typename Ret, typename... Args>
 class MemberFunctionMeta {
 public:
     
-    static constexpr size_t num_args = sizeof...(Args);
+    static Variant invoke(Ret(T::**ptr)(Args...), Variant& instance, std::vector<Variant>& args);
     
-    static Type* get_return_type();
-    
-    static std::vector<Type*> get_arg_types();
-    
-    static void invoke(Variant instance, std::vector<Variant> args, Variant& out);
-    
-    static MemberPropertyFuncRef get_invoke_func();
+    static MemberFunctionFuncRef get_invoke_func();
     
 };
 
@@ -28,17 +22,22 @@ class MemberFunction {
     Type* type;
     Type* return_type;
     std::vector<Type*> arg_types;
+    std::string name;
     
-    MemberPropertyFuncRef ptr;
+    void* ptr;
+    MemberFunctionFuncRef invoke_ptr;
     size_t num_args;
     
     template<typename T, typename Ret, typename... Args>
-    MemberProperty(MemberPropertyMeta<T, Ret, Args...> meta);
+    MemberFunction(Ret(T::*ptr)(Args...), std::string name);
 
 public:
     
+    MemberFunction(MemberFunction&) = delete;
+    MemberFunction(MemberFunction&&) = delete;
+    
     template<typename T, typename Ret, typename... Args>
-    static MemberProperty& from();
+    static MemberFunction& from(Ret (T::*ptr)(Args...), std::string name);
     
     Variant invoke(Variant instance, std::vector<Variant> args);
     
@@ -46,10 +45,14 @@ public:
     
     Type* get_return_type();
     
-    const std::vector<Type*> get_arg_types();
+    const std::vector<Type*>& get_arg_types();
     
     size_t get_num_args();
+    
+    std::string get_name();
     
 };
 
 }
+
+#include "member_func.tpp"

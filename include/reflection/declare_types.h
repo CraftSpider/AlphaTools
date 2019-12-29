@@ -5,6 +5,7 @@
 #include "reflection/type.h"
 #include "reflection/variant.h"
 #include "reflection/constructor.h"
+#include "reflection/member_func.h"
 #include "reflection/destructor.h"
 
 
@@ -121,6 +122,13 @@ static_block { \
     ); \
 }
 
+/**
+ * \brief Reflect a type's member function by name
+ *
+ * Declares a member function of a type.
+ * This will allow you to invoke and get the result of this member function
+ * on the type, through the reflection system.
+ */
 #define DECLARE_MEMBER_FUNC(T, NAME) \
 static_block { \
     reflect::Type::from<T>()->__add_member_function( \
@@ -128,14 +136,33 @@ static_block { \
     ); \
 }
 
+/**
+ * \brief Reflect a type's member function by name and arguments
+ *
+ * Declares a member function of a type.
+ * This will allow you to invoke and get the result of this member function
+ * on the type, through the reflection system.
+ */
+#define DECLARE_MEMBER_FUNC_OVERLOAD(T, NAME, RET, ...) \
+static_block { \
+    reflect::Type::from<T>()->__add_member_function( \
+        &reflect::MemberFunction::from<T, RET, __VA_ARGS__>(&T::NAME, #NAME) \
+    ); \
+}
+
 #define DECLARE_STATIC_DATA(T, NAME, K) \
 static_block { \
     reflect::Type::from<T>()->__add_static_property( \
-         \
-    ) \
+        &reflect::StaticProperty::from(&T::NAME, #NAME) \
+    ); \
 }
 
-#define DECLARE_STATIC_FUNC(T, NAME, K, ...)
+#define DECLARE_STATIC_FUNC(T, NAME) \
+static_block { \
+    reflect::Type::from<T>()->__add_static_function( \
+        &reflect::StaticFunction::from(&T::NAME, #NAME) \
+    ); \
+}
 
 
 #define DECLARE_TYPE_HEADER(T) \
@@ -157,6 +184,18 @@ template<> \
 std::string reflect::MetaType<const T&&>::get_name(); \
 template<> \
 std::string reflect::MetaType<volatile T&&>::get_name(); \
+
+
+#define DECLARE_VOID() \
+template<> \
+std::string reflect::MetaType<void>::get_name() { \
+    return "void"; \
+}
+
+
+#define DECLARE_VOID_HEADER() \
+template<> \
+std::string reflect::MetaType<void>::get_name();
 
 
 namespace reflect {
@@ -182,6 +221,7 @@ struct __MaybeConstructor {
 
 }
 
+DECLARE_VOID_HEADER()
 
 DECLARE_TYPE_HEADER(char)
 DECLARE_TYPE_HEADER(short)
