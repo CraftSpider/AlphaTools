@@ -20,7 +20,7 @@ public:
     
 };
 
-class Constructor {
+class Constructor final {
     
     Type *type;
     std::vector<Type*> arg_types;

@@ -22,7 +22,7 @@ public:
     
 };
 
-class StaticProperty {
+class StaticProperty final {
 
     Type* type;
     Type* property_type;

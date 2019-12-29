@@ -17,7 +17,7 @@ public:
     
 };
 
-class MemberFunction {
+class MemberFunction final {
     
     Type* type;
     Type* return_type;

@@ -17,7 +17,7 @@ public:
     
 };
 
-class Destructor {
+class Destructor final {
     
     Type *type;
     

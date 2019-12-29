@@ -17,7 +17,7 @@ public:
     
 };
 
-class StaticFunction {
+class StaticFunction final {
     
     Type* type;
     Type* return_type;

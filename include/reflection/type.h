@@ -25,7 +25,7 @@ class MetaType {
 };
 
 
-class Type {
+class Type final {
     
     std::string name;
     

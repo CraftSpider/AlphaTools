@@ -22,7 +22,7 @@ public:
 
 };
 
-class MemberProperty {
+class MemberProperty final {
 
     Type* type;
     Type* property_type;
