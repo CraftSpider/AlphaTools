@@ -66,9 +66,9 @@ DECLARE_CONSTRUCTOR(std::string, const char*, size_t)
 DECLARE_CONSTRUCTOR(std::string, size_t, char)
 
 // TODO: Reference Variants
-//DECLARE_MEMBER_FUNC_OVERLOAD(std::string, assign, std::string&, size_t, char)
-//DECLARE_MEMBER_FUNC_OVERLOAD(std::string, assign, std::string&, const std::string&)
-//DECLARE_MEMBER_FUNC(std::string, at)
+DECLARE_MEMBER_FUNC_OVERLOAD(std::string, assign, std::string&, size_t, char)
+DECLARE_MEMBER_FUNC_OVERLOAD(std::string, assign, std::string&, const std::string&)
+DECLARE_MEMBER_FUNC(std::string, at)
 
 DECLARE_TYPE(std::runtime_error)
 DECLARE_CONSTRUCTOR(std::runtime_error, std::string)

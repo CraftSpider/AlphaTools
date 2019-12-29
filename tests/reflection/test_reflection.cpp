@@ -155,8 +155,7 @@ void test_fully_variant() {
     
     ASSERT(multiply_result.get_value_ref<int>() == 0);
     
-    int_type->get_destructor()->destruct(int_instance);
-    tc_type->get_destructor()->destruct(tc_instance);
+    // We don't want to destruct them manually, as they're 'owned' and as such destruct themselves
 }
 
 

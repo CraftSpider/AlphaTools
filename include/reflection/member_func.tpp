@@ -11,7 +11,7 @@ Variant __member_invoke_impl(Ret(T::*ptr)(Args...), Variant instance, std::vecto
         (temp.*ptr)(args[I].get_value_ref<Args>()...);
         return Variant::from_type(Type::from<void>());
     } else {
-        return Variant::from_instance<Ret>((instance.get_value_ref<T>().*ptr)(args[I].get_value_ref<Args>()...));
+        return Variant::from_return<Ret>((instance.get_value_ref<T>().*ptr)(args[I].get_value_ref<Args>()...));
     }
 }
 

@@ -13,7 +13,7 @@ Variant Constructor::construct(std::vector<Variant> args) {
         }
     }
     
-    return Variant::from_pair(
+    return Variant::from_pair_owned(
         type,
         ptr(args)
     );

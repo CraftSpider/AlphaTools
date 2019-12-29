@@ -9,7 +9,7 @@ Variant __static_invoke_impl(Ret(*ptr)(Args...), std::vector<Variant>& args, uti
         ptr(args[I].get_value_ref<Args>()...);
         return Variant::from_type(Type::from<void>());
     } else {
-        return Variant::from_instance<Ret>(ptr(args[I].get_value_ref<Args>()...));
+        return Variant::from_return<Ret>(ptr(args[I].get_value_ref<Args>()...));
     }
 }
 

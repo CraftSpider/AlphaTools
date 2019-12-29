@@ -47,13 +47,16 @@ void test_construct_correct() {
     reflect::Constructor& c1 = reflect::Constructor::from<A>();
     reflect::Constructor& c2 = reflect::Constructor::from<A, int>();
     
-    A* a1 = c1.construct({}).get_value_ptr<A>();
+    A* a1 = c1.construct({}).take_value_ptr<A>();
     A* a2 = c2.construct(
             {reflect::Variant::from_instance(2)}
-    ).get_value_ptr<A>();
+    ).take_value_ptr<A>();
     
     ASSERT(a1->a == 0);
     ASSERT(a2->a == 2);
+    
+    delete a1;
+    delete a2;
 }
 
 void test_bad_inputs() {
