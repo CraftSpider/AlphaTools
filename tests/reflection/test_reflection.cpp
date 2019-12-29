@@ -10,6 +10,8 @@ using namespace reflect;
 class TestClass {
 public:
     
+    static float f;
+    
     int a = 5;
     TestClass* b = nullptr;
     
@@ -22,6 +24,14 @@ public:
     
     ~TestClass() = default;
     
+    static void static_decrement() {
+        f--;
+    }
+    
+    static float static_multiply(float factor) {
+        return f*factor;
+    }
+    
     void increment() {
         a++;
     }
@@ -32,15 +42,22 @@ public:
     
 };
 
+float TestClass::f = .5f;
+
 
 DECLARE_TYPE(TestClass)
 DECLARE_TYPE(TestClass*)
 
 DECLARE_CONSTRUCTOR(TestClass, int, TestClass*)
+
 DECLARE_MEMBER_DATA(TestClass, a)
 DECLARE_MEMBER_DATA(TestClass, b)
 DECLARE_MEMBER_FUNC(TestClass, increment)
 DECLARE_MEMBER_FUNC(TestClass, multiply)
+
+DECLARE_STATIC_DATA(TestClass, f)
+DECLARE_STATIC_FUNC(TestClass, static_decrement)
+DECLARE_STATIC_FUNC(TestClass, static_multiply)
 
 
 void test_construction() {

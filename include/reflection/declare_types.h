@@ -150,17 +150,44 @@ static_block { \
     ); \
 }
 
-#define DECLARE_STATIC_DATA(T, NAME, K) \
+/**
+ * \brief Reflect a type's static data by name
+ *
+ * Declares a static property of a type.
+ * This will allow you to get and set this property, through the reflection system.
+ */
+#define DECLARE_STATIC_DATA(T, NAME) \
 static_block { \
     reflect::Type::from<T>()->__add_static_property( \
-        &reflect::StaticProperty::from(&T::NAME, #NAME) \
+        &reflect::StaticProperty::from<T>(&T::NAME, #NAME) \
     ); \
 }
 
+/**
+ * \brief Reflect a type's static function by name
+ *
+ * Declares a static function of a type.
+ * This will allow you to invoke and get the result of this static function,
+ * through the reflection system.
+ */
 #define DECLARE_STATIC_FUNC(T, NAME) \
 static_block { \
     reflect::Type::from<T>()->__add_static_function( \
-        &reflect::StaticFunction::from(&T::NAME, #NAME) \
+        &reflect::StaticFunction::from<T>(&T::NAME, #NAME) \
+    ); \
+}
+
+/**
+ * \brief Reflect a type's static function by name and arguments
+ *
+ * Declares a static function of a type.
+ * This will allow you to invoke and get the result of this static function,
+ * through the reflection system.
+ */
+#define DECLARE_STATIC_FUNC_OVERLOAD(T, NAME, RET, ...) \
+static_block { \
+    reflect::Type::from<T>()->__add_static_function( \
+        &reflect::StaticFunction::from<T, RET, __VA_ARGS__>(&T::NAME, #NAME) \
     ); \
 }
 

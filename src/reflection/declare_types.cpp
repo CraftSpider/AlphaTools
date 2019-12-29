@@ -9,7 +9,7 @@ DECLARE_VOID()
 
 // Integral Types
 
-//  Signed
+//  Default
 
 DECLARE_TYPE(char)
 
@@ -21,7 +21,7 @@ DECLARE_TYPE(long)
 
 DECLARE_TYPE(long long)
 
-// Signed
+//  Signed
 
 DECLARE_TYPE(signed char)
 

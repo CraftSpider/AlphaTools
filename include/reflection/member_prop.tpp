@@ -34,12 +34,13 @@ MemberProperty::MemberProperty(Ret T::* ptr, std::string name) {
 
 template<typename T, typename Ret>
 MemberProperty& MemberProperty::from(Ret T::* ptr, std::string name) {
-    static MemberProperty member_property = MemberProperty(
-        ptr,
-        name
-    );
+    static std::map<std::string, MemberProperty*> member_properties = std::map<std::string, MemberProperty*>();
     
-    return member_property;
+    if (member_properties.count(name) == 0) {
+        member_properties[name] = new MemberProperty(ptr, name);
+    }
+    
+    return *member_properties[name];
 }
 
 }

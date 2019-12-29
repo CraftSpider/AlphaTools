@@ -4,6 +4,7 @@
 #include "reflection/constructor.h"
 #include "reflection/member_prop.h"
 #include "reflection/member_func.h"
+#include "reflection/static_prop.h"
 
 namespace reflect {
 
@@ -115,6 +116,15 @@ MemberFunction* Type::get_function(std::string name) {
 
 const std::vector<StaticProperty*>& Type::get_static_properties() {
     return static_properties;
+}
+
+StaticProperty* Type::get_static_property(std::string name) {
+    for (auto p : static_properties) {
+        if (p->get_name() == name) {
+            return p;
+        }
+    }
+    return nullptr;
 }
 
 const std::vector<StaticFunction*>& Type::get_static_functions() {

@@ -4,7 +4,7 @@
 namespace reflect {
 
 template<typename T, typename Ret, typename... Args, size_t... I>
-Variant __invoke_impl(Ret(T::*ptr)(Args...), Variant instance, std::vector<Variant>& args, util::TemplateRange<I...>) {
+Variant __member_invoke_impl(Ret(T::*ptr)(Args...), Variant instance, std::vector<Variant>& args, util::TemplateRange<I...>) {
     if constexpr (std::is_same<void, Ret>::value) {
         T& temp = instance.get_value_ref<T>();
         
@@ -17,7 +17,7 @@ Variant __invoke_impl(Ret(T::*ptr)(Args...), Variant instance, std::vector<Varia
 
 template<typename T, typename Ret, typename... Args>
 Variant MemberFunctionMeta<T, Ret, Args...>::invoke(Ret(T::**ptr)(Args...), Variant& instance, std::vector<Variant>& args) {
-    return __invoke_impl<T, Ret, Args...>(*ptr, instance, args, util::VariadicRange<Args...>());
+    return __member_invoke_impl<T, Ret, Args...>(*ptr, instance, args, util::VariadicRange<Args...>());
 }
 
 template<typename T, typename Ret, typename... Args>
@@ -40,12 +40,13 @@ MemberFunction::MemberFunction(Ret(T::*ptr)(Args...), std::string name) {
 
 template<typename T, typename Ret, typename... Args>
 MemberFunction& MemberFunction::from(Ret (T::*ptr)(Args...), std::string name) {
-    static MemberFunction member_function = MemberFunction(
-        ptr,
-        name
-    );
+    static std::map<std::string, MemberFunction*> member_functions = std::map<std::string, MemberFunction*>();
     
-    return member_function;
+    if (member_functions.count(name) == 0) {
+        member_functions[name] = new MemberFunction(ptr, name);
+    }
+    
+    return *member_functions[name];
 }
 
 }
