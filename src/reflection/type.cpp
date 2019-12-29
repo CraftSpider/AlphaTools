@@ -5,6 +5,7 @@
 #include "reflection/member_prop.h"
 #include "reflection/member_func.h"
 #include "reflection/static_prop.h"
+#include "reflection/static_func.h"
 
 namespace reflect {
 
@@ -129,6 +130,15 @@ StaticProperty* Type::get_static_property(std::string name) {
 
 const std::vector<StaticFunction*>& Type::get_static_functions() {
     return static_functions;
+}
+
+StaticFunction * Type::get_static_function(std::string name) {
+    for (auto f : static_functions) {
+        if (f->get_name() == name) {
+            return f;
+        }
+    }
+    return nullptr;
 }
 
 Destructor* Type::get_destructor() {
