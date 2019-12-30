@@ -30,7 +30,7 @@ class MetaType {
 };
 
 
-class Type final {
+class Type final { // TODO: reference/dereference
     
     std::string name;
     

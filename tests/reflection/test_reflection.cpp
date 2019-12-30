@@ -134,6 +134,21 @@ void test_destruction() {
 }
 
 
+/*void test_pointer_shift() {
+    Type* p_type = Type::from_name("Type*");
+    Type* type = Type::from_name("Type");
+    
+    ASSERT(p_type.dereference() == type);
+    ASSERT(type.reference() == p_type);
+    
+    Variant v_type = Variant::from_instance(type);
+    Variant v_type2 = p_type->get_caster()->dereference(v_type);
+    
+    ASSERT(v_type.get_type() == p_type);
+    ASSERT(v_type2.get_type() == type);
+}*/
+
+
 void test_fully_variant() {
     Type* int_type = Type::from_name("int");
     Type* tc_type = Type::from_name("TestClass");

@@ -33,7 +33,7 @@ Variant Variant::from_return(T obj) {
     Variant out = Variant();
     out.type = Type::from<typename std::remove_reference_t<T>>();
     if constexpr(std::is_reference<T>::value) {
-        out.data = &obj;
+        out.data = const_cast<void*>(reinterpret_cast<const void*>(&obj));
     } else {
         out.data = new typename std::remove_reference_t<T>(std::move(obj));
         out.owned = true;

@@ -59,6 +59,7 @@ public:
          * Whether the system uses little-endian
          */
         static constexpr bool little = __char == 0x04;
+        
         /**
          * Whether the system uses big-endian
          */

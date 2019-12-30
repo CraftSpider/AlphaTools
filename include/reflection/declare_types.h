@@ -5,7 +5,10 @@
 #include "reflection/type.h"
 #include "reflection/variant.h"
 #include "reflection/constructor.h"
+#include "reflection/member_prop.h"
 #include "reflection/member_func.h"
+#include "reflection/static_prop.h"
+#include "reflection/static_func.h"
 #include "reflection/destructor.h"
 
 /**
@@ -142,6 +145,16 @@ static_block { \
 }
 
 /**
+ * \brief Reflect a type's member function with no args
+ */
+#define DECLARE_MEMBER_FUNC_NOARG(T, NAME, RET) \
+static_block { \
+    reflect::Type::from<T>()->__add_member_function( \
+        &reflect::MemberFunction::from<T, RET>(&T::NAME, #NAME) \
+    ); \
+}
+
+/**
  * \brief Reflect a type's member function by name and arguments
  *
  * Declares a member function of a type.
@@ -261,6 +274,8 @@ DECLARE_TYPE_HEADER(int)
 DECLARE_TYPE_HEADER(long)
 DECLARE_TYPE_HEADER(long long)
 
+DECLARE_TYPE_HEADER(signed char)
+
 DECLARE_TYPE_HEADER(unsigned char)
 DECLARE_TYPE_HEADER(unsigned short)
 DECLARE_TYPE_HEADER(unsigned int)
@@ -268,12 +283,38 @@ DECLARE_TYPE_HEADER(unsigned long)
 DECLARE_TYPE_HEADER(unsigned long long)
 
 DECLARE_TYPE_HEADER(bool)
+DECLARE_TYPE_HEADER(wchar_t)
 DECLARE_TYPE_HEADER(float)
 DECLARE_TYPE_HEADER(double)
+DECLARE_TYPE_HEADER(long double)
 DECLARE_TYPE_HEADER(nullptr_t)
 
+DECLARE_TYPE_HEADER(void*)
+DECLARE_TYPE_HEADER(char*)
+DECLARE_TYPE_HEADER(unsigned char*)
+
 DECLARE_TYPE_HEADER(std::string)
+DECLARE_TYPE_HEADER(std::runtime_error)
+DECLARE_TYPE_HEADER(std::vector<reflect::Type*>)
+DECLARE_TYPE_HEADER(std::vector<reflect::Constructor*>)
+DECLARE_TYPE_HEADER(std::vector<reflect::MemberProperty*>)
+DECLARE_TYPE_HEADER(std::vector<reflect::MemberFunction*>)
+DECLARE_TYPE_HEADER(std::vector<reflect::StaticProperty*>)
+DECLARE_TYPE_HEADER(std::vector<reflect::StaticFunction*>)
 
 DECLARE_TYPE_HEADER(reflect::Type)
+DECLARE_TYPE_HEADER(reflect::Type*)
 DECLARE_TYPE_HEADER(reflect::Variant)
+DECLARE_TYPE_HEADER(reflect::Variant*)
 DECLARE_TYPE_HEADER(reflect::Constructor)
+DECLARE_TYPE_HEADER(reflect::Constructor*)
+DECLARE_TYPE_HEADER(reflect::MemberProperty)
+DECLARE_TYPE_HEADER(reflect::MemberProperty*)
+DECLARE_TYPE_HEADER(reflect::MemberFunction)
+DECLARE_TYPE_HEADER(reflect::MemberFunction*)
+DECLARE_TYPE_HEADER(reflect::StaticProperty)
+DECLARE_TYPE_HEADER(reflect::StaticProperty*)
+DECLARE_TYPE_HEADER(reflect::StaticFunction)
+DECLARE_TYPE_HEADER(reflect::StaticFunction*)
+DECLARE_TYPE_HEADER(reflect::Destructor)
+DECLARE_TYPE_HEADER(reflect::Destructor*)
