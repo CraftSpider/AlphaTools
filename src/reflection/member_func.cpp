@@ -3,6 +3,18 @@
 
 namespace reflect {
 
+Variant MemberFunction::invoke(Variant instance) {
+    if (instance.get_type() != type) {
+        throw invalid_type("Attempt to invoke function on instance of invalid type");
+    }
+    if (num_args != 0) {
+        throw invalid_size("Invalid number of arguments to function");
+    }
+    
+    std::vector<Variant> temp;
+    return invoke_ptr(ptr, instance, temp);
+}
+
 Variant MemberFunction::invoke(reflect::Variant instance, std::vector<Variant> args) {
     if (instance.get_type() != type) {
         throw invalid_type("Attempt to invoke function on instance of invalid type");

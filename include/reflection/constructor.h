@@ -39,6 +39,8 @@ public:
     template<typename T, typename... Args>
     static Constructor& from();
     
+    Variant construct();
+    
     Variant construct(std::vector<Variant> args);
     
     void* construct_unsafe(std::vector<Variant> args);

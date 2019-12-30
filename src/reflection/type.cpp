@@ -89,6 +89,40 @@ Constructor* Type::get_constructor(std::vector<Type*> types) {
     return nullptr;
 }
 
+Constructor* Type::get_default_constructor() {
+    for (auto c : constructors) {
+        if (c->get_num_args() != 0) {
+            continue;
+        }
+        return c;
+    }
+    return nullptr;
+}
+
+Constructor* Type::get_copy_constructor() {
+    for (auto c : constructors) {
+        if (c->get_num_args() != 1) {
+            continue;
+        }
+        if (c->get_arg_types()[0] == Type::from_name("const " + name + "&")) {
+            return c;
+        }
+    }
+    return nullptr;
+}
+
+Constructor* Type::get_move_constructor() {
+    for (auto c : constructors) {
+        if (c->get_num_args() != 1) {
+            continue;
+        }
+        if (c->get_arg_types()[0] == Type::from_name(name + "&&")) {
+            return c;
+        }
+    }
+    return nullptr;
+}
+
 const std::vector<MemberProperty*>& Type::get_properties() {
     return member_properties;
 }

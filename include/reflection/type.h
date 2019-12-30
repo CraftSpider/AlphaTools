@@ -72,6 +72,12 @@ public:
     
     Constructor* get_constructor(std::vector<Type*> types);
     
+    Constructor* get_default_constructor();
+    
+    Constructor* get_copy_constructor();
+    
+    Constructor* get_move_constructor();
+    
     const std::vector<MemberProperty*>& get_properties();
     
     MemberProperty* get_property(std::string name);

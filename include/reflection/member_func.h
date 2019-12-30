@@ -39,6 +39,8 @@ public:
     template<typename T, typename Ret, typename... Args>
     static MemberFunction& from(Ret (T::*ptr)(Args...), std::string name);
     
+    Variant invoke(Variant instance);
+    
     Variant invoke(Variant instance, std::vector<Variant> args);
     
     Type* get_type();

@@ -39,6 +39,8 @@ public:
     template<typename T, typename Ret, typename... Args>
     static StaticFunction& from(Ret(*ptr)(Args...), std::string name);
     
+    Variant invoke();
+    
     Variant invoke(std::vector<Variant> args);
     
     Type* get_type();

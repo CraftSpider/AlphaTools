@@ -3,6 +3,18 @@
 
 namespace reflect {
 
+Variant Constructor::construct() {
+    if (num_args != 0) {
+        throw invalid_size("Constructor is not zero-arg");
+    }
+    
+    std::vector<Variant> temp;
+    return Variant::from_pair_owned(
+        type,
+        ptr(temp)
+    );
+}
+
 Variant Constructor::construct(std::vector<Variant> args) {
     if (args.size() != num_args) {
         throw invalid_size("Invalid number of arguments to constructor");

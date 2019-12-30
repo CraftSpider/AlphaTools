@@ -3,6 +3,15 @@
 
 namespace reflect {
 
+Variant StaticFunction::invoke() {
+    if (num_args != 0) {
+        throw invalid_size("Invalid number of arguments to function");
+    }
+    
+    std::vector<Variant> temp;
+    return invoke_ptr(ptr, temp);
+}
+
 Variant StaticFunction::invoke(std::vector<Variant> args) {
     if (args.size() != num_args) {
         throw invalid_size("Invalid number of arguments to function");
