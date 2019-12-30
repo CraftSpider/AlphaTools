@@ -172,15 +172,15 @@ uint run_tests(const std::string& name) {
     std::cout << std::flush;
     
     // Return bitmask based on test results
-    int out = 0;
+    uint out = 0;
     if (Results::failures) {
-        out += 0b001;
+        out |= 0b001u;
     }
     if (Results::errors) {
-        out += 0b010;
+        out |= 0b010u;
     }
     if (Results::skipped) {
-        out += 0b100;
+        out |= 0b100u;
     }
     return out;
 }

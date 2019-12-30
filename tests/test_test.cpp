@@ -97,7 +97,7 @@ void _throws() {
 void _noop() {}
 
 struct B {
-    void method();
+    void method() {(void)this;}
 };
 
 void test_assert_throws() {

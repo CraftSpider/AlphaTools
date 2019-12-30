@@ -36,7 +36,7 @@ std::string format(std::string format, Args... args) {
                 size_t colon_pos = str.find(':');
                 size_t arg_pos = 0;
                 if (colon_pos != std::string::npos) {
-                    arg_pos = std::stoi(str.substr(0, colon_pos));
+                    arg_pos = std::stoul(str.substr(0, colon_pos));
                     str = str.substr(colon_pos+1);
                 } else {
                     arg_pos = arg_count++;

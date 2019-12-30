@@ -50,7 +50,7 @@ std::string spec_handler <const char*> (std::string spec, const char** arg) {
 
 template<>
 std::string spec_handler <uchar*> (std::string spec, uchar** arg) {
-    if (spec == "") {
+    if (spec.empty()) {
         return "";
     }
     
@@ -60,8 +60,8 @@ std::string spec_handler <uchar*> (std::string spec, uchar** arg) {
     size_t num_start = spec.find_first_of("1234567890");
     size_t comma_pos = spec.find(',');
     std::string mods = spec.substr(0, num_start);
-    int start = std::stoi(spec.substr(num_start, comma_pos));
-    int end = std::stoi(spec.substr(comma_pos + 1));
+    ulong start = std::stoul(spec.substr(num_start, comma_pos));
+    ulong end = std::stoul(spec.substr(comma_pos + 1));
     
     uint mod_mask = 0;
     if (mods.find('s') != std::string::npos) {

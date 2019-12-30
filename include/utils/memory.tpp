@@ -10,8 +10,8 @@ template<typename T>
 T* raw_copy(T& obj) {
     static_assert(sizeof(__Temp<T>) == sizeof(T));
     
-    uchar *dst = (uchar*)new __Temp<T>;
-    uchar *src = (uchar*)&obj;
+    uchar *dst = reinterpret_cast<uchar*>(new __Temp<T>);
+    uchar *src = reinterpret_cast<uchar*>(&obj);
     
     for (size_t i = 0; i < sizeof(T); ++i) {
         dst[i] = src[i];
@@ -21,31 +21,31 @@ T* raw_copy(T& obj) {
 }
 
 template<typename T>
-T* raw_move(T& source) {
+T* raw_move(T& src) {
     static_assert(sizeof(__Temp<T>) == sizeof(T));
     
-    uchar *dst = (uchar*)new __Temp<T>;
-    uchar *src = (uchar*)&source;
+    uchar *dst = reinterpret_cast<uchar*>(new __Temp<T>);
+    uchar *source = reinterpret_cast<uchar*>(&src);
     
     for (size_t i = 0; i < sizeof(T); ++i) {
-        dst[i] = src[i];
-        src[i] = 0;
+        dst[i] = source[i];
+        source[i] = 0;
     }
     
     return (T*)dst;
 }
 
 template<typename T>
-T& raw_move(T& source, T& dest) {
-    uchar *dst = (uchar*)&dest;
-    uchar *src = (uchar*)&source;
+T& raw_move(T& src, T& dst) {
+    uchar *dest = reinterpret_cast<uchar*>(&dst);
+    uchar *source = reinterpret_cast<uchar*>(&src);
     
     for (size_t i = 0; i < sizeof(T); ++i) {
-        dst[i] = src[i];
-        src[i] = 0;
+        dest[i] = source[i];
+        source[i] = 0;
     }
     
-    return *(T*)dst;
+    return *(T*)dest;
 }
 
 }

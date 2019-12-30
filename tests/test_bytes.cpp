@@ -149,7 +149,7 @@ void test_itob() {
     ASSERT(compare(temp, reverse(expected2, 4), 4));
     delete[] temp;
     
-    int test3 = 0xFFFEFDFC;
+    int test3 = -66052;
     char expected3[4] = {-1, -2, -3, -4};
     temp2 = itob<BIG>(test3, 4);
     ASSERT(compare(temp2, expected3, 4));
@@ -158,7 +158,7 @@ void test_itob() {
     ASSERT(compare(temp2, reverse(expected3, 4), 4));
     delete[] temp2;
     
-    int test4 = 0x0;
+    int test4 = 0;
     char expected4[4] = {0, 0, 0, 0};
     temp2 = itob<BIG>(test4, 4);
     ASSERT(compare(temp2, expected4, 4));

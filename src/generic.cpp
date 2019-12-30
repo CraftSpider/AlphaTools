@@ -44,10 +44,10 @@ std::string get_computer_name() {
 #endif
 }
 
-std::string demangle(std::string name) {
+std::string demangle(const std::string& name) {
 #ifdef LINUXCOMPAT
     int status = 1;
-    const char* str = abi::__cxa_demangle(name.c_str(), NULL, NULL, &status);
+    const char* str = abi::__cxa_demangle(name.c_str(), nullptr, nullptr, &status);
     if (status < 0) {
         throw std::runtime_error("Demangler name return failed");
     }

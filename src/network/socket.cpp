@@ -25,7 +25,7 @@ const SockOpt SockOpt::RCVTIMEO = SockOpt("Receive Timeout", SO_RCVTIMEO, sizeof
 const SockOpt SockOpt::SNDLOWAT = SockOpt("Send Low Accept", SO_SNDLOWAT, sizeof(int));
 const SockOpt SockOpt::SNDTIMEO = SockOpt("Send Timeout", SO_SNDTIMEO, sizeof(timeval));
 
-SockOpt::SockOpt(const std::string &name, int sock_name, socklen_t length) {
+SockOpt::SockOpt(const char* name, int sock_name, socklen_t length) noexcept {
     this->name = name;
     this->sock_name = sock_name;
     this->length = length;
@@ -79,7 +79,7 @@ Socket::Socket(ushort domain, uint type) {
     this->domain = domain;
     this->type = type;
     
-    sockfd = socket(domain, type, 0);
+    sockfd = (ulong)socket(domain, type, 0);
     if (sockfd == 0) {
         throw socket_error("Failed to create socket");
     }
@@ -99,14 +99,14 @@ void Socket::getopt(SockOpt option, void* val) {
 }
 
 void Socket::bind(ushort port) {
-    sockaddr_in *addr = new sockaddr_in();
-    addr->sin_family = domain;
-    addr->sin_addr.s_addr = INADDR_ANY;
-    addr->sin_port = htons(port);
+    sockaddr_in* addr_in = new sockaddr_in();
+    addr_in->sin_family = domain;
+    addr_in->sin_addr.s_addr = INADDR_ANY;
+    addr_in->sin_port = htons(port);
     
-    this->addr = (sockaddr*)addr;
+    this->addr = reinterpret_cast<sockaddr*>(addr_in);
     
-    if (::bind(sockfd, this->addr, sizeof(*addr)) < 0) {
+    if (::bind(sockfd, this->addr, sizeof(*addr_in)) < 0) {
         throw bind_error(errno, "Failed to bind socket");
     }
 }
@@ -116,15 +116,14 @@ void Socket::connect(const std::string &ip, ushort port) {
 }
 
 void Socket::connect(IPAddr ip, ushort port) {
+    sockaddr_in* addr_in = new sockaddr_in();
+    addr_in->sin_family = domain;
+    addr_in->sin_addr = ip.addr;
+    addr_in->sin_port = htons(port);
     
-    sockaddr_in *addr = new sockaddr_in();
-    addr->sin_family = domain;
-    addr->sin_addr = ip.addr;
-    addr->sin_port = htons(port);
+    this->addr = reinterpret_cast<sockaddr*>(addr_in);
     
-    this->addr = (sockaddr*)addr;
-    
-    if (::connect(sockfd, this->addr, sizeof(*addr)) < 0) {
+    if (::connect(sockfd, this->addr, sizeof(*addr_in)) < 0) {
         throw socket_error("Failed to connect socket");
     }
 }
@@ -137,7 +136,7 @@ void Socket::listen(uint backlog) {
 
 Socket Socket::accept() {
     socklen_t size = (socklen_t)sizeof(*addr);
-    ulong accepted = ::accept(sockfd, addr, &size);
+    ulong accepted = (ulong)::accept(sockfd, addr, &size);
     return Socket(accepted, domain, type);
 }
 

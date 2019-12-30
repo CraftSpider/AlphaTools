@@ -3,7 +3,7 @@
 
 namespace testing {
 
-static std::string skip_def_msg = "Skipped test";
+constexpr const char* skip_def_msg = "Skipped test";
 
 test_error::test_error(const std::string &msg) : runtime_error(msg) {}
 

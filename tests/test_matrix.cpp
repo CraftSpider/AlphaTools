@@ -30,11 +30,11 @@ void test_construct() {
     ASSERT(m2[1][2] == 1);
 }
 
-void invalid_add(math::Matrix<double> a, math::Matrix<double> b) {
+void invalid_add(math::Matrix<double>& a, math::Matrix<double>& b) {
     a + b;
 }
 
-void invalid_mult(math::Matrix<double> a, math::Matrix<double> b) {
+void invalid_mult(math::Matrix<double>& a, math::Matrix<double>& b) {
     a * b;
 }
 

@@ -42,6 +42,7 @@ std::string Logger::get_effective_pattern() const {
 }
 
 std::string Logger::format_instruct(const std::string &instruct, std::string message, const Level* level) {
+    (void)pattern; // TODO: use the logger pattern
     std::stringstream out;
     if (instruct[0] == 'l') {
         out << (std::string)*level;

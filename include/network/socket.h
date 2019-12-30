@@ -47,7 +47,7 @@ struct SockOpt {
     
 protected:
     
-    SockOpt(const std::string& name, int sock_name, socklen_t length);
+    SockOpt(const char* name, int sock_name, socklen_t length) noexcept;
     
 };
 

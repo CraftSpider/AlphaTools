@@ -35,7 +35,7 @@ std::string get_computer_name();
  * @param name Symbol name to demangle
  * @return Demangled name or unchanged
  */
-std::string demangle(std::string name);
+std::string demangle(const std::string& name);
 
 /**
  * System-specific information, determined at compile time. A class instead of a namespace to avoid
@@ -47,7 +47,7 @@ public:
     /**
      * Info about the endianness of the current system
      */
-    class Endianness {
+    class Endianness { // TODO: Is this 'safe'?
     private:
         
         static constexpr std::uint32_t __magic = 0x01020304;

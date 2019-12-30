@@ -28,11 +28,11 @@ void TestLogger::after_test(std::string) {
 }
 
 void TestLogger::run() {
-    TEST_METHOD(test_root);
-    TEST_METHOD(test_default_level);
-    TEST_METHOD(test_normal);
-    TEST_METHOD(test_format);
-    TEST_METHOD(test_saving);
+    TEST_METHOD(test_root)
+    TEST_METHOD(test_default_level)
+    TEST_METHOD(test_normal)
+    TEST_METHOD(test_format)
+    TEST_METHOD(test_saving)
 	TEST_METHOD(test_auto_parent)
 }
 
