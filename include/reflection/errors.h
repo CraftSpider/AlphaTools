@@ -2,6 +2,11 @@
 
 #include <stdexcept>
 
+/**
+ * \file errors.h
+ * \brief Errors for reflection operations
+ */
+
 namespace reflect {
 
 class reflection_error : public std::runtime_error {

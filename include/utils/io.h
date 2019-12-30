@@ -3,6 +3,11 @@
 #include <fstream>
 #include "types.h"
 
+/**
+ * \file io.h
+ * \brief File IO utilities
+ */
+
 namespace util {
 
 template<Endian E = BIG>

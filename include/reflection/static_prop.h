@@ -3,6 +3,11 @@
 #include "type.h"
 #include "variant.h"
 
+/**
+ * \file static_prop.h
+ * \brief Reflection support for Static Properties
+ */
+
 namespace reflect {
 
 typedef Variant(*StaticPropertyGetFuncRef)(void*);

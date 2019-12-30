@@ -138,7 +138,7 @@ void test_fully_variant() {
     Type* int_type = Type::from_name("int");
     Type* tc_type = Type::from_name("TestClass");
     
-    Variant int_instance = int_type->get_constructor({})->construct({});
+    Variant int_instance = int_type->get_default_constructor()->construct();
     Variant tc_instance = tc_type->get_constructor({})->construct({});
     
     tc_type->get_property("a")->set(tc_instance, int_instance);

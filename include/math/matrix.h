@@ -2,6 +2,11 @@
 
 #include "types.h"
 
+/**
+ * \file matrix.h
+ * \brief Mathematical matrix support
+ */
+
 namespace math {
 
 template<typename T = double>

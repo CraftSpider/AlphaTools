@@ -2,6 +2,14 @@
 
 #include <string>
 
+/**
+ * \file level.h
+ * \brief Levels for logger and handler systems
+ *
+ * Contains the class defining levels for a logger. Can be used to define your own
+ * levels with the Level constructor.
+ */
+
 namespace logging {
 
 /**
@@ -27,14 +35,14 @@ public:
     Level() noexcept;
     /**
      * Construct a new level with the given name and priority.
-     * @param priority Priority of the new Level
-     * @param name Name of the new Level
+     * \param priority Priority of the new Level
+     * \param name Name of the new Level
      */
     Level(const int& priority, const std::string& name) noexcept;
     
     /**
      * Get the name of this level, as a string
-     * @return Level name
+     * \return Level name
      */
     std::string get_name();
     
@@ -47,7 +55,7 @@ public:
     
     /**
      * Levels can be cast to a string, if done so explicitly
-     * @return Level as a string
+     * \return Level as a string
      */
     explicit operator std::string() const;
     

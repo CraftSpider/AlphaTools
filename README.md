@@ -8,13 +8,13 @@ C++ utilities for GCD and other things
 ### Requirements
 
 - Cmake 3.10 or later
-- Make
-- GCC or similar compiler
 - Windows:
-  - Cygwin or WSL
+  - WSL or MSVC
+- Linux:
+  - GCC
 
 ### Building
 
-run `cmake .` in the root directory to generate the project files, then use `make` to build the library file. By default `make` will also build a test_alpha_tools executable, which will run the built-in tests
+run `cmake .` in the root directory to generate the project files, then use `make` (Linux) or `nmake` (Windows) to build the library file.
 
-
+By default, making the project will also build a test_alpha_tools executable, which will run the built-in tests if executed.

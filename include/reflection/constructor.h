@@ -6,6 +6,11 @@
 #include "variant.h"
 #include "utils/sfinae.h"
 
+/**
+ * \file constructor.h
+ * \brief Reflection support for class constructors
+ */
+
 namespace reflect {
 
 typedef void*(*ConstructFuncRef)(std::vector<Variant>&);

@@ -3,6 +3,11 @@
 #include <stdexcept>
 #include <string>
 
+/**
+ * \file errors.h
+ * \brief Errors for testing operations
+ */
+
 namespace testing {
 
 class test_error : public std::runtime_error {

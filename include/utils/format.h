@@ -5,6 +5,11 @@
 #include <vector>
 #include <stdexcept>
 
+/**
+ * \file format.h
+ * \brief Generic type-safe format function
+ */
+
 namespace util {
 
 class format_error : public std::runtime_error {

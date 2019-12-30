@@ -3,6 +3,11 @@
 #include <string>
 #include "types.h"
 
+/**
+ * \file strmanip.h
+ * \brief String manipulation utilities
+ */
+
 namespace util {
 
 std::string reverse(const std::string& str);

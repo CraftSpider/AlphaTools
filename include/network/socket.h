@@ -18,6 +18,11 @@
 #include <stdexcept>
 #include "types.h"
 
+/**
+ * \file socket.h
+ * \brief Generic cross-platform sockets for C++
+ */
+
 namespace network {
 
 class socket_error : public std::runtime_error {

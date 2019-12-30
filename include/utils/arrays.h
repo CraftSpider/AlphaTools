@@ -4,7 +4,6 @@
 
 /**
  * \file arrays.h
- *
  * \brief Array utilities
  *
  * Defines various utilities for manipulation and comparison of C arrays, higher level than default

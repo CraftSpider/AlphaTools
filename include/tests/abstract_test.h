@@ -2,6 +2,11 @@
 
 #include <string>
 
+/**
+ * \file abstract_test.h
+ * \brief Abstracts for test classes to implement
+ */
+
 namespace testing {
 
 /**

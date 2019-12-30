@@ -3,6 +3,11 @@
 #include <type_traits>
 #include "types.h"
 
+/**
+ * \file sfinae.h
+ * \brief Various SFINAE utilities
+ */
+
 namespace util {
 
 /**

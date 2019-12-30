@@ -2,3 +2,11 @@
 
 #include "macros/utils.h"
 #include "macros/static_block.h"
+
+/**
+ * \file at_macros
+ * \brief Alpha Macros include file
+ */
+
+// TODO: Move all macros into the AT_/_AT_ namespace, even those outside this file
+// TODO: Make the AT_ prefix optional?

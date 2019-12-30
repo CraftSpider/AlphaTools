@@ -8,6 +8,11 @@
 #include "tests/errors.h"
 #include "tests/abstract_test.h"
 
+/**
+ * \file test.h
+ * \brief Primary test running systems
+ */
+
 #define TEST_METHOD(name) {\
     this->delegated = true;\
     if (this->skip_test(#name)) {\

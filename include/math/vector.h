@@ -1,5 +1,10 @@
 #pragma once
 
+/**
+ * \file vector.h
+ * \brief Mathematical vector support
+ */
+
 namespace math {
 
 struct Vector {

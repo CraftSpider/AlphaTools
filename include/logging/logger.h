@@ -5,6 +5,14 @@
 #include "level.h"
 #include "handler.h"
 
+/**
+ * \file logger.h
+ * \brief Defines the logger class
+ *
+ * The base logger class. Can be subclassed for custom loggers, and is automatically constructed
+ * by the logger factory functions. Attempts to be relatively generic, as much as is practical.
+ */
+
 #define DEFAULT_LOGGER_LEVEL (logging::INFO)
 
 namespace logging {

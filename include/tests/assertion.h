@@ -3,6 +3,11 @@
 #include <string>
 #include "tests/test.h"
 
+/**
+ * \file assertion.h
+ * \brief Assertion support for tests, optionally with macros
+ */
+
 #ifndef _AT_TESTS_NO_MACRO
 
 #define _AT_ASSERT_1(expr) testing::assert(expr, std::string("Expression \"") + #expr + "\" failed assertion")

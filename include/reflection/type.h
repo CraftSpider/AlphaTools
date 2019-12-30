@@ -4,6 +4,11 @@
 #include <vector>
 #include <map>
 
+/**
+ * \file type.h
+ * \brief Reflection support for type metadata
+ */
+
 namespace reflect {
 
 // Forward refs

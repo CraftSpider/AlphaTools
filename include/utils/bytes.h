@@ -2,6 +2,11 @@
 
 #include "types.h"
 
+/**
+ * \file bytes.h
+ * \brief Byte manipulation utilities
+ */
+
 namespace util {
 
 bool get_bit(const uchar* data, const ulong pos);

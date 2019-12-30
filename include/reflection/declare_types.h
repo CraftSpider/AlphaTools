@@ -8,6 +8,11 @@
 #include "reflection/member_func.h"
 #include "reflection/destructor.h"
 
+/**
+ * \file declare_types.h
+ * \brief Macros for declaring types as reflected
+ */
+
 
 /**
  * \brief Reflect a type

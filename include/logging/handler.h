@@ -5,7 +5,6 @@
 
 /**
  * \file handler.h
- *
  * \brief Handlers for logging output
  *
  * Contains the abstract class and several default implementations of the Handler protocol for loggers.
@@ -36,14 +35,14 @@ public:
     /**
      * Set the current logging level of this handler. Logs below this level won't be output
      *
-     * @param level New level to log at
+     * \param level New level to log at
      */
     void set_level(Level* level);
     
     /**
      * Actually log a message to output
-     * @param message Message to log. May contain newlines or other unusual characters
-     * @param level Level being logged at
+     * \param message Message to log. May contain newlines or other unusual characters
+     * \param level Level being logged at
      */
     virtual void log(const std::string& message, const Level* level) = 0;
     
@@ -86,7 +85,7 @@ public:
     
     /**
      * Construct a new FileHandler that appends to a given file
-     * @param filename File to log to
+     * \param filename File to log to
      */
     explicit FileHandler(const std::string& filename);
     /**

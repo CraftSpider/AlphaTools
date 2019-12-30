@@ -3,6 +3,11 @@
 #include <string>
 #include "utils/sfinae.h"
 
+/**
+ * \file test_case.h
+ * \brief Internal systems for test cases
+ */
+
 namespace testing {
 
 class TestCase {

@@ -3,6 +3,11 @@
 #include "type.h"
 #include "variant.h"
 
+/**
+ * \file member_prop.h
+ * \brief Reflection support for Member Properties
+ */
+
 namespace reflect {
 
 typedef Variant(*MemberPropertyGetFuncRef)(void* ptr, Variant&);

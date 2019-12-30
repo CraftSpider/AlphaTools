@@ -3,6 +3,11 @@
 #include "type.h"
 #include "variant.h"
 
+/**
+ * \file static_func.h
+ * \brief Reflection support for Static Functions
+ */
+
 namespace reflect {
 
 typedef Variant(*StaticFunctionFuncRef)(void(*)(), std::vector<Variant>&);

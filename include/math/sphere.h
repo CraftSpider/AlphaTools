@@ -2,6 +2,11 @@
 
 #include "vector.h"
 
+/**
+ * \file sphere.h
+ * \brief Mathematical sphere support
+ */
+
 namespace math {
 
 struct Sphere {

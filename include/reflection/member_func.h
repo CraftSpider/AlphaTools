@@ -3,6 +3,11 @@
 #include "type.h"
 #include "variant.h"
 
+/**
+ * \file member_func.h
+ * \brief Reflection support for Member Functions
+ */
+
 namespace reflect {
 
 typedef Variant(*MemberFunctionFuncRef)(void*, Variant&, std::vector<Variant>&);

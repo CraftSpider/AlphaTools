@@ -3,6 +3,11 @@
 #include "type.h"
 #include "variant.h"
 
+/**
+ * \file destructor.h
+ * \brief Reflection support for type destructors
+ */
+
 namespace reflect {
 
 typedef void(*DestructFuncRef)(void*);

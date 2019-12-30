@@ -10,3 +10,16 @@
 #include "reflection/destructor.h"
 
 #include "reflection/declare_types.h"
+
+/**
+ * \file at_reflect
+ * \brief Alpha Reflection include file
+ */
+
+/**
+ * \namespace reflect
+ * \brief Reflection classes/tools
+ *
+ * Provides systems for runtime reflection of C++ code.
+ * Variant, Type, etc.
+ */

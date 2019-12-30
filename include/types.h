@@ -22,3 +22,5 @@ typedef std::int64_t slong;
 enum Endian {
     BIG, LITTLE
 };
+
+// TODO: Move whole project into a namespace

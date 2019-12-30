@@ -2,6 +2,11 @@
 
 #include "types.h"
 
+/**
+ * \file algorithms.h
+ * \brief Common generic algorithms
+ */
+
 namespace util {
 
 /**

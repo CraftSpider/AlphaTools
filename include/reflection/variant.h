@@ -2,6 +2,11 @@
 
 #include "type.h"
 
+/**
+ * \file variant.h
+ * \brief A generic container for a value of any type. Can refcount itself or not
+ */
+
 namespace reflect {
 
 class Variant final {
@@ -52,8 +57,8 @@ public:
      * Get the value contained in this Variant as a pointer
      * Warning: If this Variant owns the pointer, for example in the case of the result of a construct call,
      * then the pointer will only live as long as this Variant does. Either copy the value, or use take_value_ptr.
-     * \tparam T
-     * \return
+     * \tparam T Type to retrieve pointer as
+     * \return Pointer to instance of type T
      */
     template<typename T>
     typename std::remove_reference_t<T>* get_value_ptr();

@@ -2,6 +2,11 @@
 
 #include "types.h"
 
+/**
+ * \file memory.h
+ * \brief Raw memory access
+ */
+
 namespace util {
 
 template<typename T>
