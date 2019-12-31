@@ -9,6 +9,9 @@
 
 namespace math {
 
+/**
+ * Class that represents a Sphere. Supports various geometric operations, and can be translated or scaled easily.
+ */
 struct Sphere {
     
     Vector center;
@@ -20,6 +23,22 @@ struct Sphere {
     
     Sphere(const Sphere& sphere);
     
+    bool operator==(const Sphere& sphere) const;
+    
+    Sphere operator+(const Vector& vec) const;
+    
+    template<typename T>
+    Sphere operator*(T scale) const;
+    
+    Sphere& operator +=(const Vector& vec);
+    
+    template<typename T>
+    Sphere& operator *=(T scale);
+    
+    bool point_in_sphere(const Vector& point) const;
+    
 };
 
 }
+
+#include "sphere.tpp"

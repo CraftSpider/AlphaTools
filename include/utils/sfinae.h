@@ -316,7 +316,9 @@ template<size_t... I>
 struct TemplateRange {};
 
 /**
- * Helper for creating various instances of TemplateRange
+ * \brief Helper for creating various instances of TemplateRange
+ *
+ * Provides RangeBuilder, and in the future possibly other ways to generate TemplateRange instances.
  */
 namespace VariadicRangeBuilder {
     

@@ -34,6 +34,10 @@ Vector::Vector(const math::Vector& vec) noexcept {
     z = vec.z;
 }
 
+bool Vector::operator==(const math::Vector& vec) const {
+    return this->x == vec.x && this->y == vec.y && this->z == vec.z;
+}
+
 Vector Vector::operator+(const Vector& vec) const {
     return Vector(x + vec.x, y + vec.y, z + vec.z);
 }

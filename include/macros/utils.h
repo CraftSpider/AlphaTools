@@ -23,7 +23,6 @@
 #define AT_EXPAND_CONCAT(a, b) AT_CONCATENATE(a, b)
 
 /**
- * \macro AT_UNIQUE_IDENT
  * \brief Generate a unique variable/function name
  *
  * Macro to generate a unique identifier. It's not impossible to generate a collision, so

@@ -7,6 +7,10 @@
 
 namespace math {
 
+/**
+ * Class that represents a Mathematical vector with 3 elements. Useful for all sorts of geometric and physical things.
+ * Provides all sorts of operators. | is overloaded for dot product, and ^ for cross product.
+ */
 struct Vector {
     
     static Vector zero_vec, one_vec, x_axis, y_axis, z_axis;
@@ -20,6 +24,8 @@ struct Vector {
     Vector(double x, double y, double z) noexcept;
     
     Vector(const Vector& vec) noexcept;
+    
+    bool operator==(const Vector& vec) const;
     
     template<typename T>
     Vector operator+(T scale) const;
