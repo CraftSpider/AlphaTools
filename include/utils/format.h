@@ -78,7 +78,7 @@ std::string spec_handler<uchar*>(std::string spec, uchar** arg);
  * with this than the builtin formatting utilities.
  *
  * Syntax:
- * \TODO
+ * TODO
  *
  * \tparam Args Variadic pack of argument types
  * \param format Format string to use
