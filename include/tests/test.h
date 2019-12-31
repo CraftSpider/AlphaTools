@@ -101,8 +101,8 @@ void __test_on_error(const std::string& name, std::exception& e, TestType type =
  * Prepare the test suite to run. Passed the arguments given to main,
  * for the command line arguments to run the tests with
  *
- * @param argc The number of command-line arguments
- * @param argv The string command line arguments
+ * \param argc The number of command-line arguments
+ * \param argv The string command line arguments
  */
 void setup_tests(int argc, char const* const* argv);
 
@@ -112,8 +112,8 @@ void setup_tests(int argc, char const* const* argv);
  * In that function, use `TEST(name)` and `TEST_CLASS(name)` to define the function and test
  * classes to be run.
  *
- * @param name The name of the test suite being run. Customizes the output after tests are complete
- * @return Whether there were any failures, errors, or skips, as a bitfield.
+ * \param name The name of the test suite being run. Customizes the output after tests are complete
+ * \return Whether there were any failures, errors, or skips, as a bitfield.
  */
 uint run_tests(const std::string& name = "Alpha Tools");
 

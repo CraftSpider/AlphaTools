@@ -51,7 +51,7 @@ slong btol <BIG> (const char* bytes, const ulong start, const ulong end) {
     slong out = 0;
     ulong length = end - start - 1;
     for (ulong i = start; i < end; ++i) {
-        out |= ((ulong)bytes[i] & 0xFF) << ((length - i) * 8);
+        out |= ((ulong)bytes[i] & 0xFFu) << ((length - i) * 8);
     }
     return out;
 }
@@ -60,7 +60,7 @@ template <>
 slong btol <LITTLE> (const char* bytes, const ulong start, const ulong end) {
     slong out = 0;
     for (ulong i = start; i < end; ++i) {
-        out |= ((ulong)bytes[i] & 0xFF) << (i * 8);
+        out |= ((ulong)bytes[i] & 0xFFu) << (i * 8);
     }
     return out;
 }

@@ -25,17 +25,26 @@
 
 namespace network {
 
+/**
+ * General error thrown by any socket failure
+ */
 class socket_error : public std::runtime_error {
 public:
     explicit socket_error(const std::string& msg);
 };
 
+/**
+ * Error thrown if a socket can't be bound
+ */
 class bind_error : public socket_error {
     int errnum;
 public:
     explicit bind_error(int errnum, const std::string& msg);
 };
 
+/**
+ * A struct representing a socket option
+ */
 struct SockOpt {
     
     std::string name;
@@ -52,6 +61,9 @@ protected:
 };
 
 
+/**
+ * A struct representing an IP address
+ */
 struct IPAddr {
     std::string text;
     in_addr addr;

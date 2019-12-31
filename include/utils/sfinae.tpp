@@ -5,12 +5,12 @@
 namespace util {
 
 template<typename T, bool B>
-T MakePtr<T, B>::make_ptr(T val) {
+T __MakePtr<T, B>::make_ptr(const T& val) {
     return val;
 }
 
 template<typename T>
-T* MakePtr<T, false>::make_ptr(T &val) {
+T* __MakePtr<T, false>::make_ptr(T& val) {
     return &val;
 }
 
@@ -36,24 +36,24 @@ uchar& RawData<T>::operator[](size_t pos) {
 
 template<typename T>
 template<typename U>
-U RawData<T>::get_value(size_t pos) {
+U& RawData<T>::get_value(size_t pos) {
     if (pos + sizeof(U) > size) {
         std::stringstream s;
         s << "Invalid index " << pos;
         throw std::out_of_range(s.str());
     }
-    return *(U*)(data+pos);
+    return *reinterpret_cast<U*>(data+pos);
 }
 
 template<typename T>
 template<typename U>
-void RawData<T>::set_value(size_t pos, U val) {
+void RawData<T>::set_value(size_t pos, const U& val) {
     if (pos + sizeof(U) > size) {
         std::stringstream s;
         s << "Invalid index " << pos;
         throw std::out_of_range(s.str());
     }
-    *(U*)(data+pos) = val;
+    *reinterpret_cast<U*>(data+pos) = val;
 }
 
 }

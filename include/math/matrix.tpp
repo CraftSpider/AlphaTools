@@ -39,7 +39,7 @@ Row<T>::~Row() {
 }
 
 template<typename T>
-Row<T>& Row<T>::operator=(Row row) {
+Row<T>& Row<T>::operator=(const Row& row) {
     length = row.length;
     
     data = new T[length]();
@@ -68,6 +68,11 @@ const T& Row<T>::operator[](ulong index) const {
         throw std::out_of_range(s.str());
     }
     return data[index];
+}
+
+template<typename T>
+ulong Row<T>::get_length() {
+    return length;
 }
 
 template<typename T>
@@ -220,6 +225,16 @@ Matrix<T> Matrix<T>::operator*(const M scale) const {
             out[i][j] == (*this)[i][j] * scale;
         }
     }
+}
+
+template<typename T>
+ulong Matrix<T>::get_rows() {
+    return rows;
+}
+
+template<typename T>
+ulong Matrix<T>::get_columns() {
+    return columns;
 }
 
 }

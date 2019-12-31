@@ -3,6 +3,11 @@
 
 namespace util {
 
+/**
+ * \internal
+ *
+ * A simple data holder for a specification and its position in the format string
+ */
 struct __Spec {
     std::string args;
     size_t pos;

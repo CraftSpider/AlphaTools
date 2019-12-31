@@ -19,21 +19,21 @@
 
 /**
  * Get the username of the current user, if it can be determined. If not, returns the empty string
- * @return Username of the current user
+ * \return Username of the current user
  */
 std::string get_username();
 
 /**
  * Get the name of the current system, if it can be determined. If not, returns the empty string
- * @return System name
+ * \return System name
  */
 std::string get_computer_name();
 
 /**
  * Demangle a name based on the compiler used to create this binary. Returns the name unchanged if it can't determine
  * what method to use, throws an error if the demangler method errors
- * @param name Symbol name to demangle
- * @return Demangled name or unchanged
+ * \param name Symbol name to demangle
+ * \return Demangled name or unchanged
  */
 std::string demangle(const std::string& name);
 

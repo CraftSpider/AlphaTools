@@ -1,6 +1,13 @@
 
 namespace util {
 
+/**
+ * \internal
+ *
+ * Type with a guaranteed sizeof(T), but is also guaranteed copyable/movable
+ *
+ * \tparam T Type to use
+ */
 template<typename T>
 struct __Temp {
     uchar data[sizeof(T)];

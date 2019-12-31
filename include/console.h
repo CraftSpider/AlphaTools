@@ -17,9 +17,44 @@
  */
 namespace term {
 
+/**
+ * Generate a code that sets the icon name and window title to a given string
+ *
+ * \param name Name to set the icon and window to
+ * \return Generated escape code
+ */
 std::string SET_ICON_TITLE(std::string name);
+
+/**
+ * Generate a code that sets the icon name to a given string
+ *
+ * \param name Name to set the icon to
+ * \return Generated escape code
+ */
+std::string SET_ICON(std::string name);
+
+/**
+ * Generate a code that sets the window title to a given string
+ *
+ * \param name Name to set the window to
+ * \return Generated escape code
+ */
 std::string SET_TITLE(std::string name);
+
+/**
+ * Generate a code to scroll the screen buffer up by a given number of lines
+ *
+ * \param n Number of lines to scroll
+ * \return Generated escape code
+ */
 std::string SCROLL_UP(ushort n = 1);
+
+/**
+ * Generate a code to scroll the screen buffer down by a given number of lines
+ *
+ * \param n Number of lines to scroll
+ * \return Generated escape code
+ */
 std::string SCROLL_DOWN(ushort n = 1);
 
 constexpr char ALT_BUFFER[] = "\033[?1049h";
@@ -60,10 +95,44 @@ constexpr char HIDE[] = "\033[?25l";
  */
 namespace text {
 
+/**
+ * Generate a code to insert some number of blank characters at the cursor
+ *
+ * \param n Number of characters to insert. Defaults to 1
+ * \return Generated escape code
+ */
 std::string INSERT(ushort n = 1);
+
+/**
+ * Generate a code to delete some number of characters at the cursor
+ *
+ * \param n Number of characters to delete
+ * \return Generated escape code
+ */
 std::string DELETE(ushort n = 1);
+
+/**
+ * Generate a code to erase some number of characters from behind the cursor
+ *
+ * \param n Number of characters to erase
+ * \return Generated escape code
+ */
 std::string ERASE(ushort n = 1);
+
+/**
+ * Generate a code to insert some number of blank lines at the cursor
+ *
+ * \param n Number of lines to insert
+ * \return Generated escape code
+ */
 std::string INSERT_LINE(ushort n = 1);
+
+/**
+ * Generate a code to delete some number of lines at the cursor
+ *
+ * \param n Number of lines to delete
+ * \return Generated escape code
+ */
 std::string DELETE_LINE(ushort n = 1);
 
 /**
@@ -72,8 +141,9 @@ std::string DELETE_LINE(ushort n = 1);
  * 1: erases from cursor to end
  * 2: erases from beginning to end
  * 3: erases from beginning to end and clears the scrollback buffer
- * @param option Clear setting
- * @return Escape code
+ *
+ * \param option Clear setting
+ * \return Escape code
  */
 std::string CLEAR(ushort option = 2);
 std::string CLEAR_LINE(ushort option = 2);

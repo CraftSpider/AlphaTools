@@ -6,8 +6,8 @@
 void test_construct() {
     math::Matrix m = math::Matrix(1, 1);
     
-    ASSERT(m.rows == 1 && m.columns == 1);
-    ASSERT(m[0].length == 1);
+    ASSERT(m.get_rows() == 1 && m.get_columns() == 1);
+    ASSERT(m[0].get_length() == 1);
     ASSERT(m[0][0] == 0);
     
     double args[2][2] = {{1., 2.}, {3., 4.}};
@@ -48,7 +48,7 @@ void test_addition() {
     math::Matrix result = m1 + m2;
     math::Matrix result2 = m2 + m1;
     
-    ASSERT(result.rows == m1.rows && result.columns == m1.columns);
+    ASSERT(result.get_rows() == m1.get_rows() && result.get_columns() == m1.get_columns());
     ASSERT(result[0][0] == 3);
     ASSERT(result[0][1] == 1);
     ASSERT(result[1][0] == 8);
@@ -68,7 +68,7 @@ void test_multiply() {
     
     math::Matrix result = m1 * m2;
     
-    ASSERT(result.rows == 2 && result.columns == 2);
+    ASSERT(result.get_rows() == 2 && result.get_columns() == 2);
     ASSERT(result[0][0] == 5);
     ASSERT(result[0][1] == -4);
     ASSERT(result[1][0] == 4);

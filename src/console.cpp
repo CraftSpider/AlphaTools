@@ -9,6 +9,12 @@ std::string SET_ICON_TITLE(std::string name) {
     return ss.str();
 }
 
+std::string SET_ICON(std::string name) {
+    std::stringstream ss;
+    ss << "\033]1;" << name << '\x07';
+    return ss.str();
+}
+
 std::string SET_TITLE(std::string name) {
     std::stringstream ss;
     ss << "\033]2;" << name << '\x07';
