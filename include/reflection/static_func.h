@@ -35,6 +35,7 @@ class StaticFunction final {
     
     template<typename Ret, typename... Args>
     StaticFunction(Type* type, Ret(*ptr)(Args...), std::string name);
+    ~StaticFunction() = default;
     
 public:
     

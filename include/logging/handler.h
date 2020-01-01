@@ -12,7 +12,10 @@
  * logging level it outputs at.
  */
 
-#define DEFAULT_HANDLER_LEVEL (logging::TRACE)
+/**
+ * Default level that handlers are set to, on creation
+ */
+#define AT_DEFAULT_HANDLER_LEVEL (logging::TRACE)
 
 namespace logging {
 

@@ -13,7 +13,10 @@
  * by the logger factory functions. Attempts to be relatively generic, as much as is practical.
  */
 
-#define DEFAULT_LOGGER_LEVEL (logging::INFO)
+/**
+ * Default level that loggers are set to, on creation
+ */
+#define AT_DEFAULT_LOGGER_LEVEL (logging::INFO)
 
 namespace logging {
 

@@ -60,7 +60,7 @@ void TestLogger::test_default_level() {
     Logger *root = get_root_logger();
     
     root->info("First test");
-    ASSERT(root->get_level() == DEFAULT_LOGGER_LEVEL);
+    ASSERT(root->get_level() == AT_DEFAULT_LOGGER_LEVEL);
     ASSERT(new_cout.str() == "INFO: First test\n");
     clear_logs();
     
@@ -70,9 +70,9 @@ void TestLogger::test_default_level() {
     ASSERT(root->get_level() == FATAL);
     ASSERT(new_cout.str().empty());
     
-    set_default_level(DEFAULT_LOGGER_LEVEL);
+    set_default_level(AT_DEFAULT_LOGGER_LEVEL);
     
-    ASSERT(root->get_level() == DEFAULT_LOGGER_LEVEL);
+    ASSERT(root->get_level() == AT_DEFAULT_LOGGER_LEVEL);
 }
 
 void TestLogger::test_normal() {

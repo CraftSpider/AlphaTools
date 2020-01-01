@@ -35,6 +35,7 @@ class MemberFunction final {
     
     template<typename T, typename Ret, typename... Args>
     MemberFunction(Ret(T::*ptr)(Args...), std::string name);
+    ~MemberFunction() = default;
 
 public:
     

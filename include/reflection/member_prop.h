@@ -39,6 +39,7 @@ class MemberProperty final {
     
     template<typename T, typename Ret>
     MemberProperty(Ret T::* ptr, std::string name);
+    ~MemberProperty() = default;
     
 public:
     

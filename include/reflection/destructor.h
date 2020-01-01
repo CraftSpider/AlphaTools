@@ -30,6 +30,7 @@ class Destructor final {
     
     template<typename T>
     explicit Destructor(DestructorMeta<T> meta);
+    ~Destructor() = default;
     
 public:
     

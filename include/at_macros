@@ -1,6 +1,7 @@
 #pragma once
 
 #include "macros/utils.h"
+#include "macros/variadic.h"
 #include "macros/static_block.h"
 
 /**

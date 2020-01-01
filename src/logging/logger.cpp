@@ -9,7 +9,7 @@ namespace logging {
 Logger::Logger() {
     this->name = "NULL";
     level = NO_LEVEL;
-    stream_level = DEFAULT_LOGGER_LEVEL;
+    stream_level = AT_DEFAULT_LOGGER_LEVEL;
     handlers = std::vector<Handler*>();
 }
 

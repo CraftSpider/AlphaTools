@@ -68,14 +68,77 @@ constexpr char MAIN_BUFFER[] = "\033[?1049l";
  */
 namespace curs {
 
+/**
+ * Generate a code to move the cursor up by a given number of lines
+ *
+ * \param n Number of lines to move
+ * \return Generated escape code
+ */
 std::string UP(ushort n = 1);
+
+/**
+ * Generate a code to move the cursor down by a given number of lines
+ *
+ * \param n Number of lines to move
+ * \return Generated escape code
+ */
 std::string DOWN(ushort n = 1);
+
+/**
+ * Generate a code to move the cursor forward by a given number of characters
+ *
+ * \param n Number of characters to move
+ * \return Generated escape code
+ */
 std::string FORWARD(ushort n = 1);
+
+/**
+ * Generate a code to move the cursor back by a given number of characters
+ *
+ * \param n Number of characters to move
+ * \return Generated escape code
+ */
 std::string BACKWARD(ushort n = 1);
+
+/**
+ * Generate a code to move the cursor to the beginning of the Nth line below it
+ *
+ * \param n Number of lines to move
+ * \return Generated escape code
+ */
 std::string DOWN_LINE(ushort n = 1);
+
+/**
+ * Generate a code to move the cursor to the beginning of the Nth line above it
+ *
+ * \param n Number of lines to move
+ * \return Generated escape code
+ */
 std::string UP_LINE(ushort n = 1);
+
+/**
+ * Set the horizontal cursor position to a given value
+ *
+ * \param n X position to go to
+ * \return Generated escape code
+ */
 std::string SET_HORIZONTAL(ushort n = 1);
+
+/**
+ * Set the vertical cursor position to a given value
+ *
+ * \param n Y position to go to
+ * \return Generated escape code
+ */
 std::string SET_VERTICAL(ushort n = 1);
+
+/**
+ * Set the vertical and horizontal positions of the cursor
+ *
+ * \param x X position to go to
+ * \param y Y position to go to
+ * \return Generated escape code
+ */
 std::string SET_POS(ushort x = 1, ushort y = 1);
 
 constexpr char SAVE[] = "\033[s";
@@ -146,6 +209,17 @@ std::string DELETE_LINE(ushort n = 1);
  * \return Escape code
  */
 std::string CLEAR(ushort option = 2);
+
+/**
+ * Clear the current line. Option is one of three values:
+ * 0: erases from beginning to cursor
+ * 1: erases from cursor to end
+ * 2: erases from beginning to end
+ * 3: erases from beginning to end and clears the scrollback buffer
+ *
+ * \param option Clear setting
+ * \return Escape code
+ */
 std::string CLEAR_LINE(ushort option = 2);
 
 }

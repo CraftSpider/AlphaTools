@@ -43,6 +43,7 @@ class Type final { // TODO: reference/dereference
     
     template<typename T>
     explicit Type(MetaType<T> meta);
+    ~Type() = default;
     
     static std::map<std::string, Type*>& __type_map();
 

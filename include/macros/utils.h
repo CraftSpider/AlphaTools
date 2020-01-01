@@ -34,3 +34,17 @@
 #else
 #define AT_UNIQUE_IDENT(prefix) AT_EXPAND_CONCAT(prefix, __LINE__)
 #endif
+
+/**
+ * \internal
+ *
+ * Actually stringifies the token
+ */
+#define _AT_STRINGIFY(token) #token
+
+/**
+ * \brief Converts macro expansion to a string
+ *
+ * Convert a token to a string, including the result of another macro expansion
+ */
+#define AT_STRINGIFY(token) _AT_STRINGIFY(token)

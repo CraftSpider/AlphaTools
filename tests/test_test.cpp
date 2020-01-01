@@ -18,6 +18,22 @@ void test_assert() {
     }
 }
 
+
+void test_assert_macro() {
+    ASSERT(true);
+    
+    bool fail = false;
+    
+    try {
+        ASSERT(false);
+        fail = true;
+    } catch (testing::assertion_failure&) {}
+    
+    if (fail) {
+        testing::fail("ASSERT macro didn't fail when given a false value");
+    }
+}
+
 void test_assert_equal() {
     testing::assert_equal(5, 5);
     testing::assert_equal(std::string("test string"), std::string("test string"));
@@ -116,6 +132,7 @@ void test_assert_throws() {
 
 void run_test_tests() {
     TEST(test_assert)
+    TEST(test_assert_macro)
     TEST(test_assert_equal)
     TEST(test_assert_not_equal)
     TEST(test_assert_files_equal)

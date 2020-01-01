@@ -34,7 +34,7 @@ Logger* get_root_logger() {
     Logger *log = new Logger("root");
     loggers->emplace("root", log);
     
-    log->set_level(DEFAULT_LOGGER_LEVEL);
+    log->set_level(AT_DEFAULT_LOGGER_LEVEL);
     log->set_pattern("%l: %m");
     
     ConsoleHandler *ch = new ConsoleHandler();

@@ -6,7 +6,7 @@
 namespace logging {
 
 Handler::Handler() {
-    this->level = DEFAULT_HANDLER_LEVEL;
+    this->level = AT_DEFAULT_HANDLER_LEVEL;
 }
 
 void Handler::set_level(Level* level) {

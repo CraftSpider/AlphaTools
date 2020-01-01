@@ -39,6 +39,7 @@ class StaticProperty final {
     
     template<typename Ret>
     StaticProperty(Type* type, Ret* ptr, std::string name);
+    ~StaticProperty() = default;
     
 public:
     

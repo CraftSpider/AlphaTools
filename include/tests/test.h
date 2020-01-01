@@ -13,33 +13,51 @@
  * \brief Primary test running systems
  */
 
-#define TEST_METHOD(name) {\
-    this->delegated = true;\
-    if (this->skip_test(#name)) {\
-        testing::__test_on_skip(#name, testing::METHOD);\
-    } else {\
-        this->before_test(#name);\
-        try {\
-            this->name();\
-            testing::__test_on_success(#name, testing::METHOD);\
-        } catch (testing::assertion_failure &e) {\
-            testing::__test_on_failure(#name, e, testing::METHOD);\
-        } catch (testing::skip_test &e) {\
-            testing::__test_on_skip(#name, e, testing::METHOD);\
-        } catch (std::exception &e) {\
-            testing::__test_on_error(#name, e, testing::METHOD);\
-        }\
-        this->after_test(#name);\
-    }\
+/**
+ * Used inside a test class' run method, registers another method of the test class to be run as a test of its own.
+ * If this is used, the run method will not count as a test, but all registered methods will.
+ */
+#define TEST_METHOD(name) { \
+    this->delegated = true; \
+    if (this->skip_test(#name)) { \
+        testing::__test_on_skip(#name, testing::METHOD); \
+    } else { \
+        this->before_test(#name); \
+        try { \
+            this->name(); \
+            testing::__test_on_success(#name, testing::METHOD); \
+        } catch (testing::assertion_failure &e) { \
+            testing::__test_on_failure(#name, e, testing::METHOD); \
+        } catch (testing::skip_test &e) { \
+            testing::__test_on_skip(#name, e, testing::METHOD); \
+        } catch (std::exception &e) { \
+            testing::__test_on_error(#name, e, testing::METHOD); \
+        } \
+        this->after_test(#name); \
+    } \
 }
 
-#define TEST(name) {\
-    auto __var1 = name;\
-    testing::__TestPtr<decltype(__var1)>::type __var2 = testing::__TestPtr<decltype(__var1)>::make_ptr(__var1);\
-    testing::__Config::test_cases.push_back(new testing::__TestCase<decltype(__var2)>(__var2, #name));\
+/**
+ * Registers a test class or function to be run as a test. Must be used for every class/function you wish to
+ * run.
+ *
+ * Usage:
+ *
+ * ```
+ * TEST(test_func)
+ * TEST(TestClass())
+ * ```
+ */
+#define TEST(NAME) { \
+    auto __var1 = NAME; \
+    testing::__TestPtr<decltype(__var1)>::type __var2 = testing::__TestPtr<decltype(__var1)>::make_ptr(__var1); \
+    testing::__Config::test_cases.push_back(new testing::__TestCase<decltype(__var2)>(__var2, #NAME)); \
 }
 
-#define TEST_FILE(name) testing::__Config::test_files.emplace_back(#name);run_##name##_tests();
+/**
+ * Register a file to test. Expects a function of the name `run_[name]_tests` to exist in the namespace.
+ */
+#define TEST_FILE(NAME) testing::__Config::test_files.emplace_back(#NAME);run_##NAME##_tests();
 
 namespace testing {
 

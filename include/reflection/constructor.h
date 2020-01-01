@@ -35,6 +35,7 @@ class Constructor final {
     
     template<typename T, typename... Args>
     explicit Constructor(ConstructorMeta<T, Args...> meta);
+    ~Constructor() = default;
     
 public:
     

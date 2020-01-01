@@ -41,8 +41,7 @@ std::string demangle(const std::string& name);
  * System-specific information, determined at compile time. A class instead of a namespace to avoid
  * possible static initialization issues. Cannot be construced, doesn't have any non-static members.
  */
-class SysInfo {
-public:
+namespace SysInfo {
     
     /**
      * Info about the endianness of the current system
@@ -69,5 +68,4 @@ public:
         Endianness() = delete;
     };
     
-    SysInfo() = delete;
-};
+}

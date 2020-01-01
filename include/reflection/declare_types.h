@@ -20,9 +20,10 @@
 /**
  * \brief Reflect a type
  *
- * Declares a type as reflected, and ensures all necessary things are initialized.
+ * Declares a type as reflected, and ensures all necessary things are initialized. Used in cpp files
  * This will automatically declare both reference and qualifiers for the type as well, though will not
  * automatically handle pointers to the type.
+ * Must be matched by a DECLARE_TYPE_HEADER
  */
 #define DECLARE_TYPE(T) \
 template<> \
@@ -73,33 +74,15 @@ static_block { \
     reflect::__MaybeConstructor<T, const T&&>::add(); \
     reflect::__MaybeConstructor<T, volatile T&&>::add(); \
      \
-    reflect::Type::from<T>()->__set_destructor( \
-        &reflect::Destructor::from<T>() \
-    ); \
-    reflect::Type::from<const T>()->__set_destructor( \
-        &reflect::Destructor::from<const T>() \
-    ); \
-    reflect::Type::from<volatile T>()->__set_destructor( \
-        &reflect::Destructor::from<volatile T>() \
-    ); \
-    reflect::Type::from<T&>()->__set_destructor( \
-        &reflect::Destructor::from<T&>() \
-    ); \
-    reflect::Type::from<const T&>()->__set_destructor( \
-        &reflect::Destructor::from<const T&>() \
-    ); \
-    reflect::Type::from<volatile T&>()->__set_destructor( \
-        &reflect::Destructor::from<volatile T&>() \
-    ); \
-    reflect::Type::from<T&&>()->__set_destructor( \
-        &reflect::Destructor::from<T&&>() \
-    ); \
-    reflect::Type::from<const T&&>()->__set_destructor( \
-        &reflect::Destructor::from<const T&&>() \
-    ); \
-    reflect::Type::from<volatile T&&>()->__set_destructor( \
-        &reflect::Destructor::from<volatile T&&>() \
-    ); \
+    reflect::__MaybeDestructor<T>::add(); \
+    reflect::__MaybeDestructor<const T>::add(); \
+    reflect::__MaybeDestructor<volatile T>::add(); \
+    reflect::__MaybeDestructor<T&>::add(); \
+    reflect::__MaybeDestructor<const T&>::add(); \
+    reflect::__MaybeDestructor<volatile T&>::add(); \
+    reflect::__MaybeDestructor<T&&>::add(); \
+    reflect::__MaybeDestructor<const T&&>::add(); \
+    reflect::__MaybeDestructor<volatile T&&>::add(); \
 }
 
 /**
@@ -209,7 +192,14 @@ static_block { \
     ); \
 }
 
-
+/**
+ * \brief Reflect a type in the header
+ *
+ * Declares a type as reflected, used in header files.
+ * Creates forward references to template specializations and any other
+ * header necessities.
+ * Must be matched by a DECLARE_TYPE
+ */
 #define DECLARE_TYPE_HEADER(T) \
 template<> \
 std::string reflect::MetaType<T>::get_name(); \
@@ -230,14 +220,22 @@ std::string reflect::MetaType<const T&&>::get_name(); \
 template<> \
 std::string reflect::MetaType<volatile T&&>::get_name(); \
 
-
+/**
+ * \internal
+ *
+ * Special macro for allowing void as a type in cpp, as void is distinct from other types
+ */
 #define DECLARE_VOID() \
 template<> \
 std::string reflect::MetaType<void>::get_name() { \
     return "void"; \
 }
 
-
+/**
+ * \internal
+ *
+ * Special macro for allowing void as a type in header, as void is distinct from other types
+ */
 #define DECLARE_VOID_HEADER() \
 template<> \
 std::string reflect::MetaType<void>::get_name();
@@ -260,6 +258,25 @@ struct __MaybeConstructor {
     
     static void add() {
         add_impl<T, Args...>();
+    }
+    
+};
+
+template<typename T>
+struct __MaybeDestructor {
+    
+    template<typename K>
+    static std::enable_if_t<std::is_destructible_v<typename std::remove_reference_t<K>>, void> add_impl() {
+        reflect::Type::from<K>()->__set_destructor(
+            &reflect::Destructor::from<T>()
+        );
+    }
+    
+    template<typename K>
+    static std::enable_if_t<!std::is_destructible_v<typename std::remove_reference_t<K>>, void> add_impl() {}
+    
+    static void add() {
+        add_impl<T>();
     }
     
 };
