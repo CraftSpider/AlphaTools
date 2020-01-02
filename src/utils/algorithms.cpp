@@ -3,8 +3,8 @@
 
 namespace util {
 
-uint crc_table[256];
-const uint crc_start = 0xFFFFFFFFul;
+static uint crc_table[256];
+static const uint crc_start = 0xFFFFFFFFul;
 
 static void gen_crc32_table() {
     for (uint i = 0; i < 256; ++i) {
