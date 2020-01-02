@@ -3,6 +3,18 @@
 
 namespace reflect {
 
+/**
+ * \internal
+ *
+ * Special function for actually doing invocation, passed a template range
+ *
+ * \tparam Ret Return type of the function
+ * \tparam Args Arguments to the function
+ * \tparam I Indices of args
+ * \param ptr Pointer to member function
+ * \param args List of arguments to function
+ * \return Return value of the function
+ */
 template<typename Ret, typename... Args, size_t... I>
 Variant __static_invoke_impl(Ret(*ptr)(Args...), std::vector<Variant>& args, util::TemplateRange<I...>) {
     if constexpr (std::is_same<void, Ret>::value) {

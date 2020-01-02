@@ -5,9 +5,8 @@ namespace util {
 
 uint crc_table[256];
 const uint crc_start = 0xFFFFFFFFul;
-bool crc_invoked = false;
 
-void gen_crc32_table() {
+static void gen_crc32_table() {
     for (uint i = 0; i < 256; ++i) {
         uint crc = i;
         for (uint j = 0; j < 8; ++j) {
@@ -19,10 +18,8 @@ void gen_crc32_table() {
 }
 
 uint crc32(const uchar *input, const ulong length) {
-    if (!crc_invoked) {
-        gen_crc32_table();
-        crc_invoked = true;
-    }
+    static int init = (gen_crc32_table(), 0);
+    (void)init;
     
     uint crc = crc_start;
     if (input != nullptr) {

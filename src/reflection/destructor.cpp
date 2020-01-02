@@ -9,13 +9,13 @@ void Destructor::destruct(Variant instance) {
     }
     
     if (instance.get_owned()) {
-        throw invalid_instance("Variant owns its pointer, destructing it will cause a double-free");
+        throw variant_error("Variant owns its pointer, destructing it will cause a double-free");
     }
     
     ptr(instance.get_value_unsafe());
 }
 
-void Destructor::unsafe_destruct(void *instance) {
+void Destructor::unsafe_destruct(void* instance) {
     ptr(instance);
 }
 

@@ -53,6 +53,28 @@ template<Endian E = BIG>
 ulong btol(const uchar* bytes, const ulong start, const ulong end);
 
 /**
+ * Specialization of btol for big endian
+ *
+ * \param bytes Array of bytes
+ * \param start Byte index to start at
+ * \param end Byte index to end at
+ * \return Bytes interpreted as a ulong
+ */
+template<>
+ulong btol<BIG>(const uchar* bytes, const ulong start, const ulong end);
+
+/**
+ * Specialization of btol for little endian
+ *
+ * \param bytes Array of bytes
+ * \param start Byte index to start at
+ * \param end Byte index to end at
+ * \return Bytes interpreted as a ulong
+ */
+template<>
+ulong btol<LITTLE>(const uchar* bytes, const ulong start, const ulong end);
+
+/**
  * Convert an array of bytes to a signed long, with start/end indices
  *
  * \tparam E What Endianness to use
@@ -63,6 +85,28 @@ ulong btol(const uchar* bytes, const ulong start, const ulong end);
  */
 template<Endian E = BIG>
 slong btol(const char* bytes, const ulong start, const ulong end);
+
+/**
+ * Specialization of btol for big endian
+ *
+ * \param bytes Array of bytes
+ * \param start Byte index to start at
+ * \param end Byte index to end at
+ * \return Bytes interpreted as a long
+ */
+template<>
+slong btol<BIG>(const char* bytes, const ulong start, const ulong end);
+
+/**
+ * Specialization of btol for little endian
+ *
+ * \param bytes Array of bytes
+ * \param start Byte index to start at
+ * \param end Byte index to end at
+ * \return Bytes interpreted as a long
+ */
+template<>
+slong btol<LITTLE>(const char* bytes, const ulong start, const ulong end);
 
 /**
  * Convert an array of bytes to an unsigned long, with optional length of the array
@@ -238,6 +282,26 @@ template<Endian E = BIG>
 uchar* ltob(const ulong val, const ulong length = 8);
 
 /**
+ * Specialization of ltob for big endian
+ *
+ * \param val Value to convert
+ * \param length Length of the result array
+ * \return New byte array
+ */
+template<>
+uchar* ltob<BIG>(const ulong val, const ulong length);
+
+/**
+ * Specialization of ltob for big endian
+ *
+ * \param val Value to convert
+ * \param length Length of the result array
+ * \return New byte array
+ */
+template<>
+uchar* ltob<LITTLE>(const ulong val, const ulong length);
+
+/**
  * Convert a signed long to a bytes array, with optional length of the result array
  *
  * \tparam E What Endianness to use
@@ -247,6 +311,26 @@ uchar* ltob(const ulong val, const ulong length = 8);
  */
 template<Endian E = BIG>
 char* ltob(const slong val, const ulong length = 8);
+
+/**
+ * Specialization of ltob for big endian
+ *
+ * \param val Value to convert
+ * \param length Length of the result array
+ * \return New byte array
+ */
+template<>
+char* ltob<BIG>(const slong val, const ulong length);
+
+/**
+ * Specialization of ltob for big endian
+ *
+ * \param val Value to convert
+ * \param length Length of the result array
+ * \return New byte array
+ */
+template<>
+char* ltob<LITTLE>(const slong val, const ulong length);
 
 /**
  * Convert an unsigned int to a bytes array, with optional length of the result array

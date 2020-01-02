@@ -74,15 +74,15 @@ static_block { \
     reflect::__MaybeConstructor<T, const T&&>::add(); \
     reflect::__MaybeConstructor<T, volatile T&&>::add(); \
      \
-    reflect::__MaybeDestructor<T>::add(); \
-    reflect::__MaybeDestructor<const T>::add(); \
-    reflect::__MaybeDestructor<volatile T>::add(); \
-    reflect::__MaybeDestructor<T&>::add(); \
-    reflect::__MaybeDestructor<const T&>::add(); \
-    reflect::__MaybeDestructor<volatile T&>::add(); \
-    reflect::__MaybeDestructor<T&&>::add(); \
-    reflect::__MaybeDestructor<const T&&>::add(); \
-    reflect::__MaybeDestructor<volatile T&&>::add(); \
+    reflect::__MaybeDestructor<T>::set(); \
+    reflect::__MaybeDestructor<const T>::set(); \
+    reflect::__MaybeDestructor<volatile T>::set(); \
+    reflect::__MaybeDestructor<T&>::set(); \
+    reflect::__MaybeDestructor<const T&>::set(); \
+    reflect::__MaybeDestructor<volatile T&>::set(); \
+    reflect::__MaybeDestructor<T&&>::set(); \
+    reflect::__MaybeDestructor<const T&&>::set(); \
+    reflect::__MaybeDestructor<volatile T&&>::set(); \
 }
 
 /**
@@ -298,9 +298,24 @@ std::string reflect::MetaType<void>::get_name();
 
 namespace reflect {
 
+/**
+ * \internal
+ *
+ * Type used to conditionally add a Constructor to a Type, if the constructor exists
+ *
+ * \tparam T Type to construct
+ * \tparam Args Arguments to constructor
+ */
 template<typename T, typename... Args>
-struct __MaybeConstructor {
+class __MaybeConstructor {
     
+    /**
+     * Specialization of adding the constructor for if it does exist
+     * Adds the given Constructor to the Type
+     *
+     * \tparam K Type to construct
+     * \tparam Args1 Arguments to constructor
+     */
     template<typename K, typename... Args1>
     static std::enable_if_t<std::is_constructible_v<K, Args1...>, void> add_impl() {
         reflect::Type::from<K>()->__add_constructor(
@@ -308,18 +323,46 @@ struct __MaybeConstructor {
         );
     }
     
+    /**
+     * Specialization of adding the constructor for if it doesn't exist
+     * Does nothing
+     *
+     * \tparam K
+     * \tparam Args1
+     * \return
+     */
     template<typename K, typename... Args1>
     static std::enable_if_t<!std::is_constructible_v<K, Args1...>, void> add_impl() {}
     
+public:
+    
+    /**
+     * Do work of adding the constructor
+     *
+     * \return void
+     */
     static void add() {
         add_impl<T, Args...>();
     }
     
 };
 
+/**
+ * \internal
+ *
+ * Type used to conditionally set the Destructor of a Type, if the destructor exists
+ *
+ * \tparam T Type to destruct
+ */
 template<typename T>
-struct __MaybeDestructor {
+class __MaybeDestructor {
     
+    /**
+     * Specialization of adding the destructor for if it does exist
+     * Sets the Destructor on the Type
+     *
+     * \tparam K Type to destruct
+     */
     template<typename K>
     static std::enable_if_t<std::is_destructible_v<typename std::remove_reference_t<K>>, void> add_impl() {
         reflect::Type::from<K>()->__set_destructor(
@@ -327,10 +370,23 @@ struct __MaybeDestructor {
         );
     }
     
+    /**
+     * Specialization of adding the destructor for if it doesn't exist
+     * Does nothing
+     *
+     * \tparam K Type to destruct
+     */
     template<typename K>
     static std::enable_if_t<!std::is_destructible_v<typename std::remove_reference_t<K>>, void> add_impl() {}
     
-    static void add() {
+public:
+    
+    /**
+     * Do the work of setting the destructor
+     *
+     * \return void
+     */
+    static void set() {
         add_impl<T>();
     }
     

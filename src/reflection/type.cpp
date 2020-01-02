@@ -18,7 +18,7 @@ Type* Type::from_name(const std::string &name) {
     static std::map<std::string, Type*> types = __type_map();
     
     if (types.count(name) == 0) {
-        throw invalid_type("Attempt to get unregistered type '" + name + "'. Make sure to DECLARE_TYPE(typename).");
+        throw not_reflected("Attempt to get unregistered type '" + name + "'. Make sure to DECLARE_TYPE(typename).");
     }
     
     return types[name];
@@ -68,6 +68,10 @@ void Type::__set_destructor(Destructor* destructor) {
 
 const std::string& Type::get_name() {
     return name;
+}
+
+bool Type::is_final() {
+    return final;
 }
 
 const std::vector<Constructor*>& Type::get_constructors() {
@@ -166,7 +170,7 @@ const std::vector<StaticFunction*>& Type::get_static_functions() {
     return static_functions;
 }
 
-StaticFunction * Type::get_static_function(std::string name) {
+StaticFunction* Type::get_static_function(std::string name) {
     for (auto f : static_functions) {
         if (f->get_name() == name) {
             return f;

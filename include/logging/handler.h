@@ -44,8 +44,10 @@ public:
     
     /**
      * Actually log a message to output
+     *
      * \param message Message to log. May contain newlines or other unusual characters
      * \param level Level being logged at
+     * \return void
      */
     virtual void log(const std::string& message, const Level* level) = 0;
     
@@ -88,9 +90,11 @@ public:
     
     /**
      * Construct a new FileHandler that appends to a given file
+     *
      * \param filename File to log to
      */
     explicit FileHandler(const std::string& filename);
+    
     /**
      * Deconstruct a FileHandler, releasing hold of the file
      */

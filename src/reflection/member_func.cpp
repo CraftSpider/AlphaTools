@@ -8,7 +8,7 @@ Variant MemberFunction::invoke(Variant instance) {
         throw invalid_type("Attempt to invoke function on instance of invalid type");
     }
     if (num_args != 0) {
-        throw invalid_size("Invalid number of arguments to function");
+        throw invalid_size("Function is not zero-arg");
     }
     
     std::vector<Variant> temp;

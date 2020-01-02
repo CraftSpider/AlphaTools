@@ -13,6 +13,7 @@ template<typename T>
 Type::Type(MetaType<T> meta) {
     (void)meta;
     name = MetaType<T>::get_name();
+    final = std::is_final<T>::value;
 }
 
 template<typename T>
@@ -21,7 +22,7 @@ Type* Type::from() {
     std::string name = MetaType<T>::get_name();
     
     if (name == "[UNKNOWN TYPE]") {
-        throw invalid_type("Attempt to get unregistered type '" + std::string(typeid(T).name()) + "'. Make sure to DECLARE_TYPE(typename).");
+        throw not_reflected("Attempt to get unregistered type '" + std::string(typeid(T).name()) + "'. Make sure to DECLARE_TYPE(typename).");
     }
     
     if (types.count(name) == 0) {
@@ -37,7 +38,7 @@ Type* Type::from_instance(T*) {
     std::string name = MetaType<T>::get_name();
     
     if (name == "[UNKNOWN TYPE]") {
-        throw invalid_type("Attempt to get unregistered type '" + std::string(typeid(T).name()) + "'. Make sure to DECLARE_TYPE(typename).");
+        throw not_reflected("Attempt to get unregistered type '" + std::string(typeid(T).name()) + "'. Make sure to DECLARE_TYPE(typename).");
     }
     
     if (types.count(name) == 0) {

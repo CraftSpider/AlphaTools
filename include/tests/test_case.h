@@ -25,6 +25,8 @@ public:
     
     /**
      * Run this test case, actually executing the tests and associated setup/teardown code
+     *
+     * \return void
      */
     virtual void run() = 0;
     

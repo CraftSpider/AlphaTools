@@ -3,6 +3,17 @@
 
 namespace reflect {
 
+/**
+ * \internal
+ *
+ * Special function for actually doing construction, passed a template range
+ *
+ * \tparam T Type to construct
+ * \tparam Args Arguments to function
+ * \tparam I Indicies of args
+ * \param args List of arguments to constructor
+ * \return New instance of type
+ */
 template<typename T, typename... Args, size_t... I>
 T* __construct_impl(std::vector<Variant>& args, util::TemplateRange<I...>) {
     return new T(args[I].get_value_ref<Args>()...);

@@ -79,6 +79,10 @@ enum class TestType {
  */
 template<typename T, bool = std::is_pointer<T>::value>
 struct __TestPtr {
+    
+    /**
+     * Unchanged type, it's already a pointer
+     */
     typedef T type;
     
     /**
@@ -97,6 +101,10 @@ struct __TestPtr {
  */
 template<typename T>
 struct __TestPtr<T, false> {
+    
+    /**
+     * Type with pointer added
+     */
     typedef T* type;
     
     /**

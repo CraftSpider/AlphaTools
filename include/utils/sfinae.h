@@ -36,13 +36,23 @@ class TypeFinder {
     static _pointer& test() {return "aaa";}
 
 public:
+    
+    /**
+     * TypeFinder constant enum values
+     */
     enum {
+        /// Whether the type is a class type
         cls = sizeof(test<T>()) == sizeof(_class),
+        /// Whether the type is a function type
         function = sizeof(test<T>()) == sizeof(_function),
+        /// Whether the type is a pointer to method type
         method = sizeof(test<T>()) == sizeof(_method),
+        /// Whether the type is a pointer type
         pointer = sizeof(test<T>()) == sizeof(_pointer),
+        /// Whether the type is some other kind of type
         other = !cls && !function && !method && !pointer
     };
+    
 };
 
 /**
@@ -54,6 +64,10 @@ public:
  */
 template<typename T, bool = std::is_pointer<T>::value>
 struct __MakePtr {
+    
+    /**
+     * Unchanged type, it's already a pointer
+     */
     typedef T type;
 
     /**
@@ -74,6 +88,10 @@ struct __MakePtr {
  */
 template<typename T>
 struct __MakePtr<T, false> {
+    
+    /**
+     * Type with added pointer
+     */
     typedef T* type;
 
     /**
@@ -105,8 +123,17 @@ struct MakePtr : public __MakePtr<T> {};
  */
 template<typename T, typename U>
 struct __DerefPointer {
+    
+    /**
+     * Fully de-referenced type
+     */
     typedef T type;
+    
+    /**
+     * How many times the type was de-referenced
+     */
     static constexpr size_t depth = 0;
+    
 };
 
 /**
@@ -119,8 +146,17 @@ struct __DerefPointer {
  */
 template<typename T, typename U>
 struct __DerefPointer<T, U*> {
+    
+    /**
+     * Fully de-referenced type
+     */
     typedef typename __DerefPointer<U, U>::type type;
+    
+    /**
+     * How many times the type was de-referenced
+     */
     static constexpr size_t depth = __DerefPointer<U, U>::depth + 1;
+    
 };
 
 /**
@@ -136,10 +172,17 @@ struct DerefPointer : public __DerefPointer<T, T> {};
  */
 template<typename>
 struct FunctionTraits {
+    
+    /**
+     * FunctionTrait constant enum values
+     */
     enum {
+        /// Whether the type is a valid function type
         valid = 0,
+        /// Whether the type is not a valid function type
         invalid = 1
     };
+    
 };
 
 /**
@@ -150,17 +193,37 @@ struct FunctionTraits {
  */
 template<typename Ret, typename... Args>
 struct FunctionTraits<Ret(Args...)> {
+    
+    /**
+     * Return type of the function
+     */
     typedef Ret return_type;
     
+    /**
+     * Non-pointer function type
+     */
     typedef Ret(raw_type)(Args...);
+    
+    /**
+     * Equivalent function pointer type
+     */
     typedef Ret(*pointer_type)(Args...);
     
+    /**
+     * Number of arguments to this function
+     */
     static constexpr size_t num_args = sizeof...(Args);
     
+    /**
+     * FunctionTraits constant enum values
+     */
     enum {
+        /// Whether the type is a valid function type
         valid = 1,
+        /// Whether the type is not a valid function type
         invalid = 0
     };
+    
 };
 
 /**
@@ -171,17 +234,37 @@ struct FunctionTraits<Ret(Args...)> {
  */
 template<typename Ret, typename... Args>
 struct FunctionTraits<Ret(*)(Args...)> {
+    
+    /**
+     * Return type of the function
+     */
     typedef Ret return_type;
     
+    /**
+     * Equivalent non-pointer function type
+     */
     typedef Ret(raw_type)(Args...);
+    
+    /**
+     * Function pointer type
+     */
     typedef Ret(*pointer_type)(Args...);
     
+    /**
+     * Number of arguments to this function
+     */
     static constexpr size_t num_args = sizeof...(Args);
     
+    /**
+     * FunctionTraits constant enum values
+     */
     enum {
+        /// Whether the type is a valid function type
         valid = 1,
+        /// Whether the type is not a valid function type
         invalid = 0
     };
+    
 };
 
 /**
@@ -189,12 +272,22 @@ struct FunctionTraits<Ret(*)(Args...)> {
  */
 template<typename>
 struct MemberTraits {
+    
+    /**
+     * Void type for invalid type
+     */
     typedef void class_type;
     
+    /**
+     * MemberTraits constant enum values
+     */
     enum {
+        /// Whether the type is a valid member type
         valid = 0,
+        /// Whether the type is not a valid member type
         invalid = 1
     };
+    
 };
 
 /**
@@ -205,13 +298,27 @@ struct MemberTraits {
  */
 template<typename Val, typename Cls>
 struct MemberTraits<Val Cls::*> {
+    
+    /**
+     * Class type of the member
+     */
     typedef Cls class_type;
+    
+    /**
+     * Value type of the member
+     */
     typedef Val member_type;
     
+    /**
+     * MemberTraits constant enum values
+     */
     enum {
+        /// Whether the type is a valid member type
         valid = 1,
+        /// Whether the type is not a valid member type
         invalid = 0
     };
+    
 };
 
 /**
@@ -219,12 +326,22 @@ struct MemberTraits<Val Cls::*> {
  */
 template<typename>
 struct MethodTraits {
+    
+    /**
+     * Void type for invalid type
+     */
     typedef void class_type;
     
+    /**
+     * MethodTraits constant enum values
+     */
     enum {
+        /// Whether the type is a valid method type
         valid = 0,
+        /// Whether the type is not a valid method type
         invalid = 1
     };
+    
 };
 
 /**
@@ -236,15 +353,32 @@ struct MethodTraits {
  */
 template<typename Ret, typename Cls, typename... Args>
 struct MethodTraits<Ret(Cls::*)(Args...)> {
+    
+    /**
+     * Return type of the method
+     */
     typedef Ret return_type;
+    
+    /**
+     * Class type of the method
+     */
     typedef Cls class_type;
     
+    /**
+     * Number of arguments to the method
+     */
     static constexpr size_t num_args = sizeof...(Args);
     
+    /**
+     * MethodTraits constant enum values
+     */
     enum {
+        /// Whether the type is a valid method type
         valid = 1,
+        /// Whether the type is not a valid method type
         invalid = 0
     };
+    
 };
 
 /**
@@ -340,7 +474,12 @@ namespace VariadicRangeBuilder {
      */
     template<size_t MIN, size_t... I>
     struct RangeBuilder<MIN, MIN, I...> {
+        
+        /**
+         * Final constructed TemplateRange, with full range
+         */
         typedef TemplateRange<I...> range;
+        
     };
     
     /**
