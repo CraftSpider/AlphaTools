@@ -6,15 +6,11 @@
 
 namespace logging {
 
-Logger::Logger() {
-    this->name = "NULL";
-    level = NO_LEVEL;
-    stream_level = AT_DEFAULT_LOGGER_LEVEL;
-    handlers = std::vector<Handler*>();
-}
-
-Logger::Logger(const std::string &name) : Logger() {
+Logger::Logger(const std::string &name) {
     this->name = name;
+    this->level = NO_LEVEL;
+    this->stream_level = AT_DEFAULT_LOGGER_LEVEL;
+    this->handlers = std::vector<Handler*>();
 }
 
 Logger& Logger::operator<<(Level* level) {
@@ -42,12 +38,13 @@ std::string Logger::get_effective_pattern() const {
 }
 
 std::string Logger::format_instruct(const std::string &instruct, std::string message, const Level* level) {
-    (void)pattern; // TODO: use the logger pattern
     std::stringstream out;
     if (instruct[0] == 'l') {
         out << (std::string)*level;
     } else if (instruct[0] == 'm') {
         out << message;
+    } else if (instruct[0] == 'n') {
+        out << name;
     } else {
         throw std::runtime_error("Unrecognized log format instruction");
     }
@@ -57,8 +54,8 @@ std::string Logger::format_instruct(const std::string &instruct, std::string mes
 std::string Logger::log_format(const std::string &message, const Level* level) {
     bool escaped = false, in_pat = false;
     std::stringstream out;
-    std::string instruct, pattern = get_effective_pattern();
-    for (char c : pattern) {
+    std::string instruct, eff_pattern = get_effective_pattern();
+    for (char c : eff_pattern) {
         if (escaped) {
             out << c;
         } else if (in_pat) {

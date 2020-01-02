@@ -17,7 +17,14 @@ namespace util {
  */
 class format_error : public std::runtime_error {
 public:
+    
+    /**
+     * Create a new format_error from a given error message
+     *
+     * \param msg Message for the error
+     */
     explicit format_error(const std::string& msg) : std::runtime_error(msg) {}
+    
 };
 
 /**

@@ -25,7 +25,7 @@
  * automatically handle pointers to the type.
  * Must be matched by a DECLARE_TYPE_HEADER
  */
-#define DECLARE_TYPE(T) \
+#define AT_DECLARE_TYPE(T) \
 template<> \
 std::string reflect::MetaType<T>::get_name() { \
     return #T; \
@@ -92,7 +92,7 @@ static_block { \
  * This will allow you to construct the type with the given args, through
  * the reflection system.
  */
-#define DECLARE_CONSTRUCTOR(T, ...) \
+#define AT_DECLARE_CONSTRUCTOR(T, ...) \
 static_block { \
     reflect::Type::from<T>()->__add_constructor( \
         &reflect::Constructor::from<T, __VA_ARGS__>() \
@@ -106,7 +106,7 @@ static_block { \
  * This will allow you to get and set this member on the type,
  * through the reflection system.
  */
-#define DECLARE_MEMBER_DATA(T, NAME) \
+#define AT_DECLARE_MEMBER_DATA(T, NAME) \
 static_block { \
     reflect::Type::from<T>()->__add_member_property( \
         &reflect::MemberProperty::from(&T::NAME, #NAME) \
@@ -120,7 +120,7 @@ static_block { \
  * This will allow you to invoke and get the result of this member function
  * on the type, through the reflection system.
  */
-#define DECLARE_MEMBER_FUNC(T, NAME) \
+#define AT_DECLARE_MEMBER_FUNC(T, NAME) \
 static_block { \
     reflect::Type::from<T>()->__add_member_function( \
         &reflect::MemberFunction::from(&T::NAME, #NAME) \
@@ -130,7 +130,7 @@ static_block { \
 /**
  * \brief Reflect a type's member function with no args
  */
-#define DECLARE_MEMBER_FUNC_NOARG(T, NAME, RET) \
+#define AT_DECLARE_MEMBER_FUNC_NOARG(T, NAME, RET) \
 static_block { \
     reflect::Type::from<T>()->__add_member_function( \
         &reflect::MemberFunction::from<T, RET>(&T::NAME, #NAME) \
@@ -144,7 +144,7 @@ static_block { \
  * This will allow you to invoke and get the result of this member function
  * on the type, through the reflection system.
  */
-#define DECLARE_MEMBER_FUNC_OVERLOAD(T, NAME, RET, ...) \
+#define AT_DECLARE_MEMBER_FUNC_OVERLOAD(T, NAME, RET, ...) \
 static_block { \
     reflect::Type::from<T>()->__add_member_function( \
         &reflect::MemberFunction::from<T, RET, __VA_ARGS__>(&T::NAME, #NAME) \
@@ -157,7 +157,7 @@ static_block { \
  * Declares a static property of a type.
  * This will allow you to get and set this property, through the reflection system.
  */
-#define DECLARE_STATIC_DATA(T, NAME) \
+#define AT_DECLARE_STATIC_DATA(T, NAME) \
 static_block { \
     reflect::Type::from<T>()->__add_static_property( \
         &reflect::StaticProperty::from<T>(&T::NAME, #NAME) \
@@ -171,7 +171,7 @@ static_block { \
  * This will allow you to invoke and get the result of this static function,
  * through the reflection system.
  */
-#define DECLARE_STATIC_FUNC(T, NAME) \
+#define AT_DECLARE_STATIC_FUNC(T, NAME) \
 static_block { \
     reflect::Type::from<T>()->__add_static_function( \
         &reflect::StaticFunction::from<T>(&T::NAME, #NAME) \
@@ -185,7 +185,7 @@ static_block { \
  * This will allow you to invoke and get the result of this static function,
  * through the reflection system.
  */
-#define DECLARE_STATIC_FUNC_OVERLOAD(T, NAME, RET, ...) \
+#define AT_DECLARE_STATIC_FUNC_OVERLOAD(T, NAME, RET, ...) \
 static_block { \
     reflect::Type::from<T>()->__add_static_function( \
         &reflect::StaticFunction::from<T, RET, __VA_ARGS__>(&T::NAME, #NAME) \
@@ -200,7 +200,7 @@ static_block { \
  * header necessities.
  * Must be matched by a DECLARE_TYPE
  */
-#define DECLARE_TYPE_HEADER(T) \
+#define AT_DECLARE_TYPE_HEADER(T) \
 template<> \
 std::string reflect::MetaType<T>::get_name(); \
 template<> \
@@ -225,7 +225,7 @@ std::string reflect::MetaType<volatile T&&>::get_name(); \
  *
  * Special macro for allowing void as a type in cpp, as void is distinct from other types
  */
-#define DECLARE_VOID() \
+#define _AT_DECLARE_VOID() \
 template<> \
 std::string reflect::MetaType<void>::get_name() { \
     return "void"; \
@@ -236,9 +236,64 @@ std::string reflect::MetaType<void>::get_name() { \
  *
  * Special macro for allowing void as a type in header, as void is distinct from other types
  */
-#define DECLARE_VOID_HEADER() \
+#define _AT_DECLARE_VOID_HEADER() \
 template<> \
 std::string reflect::MetaType<void>::get_name();
+
+
+#ifndef _AT_NO_MACRO
+
+/**
+ * Alias for AT_DECLARE_TYPE
+ */
+#define DECLARE_TYPE(...) AT_DECLARE_TYPE(__VA_ARGS__)
+
+/**
+ * Alias for AT_DECLARE_CONSTRUCTOR
+ */
+#define DECLARE_CONSTRUCTOR(...) AT_DECLARE_CONSTRUCTOR(__VA_ARGS__)
+
+/**
+ * Alias for AT_DECLARE_MEMBER_DATA
+ */
+#define DECLARE_MEMBER_DATA(...) AT_DECLARE_MEMBER_DATA(__VA_ARGS__)
+
+/**
+ * Alias for AT_DECLARE_MEMBER_FUNC
+ */
+#define DECLARE_MEMBER_FUNC(...) AT_DECLARE_MEMBER_FUNC(__VA_ARGS__)
+
+/**
+ * Alias for AT_DECLARE_MEMBER_FUNC_NOARG
+ */
+#define DECLARE_MEMBER_FUNC_NOARG(...) AT_DECLARE_MEMBER_FUNC_NOARG(__VA_ARGS__)
+
+/**
+ * Alias for AT_DECLARE_MEMBER_FUNC_OVERLOAD
+ */
+#define DECLARE_MEMBER_FUNC_OVERLOAD(...) AT_DECLARE_MEMBER_FUNC_OVERLOAD(__VA_ARGS__)
+
+/**
+ * Alias for AT_DECLARE_STATIC_DATA
+ */
+#define DECLARE_STATIC_DATA(...) AT_DECLARE_STATIC_DATA(__VA_ARGS__)
+
+/**
+ * Alias for AT_DECLARE_STATIC_FUNC
+ */
+#define DECLARE_STATIC_FUNC(...) AT_DECLARE_STATIC_FUNC(__VA_ARGS__)
+
+/**
+ * Alias for AT_DECLARE_STATIC_FUNC_OVERLOAD
+ */
+#define DECLARE_STATIC_FUNC_OVERLOAD(...) AT_DECLARE_STATIC_FUNC_OVERLOAD(__VA_ARGS__)
+
+/**
+ * Alias for AT_DECLARE_TYPE_HEADER
+ */
+#define DECLARE_TYPE_HEADER(...) AT_DECLARE_TYPE_HEADER(__VA_ARGS__)
+
+#endif
 
 
 namespace reflect {
@@ -283,55 +338,55 @@ struct __MaybeDestructor {
 
 }
 
-DECLARE_VOID_HEADER()
+_AT_DECLARE_VOID_HEADER()
 
-DECLARE_TYPE_HEADER(char)
-DECLARE_TYPE_HEADER(short)
-DECLARE_TYPE_HEADER(int)
-DECLARE_TYPE_HEADER(long)
-DECLARE_TYPE_HEADER(long long)
+AT_DECLARE_TYPE_HEADER(char)
+AT_DECLARE_TYPE_HEADER(short)
+AT_DECLARE_TYPE_HEADER(int)
+AT_DECLARE_TYPE_HEADER(long)
+AT_DECLARE_TYPE_HEADER(long long)
 
-DECLARE_TYPE_HEADER(signed char)
+AT_DECLARE_TYPE_HEADER(signed char)
 
-DECLARE_TYPE_HEADER(unsigned char)
-DECLARE_TYPE_HEADER(unsigned short)
-DECLARE_TYPE_HEADER(unsigned int)
-DECLARE_TYPE_HEADER(unsigned long)
-DECLARE_TYPE_HEADER(unsigned long long)
+AT_DECLARE_TYPE_HEADER(unsigned char)
+AT_DECLARE_TYPE_HEADER(unsigned short)
+AT_DECLARE_TYPE_HEADER(unsigned int)
+AT_DECLARE_TYPE_HEADER(unsigned long)
+AT_DECLARE_TYPE_HEADER(unsigned long long)
 
-DECLARE_TYPE_HEADER(bool)
-DECLARE_TYPE_HEADER(wchar_t)
-DECLARE_TYPE_HEADER(float)
-DECLARE_TYPE_HEADER(double)
-DECLARE_TYPE_HEADER(long double)
-DECLARE_TYPE_HEADER(nullptr_t)
+AT_DECLARE_TYPE_HEADER(bool)
+AT_DECLARE_TYPE_HEADER(wchar_t)
+AT_DECLARE_TYPE_HEADER(float)
+AT_DECLARE_TYPE_HEADER(double)
+AT_DECLARE_TYPE_HEADER(long double)
+AT_DECLARE_TYPE_HEADER(nullptr_t)
 
-DECLARE_TYPE_HEADER(void*)
-DECLARE_TYPE_HEADER(char*)
-DECLARE_TYPE_HEADER(unsigned char*)
+AT_DECLARE_TYPE_HEADER(void*)
+AT_DECLARE_TYPE_HEADER(char*)
+AT_DECLARE_TYPE_HEADER(unsigned char*)
 
-DECLARE_TYPE_HEADER(std::string)
-DECLARE_TYPE_HEADER(std::runtime_error)
-DECLARE_TYPE_HEADER(std::vector<reflect::Type*>)
-DECLARE_TYPE_HEADER(std::vector<reflect::Constructor*>)
-DECLARE_TYPE_HEADER(std::vector<reflect::MemberProperty*>)
-DECLARE_TYPE_HEADER(std::vector<reflect::MemberFunction*>)
-DECLARE_TYPE_HEADER(std::vector<reflect::StaticProperty*>)
-DECLARE_TYPE_HEADER(std::vector<reflect::StaticFunction*>)
+AT_DECLARE_TYPE_HEADER(std::string)
+AT_DECLARE_TYPE_HEADER(std::runtime_error)
+AT_DECLARE_TYPE_HEADER(std::vector<reflect::Type*>)
+AT_DECLARE_TYPE_HEADER(std::vector<reflect::Constructor*>)
+AT_DECLARE_TYPE_HEADER(std::vector<reflect::MemberProperty*>)
+AT_DECLARE_TYPE_HEADER(std::vector<reflect::MemberFunction*>)
+AT_DECLARE_TYPE_HEADER(std::vector<reflect::StaticProperty*>)
+AT_DECLARE_TYPE_HEADER(std::vector<reflect::StaticFunction*>)
 
-DECLARE_TYPE_HEADER(reflect::Type)
-DECLARE_TYPE_HEADER(reflect::Type*)
-DECLARE_TYPE_HEADER(reflect::Variant)
-DECLARE_TYPE_HEADER(reflect::Variant*)
-DECLARE_TYPE_HEADER(reflect::Constructor)
-DECLARE_TYPE_HEADER(reflect::Constructor*)
-DECLARE_TYPE_HEADER(reflect::MemberProperty)
-DECLARE_TYPE_HEADER(reflect::MemberProperty*)
-DECLARE_TYPE_HEADER(reflect::MemberFunction)
-DECLARE_TYPE_HEADER(reflect::MemberFunction*)
-DECLARE_TYPE_HEADER(reflect::StaticProperty)
-DECLARE_TYPE_HEADER(reflect::StaticProperty*)
-DECLARE_TYPE_HEADER(reflect::StaticFunction)
-DECLARE_TYPE_HEADER(reflect::StaticFunction*)
-DECLARE_TYPE_HEADER(reflect::Destructor)
-DECLARE_TYPE_HEADER(reflect::Destructor*)
+AT_DECLARE_TYPE_HEADER(reflect::Type)
+AT_DECLARE_TYPE_HEADER(reflect::Type*)
+AT_DECLARE_TYPE_HEADER(reflect::Variant)
+AT_DECLARE_TYPE_HEADER(reflect::Variant*)
+AT_DECLARE_TYPE_HEADER(reflect::Constructor)
+AT_DECLARE_TYPE_HEADER(reflect::Constructor*)
+AT_DECLARE_TYPE_HEADER(reflect::MemberProperty)
+AT_DECLARE_TYPE_HEADER(reflect::MemberProperty*)
+AT_DECLARE_TYPE_HEADER(reflect::MemberFunction)
+AT_DECLARE_TYPE_HEADER(reflect::MemberFunction*)
+AT_DECLARE_TYPE_HEADER(reflect::StaticProperty)
+AT_DECLARE_TYPE_HEADER(reflect::StaticProperty*)
+AT_DECLARE_TYPE_HEADER(reflect::StaticFunction)
+AT_DECLARE_TYPE_HEADER(reflect::StaticFunction*)
+AT_DECLARE_TYPE_HEADER(reflect::Destructor)
+AT_DECLARE_TYPE_HEADER(reflect::Destructor*)

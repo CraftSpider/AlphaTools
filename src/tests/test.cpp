@@ -49,11 +49,11 @@ constexpr char blank_char = '-';
 
 std::string __get_name(TestType type) {
     switch (type) {
-        case FUNCTION:
+        case TestType::FUNCTION:
             return "test";
-        case METHOD:
+        case TestType::METHOD:
             return "test method";
-        case CLASS:
+        case TestType::CLASS:
             return "test class";
     }
     return "unknown";

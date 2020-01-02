@@ -33,28 +33,82 @@ public:
      * it was incorrectly initialized
      */
     Level() noexcept;
+    
     /**
      * Construct a new level with the given name and priority.
+     *
      * \param priority Priority of the new Level
      * \param name Name of the new Level
      */
     Level(const int& priority, const std::string& name) noexcept;
     
     /**
+     * As levels are managed statically by the library, they can't be deleted
+     */
+    ~Level() = delete;
+    
+    /**
      * Get the name of this level, as a string
+     *
      * \return Level name
      */
     std::string get_name();
     
+    /**
+     * Check if two levels are equal. Two levels are equal if their priority and name are both the same
+     *
+     * \param level Level to compare
+     * \return Whether levels are the same
+     */
     bool operator==(const Level& level) const;
+    
+    /**
+     * Check if two levels are not equal. If either priority or name are different, they aren't equal
+     *
+     * \param level Level to compare
+     * \return Whether levels are not the same
+     */
     bool operator!=(const Level& level);
+    
+    /**
+     * Check if this level is less than or equal to another level. This only considers the priority of the two
+     * levels, name is not considered
+     *
+     * \param level Level to compare to
+     * \return Whether level is less than or equal to this level
+     */
     bool operator<=(const Level& level) const;
+    
+    /**
+     * Check if this level is greater than or equal to another level. This only considers the priority of the two
+     * levels, name is not considered
+     *
+     * \param level Level to compare to
+     * \return Whether level is greater than or equal to this level
+     */
     bool operator>=(const Level& level) const;
+    
+    /**
+     * Check if this level is less than another level. This only considers the priority of the two
+     * levels, name is not considered
+     *
+     * \param level Level to compare to
+     * \return Whether level is less than this level
+     */
     bool operator>(const Level& level) const;
+    
+    /**
+     * Check if this level is greater than another level. This only considers the priority of the two
+     * levels, name is not considered
+     *
+     * \param level Level to compare to
+     * \return Whether level is greater than this level
+     */
     bool operator<(const Level& level) const;
     
     /**
      * Levels can be cast to a string, if done so explicitly
+     *
      * \return Level as a string
      */
     explicit operator std::string() const;

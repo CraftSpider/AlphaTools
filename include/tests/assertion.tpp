@@ -106,8 +106,8 @@ void assert_throws(K callable, Args... args) {
     } catch(T&) {}
 }
 
-template<typename T, typename ...Args, typename K>
-void assert_throws(std::string message, K callable, Args... args) {
+template<typename T, typename... Args, typename K>
+void assert_throws(const std::string& message, K callable, Args... args) {
     try {
         callable(args...);
         fail(message);

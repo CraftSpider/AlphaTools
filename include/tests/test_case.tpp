@@ -35,23 +35,23 @@ template<typename T>
 template<typename C, std::enable_if_t<util::TypeFinder<C>::pointer, int>>
 void __TestCase<T>::__run() {
     if (instance->skip_class()) {
-        testing::__test_on_skip(name, testing::CLASS);
+        testing::__test_on_skip(name, testing::TestType::CLASS);
     } else {
         instance->before_class();
         try {
             instance->run();
             if (!instance->delegated) {
-                testing::__test_on_success(name, testing::CLASS);
+                testing::__test_on_success(name, testing::TestType::CLASS);
             }
         } catch (testing::assertion_failure &e) {
             if (!instance->delegated) {
-                testing::__test_on_failure(name, e, testing::CLASS);
+                testing::__test_on_failure(name, e, testing::TestType::CLASS);
             }
         } catch (testing::skip_test &e) {
-            testing::__test_on_skip(name, e, testing::CLASS);
+            testing::__test_on_skip(name, e, testing::TestType::CLASS);
         } catch (std::exception &e) {
             if (!instance->delegated) {
-                testing::__test_on_error(name, e, testing::CLASS);
+                testing::__test_on_error(name, e, testing::TestType::CLASS);
             }
         }
         instance->after_class();
