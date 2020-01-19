@@ -3,7 +3,27 @@
 
 namespace reflect {
 
-Variant TypeCaster::cast(Variant &variant, CastType type) {
+namespace CastType {
+
+std::string to_string(type t) {
+    switch (t) {
+        case DYNAMIC:
+            return "DYNAMIC";
+        case REINTERPRET:
+            return "REINTERPRET";
+        case STATIC:
+            return "STATIC";
+        case CONST:
+            return "CONST";
+        case C:
+            return "C";
+    }
+    return "";
+}
+
+}
+
+Variant TypeCaster::cast(Variant &variant, CastType::type type) {
     
     CastFuncRef func = nullptr;
     switch (type) {
@@ -27,10 +47,23 @@ Variant TypeCaster::cast(Variant &variant, CastType type) {
     Variant result = func(variant);
     
     if (result.get_type() == Type::from<void>()) {
-        throw invalid_cast("Cast type X from type A to type B is not supported"); // TODO: X, A, and B are names
+        throw invalid_cast(
+            "Cast type '" + CastType::to_string(type) +
+            "' from type '" + from_type->get_name() +
+            "' to type '" + to_type->get_name() +
+            "' is not supported"
+        );
     }
     
     return result;
+}
+
+Type* TypeCaster::get_from_type() {
+    return from_type;
+}
+
+Type* TypeCaster::get_to_type() {
+    return to_type;
 }
 
 Variant Caster::add_pointer(Variant variant) {
@@ -41,12 +74,16 @@ Variant Caster::remove_pointer(Variant variant) {
     return remove_ptr(variant);
 }
 
-Variant Caster::cast(Type *type, Variant variant, CastType cast) {
+Variant Caster::cast(Type *type, Variant variant, CastType::type cast) {
     if (registered_casts.count(type) == 0) {
         throw invalid_type("Type '" + type->get_name() + "' is not registered for casting, use AT_DECLARE_TYPE_CAST()");
     }
     TypeCaster* type_caster = registered_casts[type];
     return type_caster->cast(variant, cast);
+}
+
+Type* Caster::get_type() {
+    return type;
 }
 
 }

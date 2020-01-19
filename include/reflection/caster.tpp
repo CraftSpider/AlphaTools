@@ -131,6 +131,9 @@ CastFuncRef CasterMeta<T, K>::get_cast_c_func() {
 
 template<typename T, typename K>
 TypeCaster::TypeCaster(CasterMeta<T, K>) {
+    from_type = Type::from<T>();
+    to_type = Type::from<K>();
+    
     reinterpret_ptr = CasterMeta<T, K>::get_cast_reinterpret_func();
     static_ptr = CasterMeta<T, K>::get_cast_static_func();
     const_ptr = CasterMeta<T, K>::get_cast_const_func();
@@ -149,6 +152,8 @@ TypeCaster& TypeCaster::from() {
 
 template<typename T>
 Caster::Caster(ShifterMeta<T>) {
+    type = Type::from<T>();
+    
     add_ptr = ShifterMeta<T>::get_add_pointer_func();
     remove_ptr = ShifterMeta<T>::get_remove_pointer_func();
 }

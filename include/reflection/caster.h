@@ -8,13 +8,19 @@ namespace reflect {
 typedef Variant(*CastFuncRef)(Variant&);
 
 
-enum class CastType {
+namespace CastType {
+
+enum type {
     DYNAMIC,
     REINTERPRET,
     STATIC,
     CONST,
     C
 };
+
+std::string to_string(type t);
+
+}
 
 
 template<typename T>
@@ -127,6 +133,9 @@ class TypeCaster final {
     
     CastFuncRef dynamic_ptr, reinterpret_ptr, static_ptr, const_ptr, c_ptr;
     
+    Type* from_type;
+    Type* to_type;
+    
     template<typename T, typename K>
     explicit TypeCaster(CasterMeta<T, K>);
     
@@ -138,13 +147,19 @@ public:
     template<typename T, typename K>
     static TypeCaster& from();
     
-    Variant cast(Variant& variant, CastType type = CastType::C);
+    Variant cast(Variant& variant, CastType::type type = CastType::C);
+    
+    Type* get_from_type();
+    
+    Type* get_to_type();
     
 };
 
 class Caster final {
     
     CastFuncRef add_ptr, remove_ptr;
+    
+    Type* type;
     
     std::map<Type*, TypeCaster*> registered_casts;
     
@@ -168,7 +183,9 @@ public:
     
     Variant remove_pointer(Variant variant);
     
-    Variant cast(Type* type, Variant variant, CastType cast = CastType::C);
+    Variant cast(Type* type, Variant variant, CastType::type cast = CastType::C);
+    
+    Type* get_type();
     
 };
 
