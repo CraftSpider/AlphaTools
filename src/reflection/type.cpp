@@ -82,11 +82,11 @@ bool Type::is_final() {
 }
 
 Type* Type::add_pointer() {
-    // TODO
+    return nullptr;  // TODO
 }
 
 Type* Type::remove_pointer() {
-    // TODO
+    return nullptr; // TODO
 }
 
 const std::vector<Constructor*>& Type::get_constructors() {
