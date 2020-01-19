@@ -148,7 +148,7 @@ public:
      *
      * \return Variant type
      */
-    Type* get_type();
+    Type* get_type() const;
     
     /**
      * Get the value of this variant as a void pointer, no type safety is performed
@@ -214,7 +214,7 @@ public:
      * \return New copy of contained data
      */
     template<typename T>
-    T get_value();
+    T get_value() const;
     
     /**
      * Check whether this variant owns its contained data, meaning that the data is refcounted,
@@ -222,7 +222,7 @@ public:
      *
      * \return Whether data is owned
      */
-    bool get_owned();
+    bool get_owned() const;
     
 };
 

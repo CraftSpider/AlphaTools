@@ -85,7 +85,8 @@ std::string spec_handler<uchar*>(std::string spec, uchar** arg);
  * with this than the builtin formatting utilities.
  *
  * Syntax:
- * TODO
+ * `{type:specifier}`
+ * Commonly, type is auto-detected, and specifier is per-type
  *
  * \tparam Args Variadic pack of argument types
  * \param format Format string to use

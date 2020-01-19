@@ -5,7 +5,7 @@ template<typename T>
 Variant Variant::from_ptr(T* obj) {
     Variant out = Variant();
     out.type = Type::from<T>();
-    out.data = reinterpret_cast<void*>(obj);
+    out.data = static_cast<void*>(obj);
     return out;
 }
 
@@ -13,7 +13,7 @@ template<typename T>
 Variant Variant::from_ref(T& obj) {
     Variant out = Variant();
     out.type = Type::from<typename std::remove_reference_t<T>>();
-    out.data = reinterpret_cast<void*>(&obj);
+    out.data = static_cast<void*>(&obj);
     return out;
 }
 
@@ -96,7 +96,7 @@ typename std::remove_reference_t<T>& Variant::take_value_ref() {
 }
 
 template<typename T>
-T Variant::get_value() {
+T Variant::get_value() const {
     if (Type::from<T>() != type) {
         throw invalid_type("Attempt to retrieve value as wrong type: Expected '" + type->get_name() + "', got '" + Type::from<T>()->get_name() + "'");
     }

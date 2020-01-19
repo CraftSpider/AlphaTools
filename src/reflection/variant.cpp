@@ -83,7 +83,7 @@ Variant Variant::from_pair_owned(Type* type, void* data) {
     return out;
 }
 
-Type* Variant::get_type() {
+Type* Variant::get_type() const {
     return type;
 }
 
@@ -102,7 +102,7 @@ void* Variant::take_value_unsafe() {
     return data;
 }
 
-bool Variant::get_owned() {
+bool Variant::get_owned() const {
     return owned;
 }
 

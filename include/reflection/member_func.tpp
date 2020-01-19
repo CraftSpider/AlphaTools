@@ -53,7 +53,31 @@ MemberFunction::MemberFunction(Ret(T::*ptr)(Args...), std::string name) {
 }
 
 template<typename T, typename Ret, typename... Args>
+MemberFunction::MemberFunction(Ret(T::*ptr)(Args...) const, std::string name) {
+    type = Type::from<T>();
+    return_type = Type::from<Ret>();
+    arg_types = Type::from_list<Args...>();
+    this->name = std::move(name);
+    
+    using PtrType = Ret(T::*)(Args...) const;
+    this->ptr = new PtrType(ptr);
+    invoke_ptr = MemberFunctionMeta<T, Ret, Args...>::get_invoke_func();
+    num_args = sizeof...(Args);
+}
+
+template<typename T, typename Ret, typename... Args>
 MemberFunction& MemberFunction::from(Ret (T::*ptr)(Args...), std::string name) {
+    static std::map<std::string, MemberFunction*> member_functions = std::map<std::string, MemberFunction*>();
+    
+    if (member_functions.count(name) == 0) {
+        member_functions[name] = new MemberFunction(ptr, name);
+    }
+    
+    return *member_functions[name];
+}
+
+template<typename T, typename Ret, typename... Args>
+MemberFunction& MemberFunction::from_const(Ret (T::*ptr)(Args...) const, std::string name) {
     static std::map<std::string, MemberFunction*> member_functions = std::map<std::string, MemberFunction*>();
     
     if (member_functions.count(name) == 0) {

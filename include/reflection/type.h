@@ -18,6 +18,7 @@ class MemberFunction;
 class StaticProperty;
 class StaticFunction;
 class Destructor;
+class Caster;
 
 /**
  * \internal
@@ -54,6 +55,7 @@ class Type final { // TODO: reference/dereference
     std::vector<StaticProperty*> static_properties;
     std::vector<StaticFunction*> static_functions;
     Destructor* destructor = nullptr;
+    Caster* caster = nullptr;
     
     /**
      * Constructing new instances is managed by the library and is private
@@ -170,6 +172,15 @@ public:
     void __set_destructor(Destructor* destructor);
     
     /**
+     * \internal
+     *
+     * Set the caster for this type, used by the type declaration system
+     *
+     * \param caster Caster to set
+     */
+     void __set_caster(Caster* caster);
+    
+    /**
      * Get the name of this type
      *
      * \return Type name
@@ -182,6 +193,20 @@ public:
      * \return Finality of type
      */
     bool is_final();
+    
+    /**
+     * Get the associated type with a pointer added
+     *
+     * \return Type with one more pointer
+     */
+     Type* add_pointer();
+     
+     /**
+      * Get the associated type with a pointer removed
+      *
+      * \return Type with one fewer pointer
+      */
+     Type* remove_pointer();
     
     /**
      * Get all registered constructors for this type
@@ -285,6 +310,8 @@ public:
      * \return Destructor or nullptr
      */
     Destructor* get_destructor();
+    
+    Caster* get_caster();
     
 };
 

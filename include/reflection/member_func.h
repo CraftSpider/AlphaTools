@@ -74,6 +74,18 @@ class MemberFunction final {
     MemberFunction(Ret(T::*ptr)(Args...), std::string name);
     
     /**
+     * Constructing new instances is managed by the library and is private
+     *
+     * \tparam T Type of the class
+     * \tparam Ret Return type of the function
+     * \tparam Args Argument types to the function
+     * \param ptr Pointer to the function
+     * \param name Name of the function
+     */
+    template<typename T, typename Ret, typename... Args>
+    MemberFunction(Ret(T::*ptr)(Args...) const, std::string name);
+    
+    /**
      * As MemberFunctions have a static lifetime, prevent external things from
      * deleting them
      */
@@ -103,6 +115,19 @@ public:
      */
     template<typename T, typename Ret, typename... Args>
     static MemberFunction& from(Ret (T::*ptr)(Args...), std::string name);
+    
+    /**
+     * Get the MemberFunction associated with a given const member function pointer and name
+     *
+     * \tparam T Type of the class
+     * \tparam Ret Return type of the member function
+     * \tparam Args Argument types to the member function
+     * \param ptr Member function pointer
+     * \param name Name of the function
+     * \return Associated MemberFunction instance
+     */
+    template<typename T, typename Ret, typename... Args>
+    static MemberFunction& from_const(Ret (T::*ptr)(Args...) const, std::string name);
     
     /**
      * Invoke the member function on an instance of the type, if this func is no-arg

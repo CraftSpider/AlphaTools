@@ -112,10 +112,10 @@ AT_DECLARE_STATIC_FUNC(reflect::Variant, from_type)
 AT_DECLARE_STATIC_FUNC(reflect::Variant, from_pair)
 AT_DECLARE_STATIC_FUNC(reflect::Variant, from_pair_owned)
 
-AT_DECLARE_MEMBER_FUNC(reflect::Variant, get_type)
+AT_DECLARE_CONST_MEMBER_FUNC(reflect::Variant, get_type)
 AT_DECLARE_MEMBER_FUNC(reflect::Variant, get_value_unsafe)
 AT_DECLARE_MEMBER_FUNC(reflect::Variant, take_value_unsafe)
-AT_DECLARE_MEMBER_FUNC(reflect::Variant, get_owned)
+AT_DECLARE_CONST_MEMBER_FUNC(reflect::Variant, get_owned)
 
 AT_DECLARE_TYPE(reflect::Constructor)
 AT_DECLARE_TYPE(reflect::Constructor*)

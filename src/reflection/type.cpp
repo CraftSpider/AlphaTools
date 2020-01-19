@@ -66,12 +66,27 @@ void Type::__set_destructor(Destructor* destructor) {
     this->destructor = destructor;
 }
 
+void Type::__set_caster(Caster *caster) {
+    if (this->caster != nullptr) {
+        throw already_reflected("Caster for type '" + name + "' has already been set");
+    }
+    this->caster = caster;
+}
+
 const std::string& Type::get_name() {
     return name;
 }
 
 bool Type::is_final() {
     return final;
+}
+
+Type* Type::add_pointer() {
+    // TODO
+}
+
+Type* Type::remove_pointer() {
+    // TODO
 }
 
 const std::vector<Constructor*>& Type::get_constructors() {
@@ -181,6 +196,10 @@ StaticFunction* Type::get_static_function(std::string name) {
 
 Destructor* Type::get_destructor() {
     return destructor;
+}
+
+Caster* Type::get_caster() {
+    return caster;
 }
 
 }

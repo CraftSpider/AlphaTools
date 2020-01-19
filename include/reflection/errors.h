@@ -84,6 +84,20 @@ public:
 };
 
 /**
+ * Error for if an invalid cast is performed, EG dynamic_cast on unrelated types
+ */
+class invalid_cast : public reflection_error {
+public:
+    
+    /**
+     * Cosntruct a new invalid_cast from a message
+     *
+     * \param msg Error message
+     */
+     explicit invalid_cast(const std::string& msg);
+};
+
+/**
  * Error for if a Variant is used in an invalid situation, EG taking ownership of a shared
  * pointer or trying to destruct a Variant holding an owned pointer
  */

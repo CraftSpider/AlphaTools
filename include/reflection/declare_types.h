@@ -10,6 +10,7 @@
 #include "reflection/static_prop.h"
 #include "reflection/static_func.h"
 #include "reflection/destructor.h"
+#include "reflection/caster.h"
 
 /**
  * \file declare_types.h
@@ -83,6 +84,8 @@ static_block { \
     reflect::__MaybeDestructor<T&&>::set(); \
     reflect::__MaybeDestructor<const T&&>::set(); \
     reflect::__MaybeDestructor<volatile T&&>::set(); \
+     \
+    reflect::Type::from<T>()->__set_caster(&reflect::Caster::from<T>()); \
 }
 
 /**
@@ -152,6 +155,20 @@ static_block { \
 }
 
 /**
+ * \brief Reflect a type's const member function by name
+ *
+ * Declares a member function of a type.
+ * This will allow you to invoke and get the result of this member function
+ * on the type, through the reflection system.
+ */
+#define AT_DECLARE_CONST_MEMBER_FUNC(T, NAME) \
+static_block { \
+    reflect::Type::from<T>()->__add_member_function( \
+        &reflect::MemberFunction::from_const(&T::NAME, #NAME) \
+    ); \
+}
+
+/**
  * \brief Reflect a type's static data by name
  *
  * Declares a static property of a type.
@@ -189,6 +206,13 @@ static_block { \
 static_block { \
     reflect::Type::from<T>()->__add_static_function( \
         &reflect::StaticFunction::from<T, RET, __VA_ARGS__>(&T::NAME, #NAME) \
+    ); \
+}
+
+#define AT_DECLARE_TYPE_CAST(T, K) \
+static_block { \
+    reflect::Type::from<T>()->get_caster()->__add_cast( \
+        &reflect::TypeCaster::from<T, K>() \
     ); \
 }
 

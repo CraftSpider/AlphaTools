@@ -8,6 +8,7 @@
 #include "reflection/static_prop.h"
 #include "reflection/static_func.h"
 #include "reflection/destructor.h"
+#include "reflection/caster.h"
 
 #include "reflection/declare_types.h"
 

@@ -13,6 +13,8 @@ invalid_size::invalid_size(const std::string& msg) : reflection_error(msg) {}
 
 invalid_type::invalid_type(const std::string& msg) : reflection_error(msg) {}
 
+invalid_cast::invalid_cast(const std::string& msg) : reflection_error(msg) {}
+
 variant_error::variant_error(const std::string& msg) : reflection_error(msg) {}
 
 }
