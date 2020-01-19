@@ -35,63 +35,98 @@ CastFuncRef ShifterMeta<T>::get_remove_pointer_func() {
 }
 
 template<typename T, typename K>
-Variant CasterMeta<T, K>::cast_dynamic(reflect::Variant& obj) {
+template<typename T1, typename K1>
+std::enable_if_t<__CastSupport<T1, K1>::support_dynamic, Variant> CasterMeta<T, K>::cast_dynamic(reflect::Variant& obj) {
     return Variant::from_return(
         dynamic_cast<K>(obj.get_value_ref<T>())
     );
 }
 
 template<typename T, typename K>
-Variant CasterMeta<T, K>::cast_reinterpret(reflect::Variant& obj) {
+template<typename T1, typename K1>
+std::enable_if_t<!__CastSupport<T1, K1>::support_dynamic, Variant> CasterMeta<T, K>::cast_dynamic(reflect::Variant&) {
+    return Variant::from_type(Type::from<void>());
+}
+
+template<typename T, typename K>
+template<typename T1, typename K1>
+std::enable_if_t<__CastSupport<T1, K1>::support_reinterpret, Variant> CasterMeta<T, K>::cast_reinterpret(reflect::Variant& obj) {
     return Variant::from_return(
         reinterpret_cast<K>(obj.get_value_ref<T>())
     );
 }
 
 template<typename T, typename K>
-Variant CasterMeta<T, K>::cast_static(reflect::Variant& obj) {
+template<typename T1, typename K1>
+std::enable_if_t<!__CastSupport<T1, K1>::support_reinterpret, Variant> CasterMeta<T, K>::cast_reinterpret(reflect::Variant&) {
+    return Variant::from_type(Type::from<void>());
+}
+
+template<typename T, typename K>
+template<typename T1, typename K1>
+std::enable_if_t<__CastSupport<T1, K1>::support_static, Variant> CasterMeta<T, K>::cast_static(reflect::Variant& obj) {
     return Variant::from_return(
         static_cast<K>(obj.get_value_ref<T>())
     );
 }
 
 template<typename T, typename K>
-Variant CasterMeta<T, K>::cast_const(reflect::Variant& obj) {
+template<typename T1, typename K1>
+std::enable_if_t<!__CastSupport<T1, K1>::support_static, Variant> CasterMeta<T, K>::cast_static(reflect::Variant&) {
+    return Variant::from_type(Type::from<void>());
+}
+
+template<typename T, typename K>
+template<typename T1, typename K1>
+std::enable_if_t<__CastSupport<T1, K1>::support_const, Variant> CasterMeta<T, K>::cast_const(reflect::Variant& obj) {
     return Variant::from_return(
         static_cast<K>(obj.get_value_ref<T>())
     );
 }
 
 template<typename T, typename K>
-Variant CasterMeta<T, K>::cast_c(reflect::Variant& obj) {
+template<typename T1, typename K1>
+std::enable_if_t<!__CastSupport<T1, K1>::support_const, Variant> CasterMeta<T, K>::cast_const(reflect::Variant&) {
+    return Variant::from_type(Type::from<void>());
+}
+
+template<typename T, typename K>
+template<typename T1, typename K1>
+std::enable_if_t<__CastSupport<T1, K1>::support_c, Variant> CasterMeta<T, K>::cast_c(reflect::Variant& obj) {
     return Variant::from_return(
         (K)obj.get_value_ref<T>()
     );
 }
 
 template<typename T, typename K>
+template<typename T1, typename K1>
+std::enable_if_t<!__CastSupport<T1, K1>::support_c, Variant> CasterMeta<T, K>::cast_c(reflect::Variant&) {
+    return Variant::from_type(Type::from<void>());
+}
+
+template<typename T, typename K>
 CastFuncRef CasterMeta<T, K>::get_cast_reinterpret_func() {
-    return &cast_reinterpret;
+    return &cast_reinterpret<T, K>;
 }
 
 template<typename T, typename K>
 CastFuncRef CasterMeta<T, K>::get_cast_static_func() {
-    return &cast_static;
+    return &cast_static<T, K>;
 }
 
 template<typename T, typename K>
 CastFuncRef CasterMeta<T, K>::get_cast_const_func() {
-    return &cast_const;
+    return &cast_const<T, K>;
 }
 
 template<typename T, typename K>
 CastFuncRef CasterMeta<T, K>::get_cast_dynamic_func() {
-    return &cast_dynamic;
+    return &cast_dynamic<T, K>;
 }
 
 template<typename T, typename K>
 CastFuncRef CasterMeta<T, K>::get_cast_c_func() {
-    return &cast_c;
+    return &cast_c<T, K>;
 }
 
 template<typename T, typename K>
@@ -128,14 +163,14 @@ Caster& Caster::from() {
 }
 
 template<typename T, typename K>
-void Caster::__add_cast(CasterMeta<T, K> meta) {
+void Caster::__add_cast() {
     if (registered_casts.count(Type::from<T>()) > 0) {
         throw already_reflected(
             "TypeCaster from type '" + Type::from<T>()->get_name() +
             "' to type '" + Type::from<K>()->get_name() + "' has already been set"
         );
     }
-    registered_casts[Type::from<T>()] = TypeCaster::from<T, K>();
+    registered_casts[Type::from<T>()] = &TypeCaster::from<T, K>();
 }
 
 }

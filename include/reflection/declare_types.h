@@ -211,9 +211,7 @@ static_block { \
 
 #define AT_DECLARE_TYPE_CAST(T, K) \
 static_block { \
-    reflect::Type::from<T>()->get_caster()->__add_cast( \
-        &reflect::TypeCaster::from<T, K>() \
-    ); \
+    reflect::Type::from<T>()->get_caster()->__add_cast<T, K>(); \
 }
 
 /**
@@ -311,6 +309,11 @@ std::string reflect::MetaType<void>::get_name();
  * Alias for AT_DECLARE_STATIC_FUNC_OVERLOAD
  */
 #define DECLARE_STATIC_FUNC_OVERLOAD(...) AT_DECLARE_STATIC_FUNC_OVERLOAD(__VA_ARGS__)
+
+/**
+ * Alias for AT_DECLARE_TYPE_CAST
+ */
+#define DECLARE_TYPE_CAST(...) AT_DECLARE_TYPE_CAST(__VA_ARGS__)
 
 /**
  * Alias for AT_DECLARE_TYPE_HEADER

@@ -35,19 +35,81 @@ public:
     
 };
 
-template<typename T, typename K>
-class CasterMeta {
+template<typename From, typename To>
+class __CastSupport {
+    
+    template<typename T, typename K, typename = decltype(dynamic_cast<K>(std::declval<T>()))>
+    static std::true_type __test_dynamic(int) {return std::true_type();}
+    
+    template<typename, typename>
+    static std::false_type __test_dynamic(...) {return std::false_type();}
+    
+    template<typename T, typename K, typename = decltype(reinterpret_cast<K>(std::declval<T>()))>
+    static std::true_type __test_reinterpret(int) {return std::true_type();}
+    
+    template<typename, typename>
+    static std::false_type __test_reinterpret(...) {return std::false_type();}
+    
+    template<typename T, typename K, typename = decltype(static_cast<K>(std::declval<T>()))>
+    static std::true_type __test_static(int) {return std::true_type();}
+    
+    template<typename, typename>
+    static std::false_type __test_static(...) {return std::false_type();}
+    
+    template<typename T, typename K, typename = decltype(const_cast<K>(std::declval<T>()))>
+    static std::true_type __test_const(int) {return std::true_type();}
+    
+    template<typename, typename>
+    static std::false_type __test_const(...) {return std::false_type();}
+    
+    template<typename T, typename K, typename = decltype((K)(std::declval<T>()))>
+    static std::true_type __test_c(int) {return std::true_type();}
+    
+    template<typename, typename>
+    static std::false_type __test_c(...) {return std::false_type();}
+    
 public:
     
-    static Variant cast_dynamic(Variant& obj);
+    enum {
+        support_dynamic = std::is_same<decltype(__test_dynamic<From, To>(0)), std::true_type>::value,
+        support_reinterpret = std::is_same<decltype(__test_reinterpret<From, To>(0)), std::true_type>::value,
+        support_static = std::is_same<decltype(__test_static<From, To>(0)), std::true_type>::value,
+        support_const = std::is_same<decltype(__test_const<From, To>(0)), std::true_type>::value,
+        support_c = std::is_same<decltype(__test_c<From, To>(0)), std::true_type>::value,
+    };
+};
+
+template<typename T, typename K>
+class CasterMeta {
     
-    static Variant cast_reinterpret(Variant& obj);
+    using CastCheck = __CastSupport<T, K>;
     
-    static Variant cast_static(Variant& obj);
+public:
     
-    static Variant cast_const(Variant& obj);
+    template<typename T1, typename K1>
+    static std::enable_if_t<__CastSupport<T1, K1>::support_dynamic, Variant> cast_dynamic(Variant& obj);
+    template<typename T1, typename K1>
+    static std::enable_if_t<!__CastSupport<T1, K1>::support_dynamic, Variant> cast_dynamic(Variant& obj);
     
-    static Variant cast_c(Variant& obj);
+    template<typename T1, typename K1>
+    static std::enable_if_t<__CastSupport<T1, K1>::support_reinterpret, Variant> cast_reinterpret(Variant& obj);
+    template<typename T1, typename K1>
+    static std::enable_if_t<!__CastSupport<T1, K1>::support_reinterpret, Variant> cast_reinterpret(Variant& obj);
+    
+    template<typename T1, typename K1>
+    static std::enable_if_t<__CastSupport<T1, K1>::support_static, Variant> cast_static(Variant& obj);
+    template<typename T1, typename K1>
+    static std::enable_if_t<!__CastSupport<T1, K1>::support_static, Variant> cast_static(Variant& obj);
+    
+    template<typename T1, typename K1>
+    static std::enable_if_t<__CastSupport<T1, K1>::support_const, Variant> cast_const(Variant& obj);
+    template<typename T1, typename K1>
+    static std::enable_if_t<!__CastSupport<T1, K1>::support_const, Variant> cast_const(Variant& obj);
+    
+    template<typename T1, typename K1>
+    static std::enable_if_t<__CastSupport<T1, K1>::support_c, Variant> cast_c(Variant& obj);
+    template<typename T1, typename K1>
+    static std::enable_if_t<!__CastSupport<T1, K1>::support_c, Variant> cast_c(Variant& obj);
     
     static CastFuncRef get_cast_dynamic_func();
     
@@ -100,7 +162,7 @@ public:
     static Caster& from();
     
     template<typename T, typename K>
-    void __add_cast(CasterMeta<T, K> meta);
+    void __add_cast();
     
     Variant add_pointer(Variant variant);
     

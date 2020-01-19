@@ -4,25 +4,33 @@
 namespace reflect {
 
 Variant TypeCaster::cast(Variant &variant, CastType type) {
+    
+    CastFuncRef func = nullptr;
     switch (type) {
         case CastType::DYNAMIC:
-            if (dynamic_ptr == nullptr) break;
-            return dynamic_ptr(variant);
+            func = dynamic_ptr;
+            break;
         case CastType::CONST:
-            if (const_ptr == nullptr) break;
-            return const_ptr(variant);
+            func = const_ptr;
+            break;
         case CastType::STATIC:
-            if (static_ptr == nullptr) break;
-            return static_ptr(variant);
+            func = static_ptr;
+            break;
         case CastType::REINTERPRET:
-            if (reinterpret_ptr == nullptr) break;
-            return reinterpret_ptr(variant);
+            func = reinterpret_ptr;
+            break;
         case CastType::C:
-            if (c_ptr == nullptr) break;
-            return c_ptr(variant);
+            func = c_ptr;
+            break;
     }
     
-    throw invalid_cast("Cast type X from type A to type B is not supported"); // TODO: X, A, and B are names
+    Variant result = func(variant);
+    
+    if (result.get_type() == Type::from<void>()) {
+        throw invalid_cast("Cast type X from type A to type B is not supported"); // TODO: X, A, and B are names
+    }
+    
+    return result;
 }
 
 Variant Caster::add_pointer(Variant variant) {

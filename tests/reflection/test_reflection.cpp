@@ -22,6 +22,10 @@ public:
         this->b = b;
     }
     
+    explicit operator int() {
+        return a;
+    }
+    
     ~TestClass() = default;
     
     static void static_decrement() {
@@ -37,7 +41,7 @@ public:
     }
     
     int multiply(int factor) {
-        return a*factor;
+        return a * factor;
     }
     
 };
@@ -58,6 +62,8 @@ DECLARE_MEMBER_FUNC(TestClass, multiply)
 DECLARE_STATIC_DATA(TestClass, f)
 DECLARE_STATIC_FUNC(TestClass, static_decrement)
 DECLARE_STATIC_FUNC(TestClass, static_multiply)
+
+DECLARE_TYPE_CAST(TestClass, int)
 
 
 void test_construction() {
