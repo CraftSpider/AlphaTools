@@ -11,9 +11,9 @@
  * Usage Example:
  *
  * ```
- * #define NEW_MACRO(...) AT_VARIADIC_TWO(,##__VA_ARGS__, _TWO_ARGS(__VA_ARGS__), _ONE_ARG(__VA_ARGS__), AT_FILLER)
+ * #define NEW_MACRO(...) AT_EXPAND(AT_VARIADIC_TWO(__VA_ARGS__, _TWO_ARGS(__VA_ARGS__), _ONE_ARG(__VA_ARGS__), AT_FILLER))
  *
- * #define NEW_MACRO(...) AT_VARIADIC_THREE(,##__VA_ARGS__, _THREE_ARGS(__VA_ARGS__), AT_FILLER, _ONE_ARG(__VA_ARGS__), AT_FILLER)
+ * #define NEW_MACRO(...) AT_EXPAND(AT_VARIADIC_THREE(__VA_ARGS__, _THREE_ARGS(__VA_ARGS__), AT_FILLER, _ONE_ARG(__VA_ARGS__), AT_FILLER))
  * ```
  */
  
