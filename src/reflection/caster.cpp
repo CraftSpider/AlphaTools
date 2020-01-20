@@ -1,5 +1,6 @@
 
 #include "reflection/caster.h"
+#include "reflection/declare_types.h"
 
 namespace reflect {
 

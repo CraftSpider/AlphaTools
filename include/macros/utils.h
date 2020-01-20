@@ -48,3 +48,11 @@
  * Convert a token to a string, including the result of another macro expansion
  */
 #define AT_STRINGIFY(token) _AT_STRINGIFY(token)
+
+/**
+ * \brief Force expansion
+ *
+ * Expands the contained values before the next step of macro resolution,
+ * useful for forcing __VA_ARGS__ in MSVC to work more like you would expect
+ */
+#define AT_EXPAND(token) token

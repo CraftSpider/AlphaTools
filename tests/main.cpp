@@ -1,6 +1,7 @@
 
 #include "at_tests"
 
+#include "test_macros.h"
 #include "test_algorithms.h"
 #include "test_arrays.h"
 #include "test_bytes.h"
@@ -23,6 +24,7 @@
 int main(int argc, char **argv) {
 	testing::setup_tests(argc, argv);
 	
+	TEST_FILE(macro)
 	TEST_FILE(test)
     TEST_FILE(algorithms)
     TEST_FILE(arrays)

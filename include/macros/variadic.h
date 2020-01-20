@@ -25,12 +25,12 @@
 /**
  * Variadic for macros with a max of two arguments
  */
-#define AT_VARIADIC_TWO(x, A, B, FUNC, ...) FUNC
+#define AT_VARIADIC_TWO(A, B, FUNC, ...) FUNC
 
 /**
  * Variadic for macros with a max of three arguments
  */
-#define AT_VARIADIC_THREE(x, A, B, C, FUNC, ...) FUNC
+#define AT_VARIADIC_THREE(A, B, C, FUNC, ...) FUNC
 
 /**
  * Variadic for macros with a max of four arguments

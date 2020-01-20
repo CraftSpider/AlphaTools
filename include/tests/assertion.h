@@ -73,7 +73,7 @@
  * With two arguments, the first argument is the statement to assert, and the second argument is the message if the
  * assertion fails.
  */
-#define AT_ASSERT(...) AT_VARIADIC_TWO(,##__VA_ARGS__, _AT_ASSERT_2(__VA_ARGS__), _AT_ASSERT_1(__VA_ARGS__), AT_FILLER)
+#define AT_ASSERT(...) AT_EXPAND(AT_VARIADIC_TWO(__VA_ARGS__, _AT_ASSERT_2(__VA_ARGS__), _AT_ASSERT_1(__VA_ARGS__), AT_FILLER))
 
 /**
  * Macro for asserting two things as equal. Can be passed either two or three arguments
@@ -82,7 +82,7 @@
  * With three arguments, the first two are the things to be checked equal, and the third argument is the message if the
  * assertion fails
  */
-#define AT_ASSERT_EQ(...) AT_VARIADIC_THREE(,##__VA_ARGS__, _AT_ASSERT_EQ_3(__VA_ARGS__), _AT_ASSERT_EQ_2(__VA_ARGS__), AT_FILLER)
+#define AT_ASSERT_EQ(...) AT_EXPAND(AT_VARIADIC_THREE(__VA_ARGS__, _AT_ASSERT_EQ_3(__VA_ARGS__), _AT_ASSERT_EQ_2(__VA_ARGS__), AT_FILLER))
 
 /**
  * Macro for asserting two things as not equal. Can be passed either two or three arguments
@@ -91,7 +91,7 @@
  * With three arguments, the first two are the things to be checked not equal, and the third argument is the message if
  * the assertion fails
  */
-#define AT_ASSERT_NEQ(...) AT_VARIADIC_THREE(,##__VA_ARGS__, _AT_ASSERT_NEQ_3(__VA_ARGS__), _AT_ASSERT_NEQ_2(__VA_ARGS__), AT_FILLER)
+#define AT_ASSERT_NEQ(...) AT_EXPAND(AT_VARIADIC_THREE(__VA_ARGS__, _AT_ASSERT_NEQ_3(__VA_ARGS__), _AT_ASSERT_NEQ_2(__VA_ARGS__), AT_FILLER))
 
 /**
  * Macro for asserting that a function call throws an error. Can be passed either two or three arguments.
@@ -101,7 +101,7 @@
  * With three arguments, the first argument is the type of error expected, the second argument is the function to call,
  * and the third argument is the message if the assertion fails
  */
-#define AT_ASSERT_THROWS(...) AT_VARIADIC_THREE(,##__VA_ARGS__, _AT_ASSERT_THROWS_3(__VA_ARGS__), _AT_ASSERT_THROWS_2(__VA_ARGS__), AT_FILLER)
+#define AT_ASSERT_THROWS(...) AT_EXPAND(AT_VARIADIC_THREE(__VA_ARGS__, _AT_ASSERT_THROWS_3(__VA_ARGS__), _AT_ASSERT_THROWS_2(__VA_ARGS__), AT_FILLER))
 
 /**
  * Immediately fail the test with the given message.
