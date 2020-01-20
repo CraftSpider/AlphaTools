@@ -35,4 +35,4 @@
 /**
  * Variadic for macros with a max of four arguments
  */
-#define AT_VARIADIC_FOUR(x, A, B, C, D, FUNC, ...) FUNC
+#define AT_VARIADIC_FOUR(A, B, C, D, FUNC, ...) FUNC
