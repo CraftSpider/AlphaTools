@@ -44,7 +44,7 @@ public:
  * Class that represents a type in the reflection system. Contains all reflected information about the type,
  * and can be used to create and manage instances of the type
  */
-class Type final { // TODO: reference/dereference
+class Type final { // TODO: Operators, Inheritance
     
     std::string name;
     bool final;
@@ -311,6 +311,11 @@ public:
      */
     Destructor* get_destructor();
     
+    /**
+     * Get the caster for this type, this will always exist
+     *
+     * \return Caster for the type
+     */
     Caster* get_caster();
     
 };

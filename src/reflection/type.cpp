@@ -82,11 +82,16 @@ bool Type::is_final() {
 }
 
 Type* Type::add_pointer() {
-    return nullptr;  // TODO
+    return Type::from_name(name + "*");
 }
 
 Type* Type::remove_pointer() {
-    return nullptr; // TODO
+    if (name.find('*') != std::string::npos) {
+        return Type::from_name(
+            name.erase(name.find_last_of('*'), 1)
+        );
+    }
+    throw invalid_type("Cannot remove a pointer from a non-pointer type");
 }
 
 const std::vector<Constructor*>& Type::get_constructors() {
