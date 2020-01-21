@@ -49,6 +49,7 @@ public:
 float TestClass::f = .5f;
 
 
+DECLARE_TYPE(reflect::Type**)
 DECLARE_TYPE(TestClass)
 DECLARE_TYPE(TestClass*)
 
@@ -122,11 +123,13 @@ void test_member_function() {
     TestClass tc = t->get_constructor({})->construct({}).get_value_ref<TestClass>();
     
     ASSERT(tc.a == 5);
-    t->get_function("increment")->invoke(Variant::from_ref(tc), {});
+    t->get_function("increment", {})->invoke(Variant::from_ref(tc), {});
     ASSERT(tc.a == 6, "Function wasn't called correctly");
-    int result = t->get_function("multiply")->invoke(Variant::from_ref(tc), {Variant::from_instance(2)}).get_value_ref<int>();
+    
+    MemberFunction* multiply = t->get_function("multiply", {Type::from<int>()});
+    int result = multiply->invoke(Variant::from_ref(tc), {Variant::from_instance(2)}).get_value_ref<int>();
     ASSERT(result == 12, "Multiply function returned incorrect value");
-    result = t->get_function("multiply")->invoke(Variant::from_ref(tc), {Variant::from_instance(5)}).get_value_ref<int>();
+    result = multiply->invoke(Variant::from_ref(tc), {Variant::from_instance(5)}).get_value_ref<int>();
     ASSERT(result == 30, "Multiply function returned incorrect value");
 }
 
@@ -140,19 +143,19 @@ void test_destruction() {
 }
 
 
-/*void test_pointer_shift() {
-    Type* p_type = Type::from_name("Type*");
-    Type* type = Type::from_name("Type");
+void test_pointer_shift() {
+    Type* p_type = Type::from_name("reflect::Type*");
+    Type* type = Type::from_name("reflect::Type");
     
-    ASSERT(p_type.dereference() == type);
-    ASSERT(type.reference() == p_type);
+    ASSERT(p_type->remove_pointer() == type);
+    ASSERT(type->add_pointer() == p_type);
     
-    Variant v_type = Variant::from_instance(type);
-    Variant v_type2 = p_type->get_caster()->dereference(v_type);
+    Variant v_type = Variant::from_ptr(&type);
+    Variant v_type2 = p_type->get_caster()->remove_pointer(v_type);
     
     ASSERT(v_type.get_type() == p_type);
     ASSERT(v_type2.get_type() == type);
-}*/
+}
 
 
 void test_fully_variant() {
@@ -168,11 +171,11 @@ void test_fully_variant() {
     
     ASSERT(a_value.get_value_ref<int>() == 0); // This is the only place we actually use non-reflection a type!
     
-    tc_type->get_function("increment")->invoke(tc_instance, {});
+    tc_type->get_function("increment", {})->invoke(tc_instance, {});
     
     ASSERT(a_value.get_value_ref<int>() == 1);
     
-    Variant multiply_result = tc_type->get_function("multiply")->invoke(tc_instance, {int_instance});
+    Variant multiply_result = tc_type->get_function("multiply", {Type::from<int>()})->invoke(tc_instance, {int_instance});
     
     ASSERT(multiply_result.get_value_ref<int>() == 0);
     
@@ -187,6 +190,7 @@ void run_reflection_tests() {
     TEST(test_member_data)
     TEST(test_member_function)
     TEST(test_destruction)
+    TEST(test_pointer_shift)
     
     TEST(test_fully_variant)
 }

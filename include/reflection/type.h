@@ -306,12 +306,31 @@ public:
     const std::vector<MemberFunction*>& get_functions();
     
     /**
-     * Get a member function for this type based on its name
+     * Get member functions for this type based on their call types,
+     * gets all functions that match that call signature
+     *
+     * \param types Types the function is called with
+     * \return Member functions or nullptr
+     */
+    std::vector<MemberFunction*> get_functions(std::vector<Type*> types);
+    
+    /**
+     * Get member functions for this type based on their name, gets all overloads
+     * for a single function effectively
      *
      * \param name Name of the function
      * \return Member function or nullptr
      */
-    MemberFunction* get_function(std::string name);
+    std::vector<MemberFunction*> get_functions(std::string name);
+    
+    /**
+     * Get a member function for this type based on its name and types
+     *
+     * \param name Name of the function
+     * \param types Types the function is called with
+     * \return Member function or nullptr
+     */
+    MemberFunction* get_function(std::string name, std::vector<Type*> types);
     
     /**
      * Get all registered static properties for this type

@@ -102,8 +102,9 @@ Type* Type::add_pointer() {
 
 Type* Type::remove_pointer() {
     if (name.find('*') != std::string::npos) {
+        std::string new_name = name;
         return Type::from_name(
-            name.erase(name.find_last_of('*'), 1)
+            new_name.erase(name.find_last_of('*'), 1)
         );
     }
     throw invalid_type("Cannot remove a pointer from a non-pointer type");
@@ -187,12 +188,37 @@ const std::vector<MemberFunction*>& Type::get_functions() {
     return member_functions;
 }
 
-MemberFunction* Type::get_function(std::string name) {
+std::vector<MemberFunction*> Type::get_functions(std::vector<Type*> types) {
+    std::vector<MemberFunction*> out = std::vector<MemberFunction*>();
+    
+    for (auto f : member_functions) {
+        if (f->get_arg_types() == types) {
+            out.emplace_back(f);
+        }
+    }
+    
+    return out;
+}
+
+std::vector<MemberFunction*> Type::get_functions(std::string name) {
+    std::vector<MemberFunction*> out = std::vector<MemberFunction*>();
+    
     for (auto f : member_functions) {
         if (f->get_name() == name) {
+            out.emplace_back(f);
+        }
+    }
+    
+    return out;
+}
+
+MemberFunction* Type::get_function(std::string name, std::vector<Type *> types) {
+    for (auto f : member_functions) {
+        if (f->get_name() == name && f->get_arg_types() == types) {
             return f;
         }
     }
+    
     return nullptr;
 }
 

@@ -12,7 +12,7 @@ Variant ShifterMeta<T>::add_pointer(reflect::Variant& obj) {
 template<typename T>
 template<typename K>
 std::enable_if_t<std::is_pointer_v<K>, Variant> ShifterMeta<T>::remove_pointer(reflect::Variant& obj) {
-    return Variant::from_pair_owned(
+    return Variant::from_pair(
         obj.get_type()->remove_pointer(),
         obj.get_value_ref<K>()
     );
