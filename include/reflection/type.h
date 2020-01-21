@@ -44,10 +44,13 @@ public:
  * Class that represents a type in the reflection system. Contains all reflected information about the type,
  * and can be used to create and manage instances of the type
  */
-class Type final { // TODO: Operators, Inheritance
+class Type final { // TODO: Operators
     
     std::string name;
     bool final;
+    
+    std::vector<Type*> parents;
+    std::vector<Type*> children;
     
     std::vector<Constructor*> constructors;
     std::vector<MemberProperty*> member_properties;
@@ -80,6 +83,10 @@ class Type final { // TODO: Operators, Inheritance
     static std::map<std::string, Type*>& __type_map();
 
 public:
+    
+    Type(Type&) = delete;
+    
+    Type(Type&&) = delete;
     
     /**
      * Get the Type associated with a given real type
@@ -116,6 +123,24 @@ public:
      */
     template<typename... Args>
     static std::vector<Type*> from_list();
+    
+    /**
+     * \internal
+     *
+     * Add a class as a parent of this class, used by the type declaration system
+     *
+     * \param parent Parent type to add
+     */
+    void __add_parent_class(Type* parent);
+    
+    /**
+     * \internal
+     *
+     * Add a class as a child of this class, used by the type declaration system
+     *
+     * \param child Child type to add
+     */
+    void __add_child_class(Type* child);
     
     /**
      * \internal
@@ -178,7 +203,7 @@ public:
      *
      * \param caster Caster to set
      */
-     void __set_caster(Caster* caster);
+    void __set_caster(Caster* caster);
     
     /**
      * Get the name of this type
@@ -199,14 +224,28 @@ public:
      *
      * \return Type with one more pointer
      */
-     Type* add_pointer();
+    Type* add_pointer();
      
-     /**
-      * Get the associated type with a pointer removed
-      *
-      * \return Type with one fewer pointer
-      */
-     Type* remove_pointer();
+    /**
+     * Get the associated type with a pointer removed
+     *
+     * \return Type with one fewer pointer
+     */
+    Type* remove_pointer();
+    
+    /**
+     * Get the parent types for this type
+     *
+     * \return All parents of this type
+     */
+    const std::vector<Type*>& get_parents();
+    
+    /**
+     * Get the child types for this type
+     *
+     * \return All children of this type
+     */
+    const std::vector<Type*>& get_children();
     
     /**
      * Get all registered constructors for this type

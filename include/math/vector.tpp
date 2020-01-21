@@ -22,31 +22,35 @@ Vector Vector::operator/(T scale) const {
 }
 
 template<typename T>
-void Vector::operator+=(T scale) {
+Vector& Vector::operator+=(T scale) {
     x += scale;
     y += scale;
     z += scale;
+    return *this;
 }
 
 template<typename T>
-void Vector::operator-=(T scale) {
+Vector& Vector::operator-=(T scale) {
     x -= scale;
     y -= scale;
     z -= scale;
+    return *this;
 }
 
 template<typename T>
-void Vector::operator*=(T scale) {
+Vector& Vector::operator*=(T scale) {
     x *= scale;
     y *= scale;
     z *= scale;
+    return *this;
 }
 
 template<typename T>
-void Vector::operator/=(T scale) {
+Vector& Vector::operator/=(T scale) {
     x /= scale;
     y /= scale;
     z /= scale;
+    return *this;
 }
 
 }

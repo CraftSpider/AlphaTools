@@ -71,8 +71,11 @@ AT_DECLARE_MEMBER_FUNC_OVERLOAD(std::string, assign, std::string&, size_t, char)
 AT_DECLARE_MEMBER_FUNC_OVERLOAD(std::string, assign, std::string&, const std::string&)
 AT_DECLARE_MEMBER_FUNC(std::string, at)
 
+AT_DECLARE_TYPE(std::exception)
+
 AT_DECLARE_TYPE(std::runtime_error)
 AT_DECLARE_CONSTRUCTOR(std::runtime_error, std::string)
+AT_DECLARE_PARENT(std::runtime_error, std::exception)
 
 AT_DECLARE_TYPE(std::vector<reflect::Type*>)
 AT_DECLARE_TYPE(std::vector<reflect::Variant>)

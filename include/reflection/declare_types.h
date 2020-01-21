@@ -89,6 +89,23 @@ static_block { \
 }
 
 /**
+ * \brief Reflect a type's inheritance tree
+ *
+ * Declares a type as a parent for a type.
+ * This will allow runtime resolution of functions
+ * on the parent as well as mapping the type tree
+ */
+#define AT_DECLARE_PARENT(T, K) \
+static_block { \
+    reflect::Type::from<T>()->__add_parent_class( \
+        reflect::Type::from<K>() \
+    ); \
+    reflect::Type::from<K>()->__add_child_class( \
+        reflect::Type::from<T>() \
+    ); \
+}
+
+/**
  * \brief Reflect a type's non-default constructors
  *
  * Declares non-default constructors for a type.
@@ -209,6 +226,13 @@ static_block { \
     ); \
 }
 
+/**
+ * \brief Reflect a cast operation between two types
+ *
+ * Declares a valid cast between two types.
+ * This will allow dynamic casting from the first to the second
+ * type, but not the other way around
+ */
 #define AT_DECLARE_TYPE_CAST(T, K) \
 static_block { \
     reflect::Type::from<T>()->get_caster()->__add_cast<T, K>(); \

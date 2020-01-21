@@ -1,6 +1,11 @@
 
 #include "network/socket.h"
 
+#ifdef _WIN32
+#define setsockopt(s, level, optname, optval, oplen) setsockopt(s, level, optname, (const char*)optval, oplen)
+#define getsockopt(s, level, optname, optval, oplen) getsockopt(s, level, optname, (char*)optval, oplen)
+#endif
+
 namespace network {
 
 socket_error::socket_error(const std::string &msg) : runtime_error(msg) {}

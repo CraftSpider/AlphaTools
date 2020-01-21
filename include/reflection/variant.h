@@ -51,6 +51,12 @@ class Variant final {
      * \return Current pointer count
      */
     static size_t get_refcount(void* data);
+    
+    /**
+     * Called internally to do the work of ~Variant, also used
+     * by assignments to ensure references are safely handled
+     */
+    void destruct_data();
 
 public:
     
@@ -74,6 +80,23 @@ public:
      * is owned by the Variant
      */
     ~Variant();
+    
+    /**
+     * Copy assign a variant. Will increase the refcount if the pointer is owned
+     *
+     * \param other Variant to copy
+     * \return Reference to this
+     */
+    Variant& operator=(const Variant& other);
+    
+    /**
+     * Move assign a variant. Will not change the refcount, but will prevent it from
+     * decreasing if the pointer is owned
+     *
+     * \param other Variant to move
+     * \return Reference to this
+     */
+    Variant& operator=(Variant&& other) noexcept;
     
     /**
      * Construct a variant from a pointer to an object, not owned

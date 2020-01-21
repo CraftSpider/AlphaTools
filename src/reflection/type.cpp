@@ -24,51 +24,65 @@ Type* Type::from_name(const std::string &name) {
     return types[name];
 }
 
+void Type::__add_parent_class(Type *parent) {
+    if (std::find(parents.begin(), parents.end(), parent) != parents.end()) {
+        throw already_reflected("Parent class for type '" + get_name() + "' has already been added");
+    }
+    this->parents.emplace_back(parent);
+}
+
+void Type::__add_child_class(Type *child) {
+    if (std::find(children.begin(), children.end(), child) != children.end()) {
+        throw already_reflected("Child class for type '" + get_name() + "' has already been added");
+    }
+    this->children.emplace_back(child);
+}
+
 void Type::__add_constructor(reflect::Constructor* constructor) {
     if (std::find(constructors.begin(), constructors.end(), constructor) != constructors.end()) {
-        throw already_reflected("Constructor for type '" + name + "' has already been added");
+        throw already_reflected("Constructor for type '" + get_name() + "' has already been added");
     }
     this->constructors.emplace_back(constructor);
 }
 
 void Type::__add_member_property(MemberProperty *property) {
     if (std::find(member_properties.begin(), member_properties.end(), property) != member_properties.end()) {
-        throw already_reflected("Member Property for type '" + name + "' has already been added");
+        throw already_reflected("Member Property for type '" + get_name() + "' has already been added");
     }
     this->member_properties.emplace_back(property);
 }
 
 void Type::__add_member_function(MemberFunction *function) {
     if (std::find(member_functions.begin(), member_functions.end(), function) != member_functions.end()) {
-        throw already_reflected("Member function for type '" + name + "' has already been added");
+        throw already_reflected("Member function for type '" + get_name() + "' has already been added");
     }
     this->member_functions.emplace_back(function);
 }
 
 void Type::__add_static_property(StaticProperty* property) {
     if (std::find(static_properties.begin(), static_properties.end(), property) != static_properties.end()) {
-        throw already_reflected("Member function for type '" + name + "' has already been added");
+        throw already_reflected("Member function for type '" + get_name() + "' has already been added");
     }
     this->static_properties.emplace_back(property);
 }
 
 void Type::__add_static_function(StaticFunction *function) {
     if (std::find(static_functions.begin(), static_functions.end(), function) != static_functions.end()) {
-        throw already_reflected("Member function for type '" + name + "' has already been added");
+        throw already_reflected("Member function for type '" + get_name() + "' has already been added");
     }
     this->static_functions.emplace_back(function);
 }
 
 void Type::__set_destructor(Destructor* destructor) {
     if (this->destructor != nullptr) {
-        throw already_reflected("Destructor for type '" + name + "' has already been set");
+        throw already_reflected("Destructor for type '" + get_name() + "' has already been set");
     }
     this->destructor = destructor;
 }
 
 void Type::__set_caster(Caster *caster) {
     if (this->caster != nullptr) {
-        throw already_reflected("Caster for type '" + name + "' has already been set");
+        throw already_reflected("Caster for type '" + get_name() + "' has already been set");
     }
     this->caster = caster;
 }
@@ -82,6 +96,7 @@ bool Type::is_final() {
 }
 
 Type* Type::add_pointer() {
+    // TODO: Make int& become int*& not int&*, second one is invalid because order matters
     return Type::from_name(name + "*");
 }
 
@@ -92,6 +107,14 @@ Type* Type::remove_pointer() {
         );
     }
     throw invalid_type("Cannot remove a pointer from a non-pointer type");
+}
+
+const std::vector<Type*>& Type::get_parents() {
+    return parents;
+}
+
+const std::vector<Type*>& Type::get_children() {
+    return children;
 }
 
 const std::vector<Constructor*>& Type::get_constructors() {

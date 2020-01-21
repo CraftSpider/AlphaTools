@@ -10,8 +10,7 @@ std::string MetaType<T>::get_name() {
 }
 
 template<typename T>
-Type::Type(MetaType<T> meta) {
-    (void)meta;
+Type::Type(MetaType<T>) {
     name = MetaType<T>::get_name();
     final = std::is_final<T>::value;
 }

@@ -1,11 +1,8 @@
 #pragma once
 
-// TODO: Move this stuff to general somehow?
 #ifdef _WIN32
 #include <WinSock2.h>
 #include <WS2tcpip.h>
-#define setsockopt(s, level, optname, optval, oplen) setsockopt(s, level, optname, (const char*)optval, oplen)
-#define getsockopt(s, level, optname, optval, oplen) getsockopt(s, level, optname, (char*)optval, oplen)
 #elif defined(__CYGWIN__)
 #include <cygwin/in.h>
 #include <arpa/inet.h>

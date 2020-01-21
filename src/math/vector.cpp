@@ -62,28 +62,32 @@ Vector Vector::operator^(const Vector& vec) const {
     return Vector(y * vec.z - z * vec.y, z * vec.x - x * vec.z, x * vec.y - y * vec.x);
 }
 
-void Vector::operator+=(const math::Vector& vec) {
+Vector& Vector::operator+=(const math::Vector& vec) {
     x += vec.x;
     y += vec.y;
     z += vec.z;
+    return *this;
 }
 
-void Vector::operator-=(const math::Vector& vec) {
+Vector& Vector::operator-=(const math::Vector& vec) {
     x -= vec.x;
     y -= vec.y;
     z -= vec.z;
+    return *this;
 }
 
-void Vector::operator*=(const math::Vector& vec) {
+Vector& Vector::operator*=(const math::Vector& vec) {
     x *= vec.x;
     y *= vec.y;
     z *= vec.z;
+    return *this;
 }
 
-void Vector::operator/=(const math::Vector& vec) {
+Vector& Vector::operator/=(const math::Vector& vec) {
     x /= vec.x;
     y /= vec.y;
     z /= vec.z;
+    return *this;
 }
 
 double Vector::dot(const math::Vector& vec) const {

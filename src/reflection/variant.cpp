@@ -29,6 +29,16 @@ size_t Variant::get_refcount(void* data) {
     return refcount[data];
 }
 
+void Variant::destruct_data() {
+    if (owned) {
+        decrement_refcount(data);
+        if (get_refcount(data) == 0) {
+            // Actually safe, because we know the type of data
+            type->get_destructor()->unsafe_destruct(data);
+        }
+    }
+}
+
 Variant::Variant(const reflect::Variant& other) {
     this->type = other.type;
     this->data = other.data;
@@ -50,13 +60,40 @@ Variant::Variant(reflect::Variant&& other) noexcept {
 }
 
 Variant::~Variant() {
-    if (owned) {
-        decrement_refcount(data);
-        if (get_refcount(data) == 0) {
-            // Actually safe, because we know the type of data
-            type->get_destructor()->unsafe_destruct(data);
-        }
+    destruct_data();
+}
+
+Variant& Variant::operator=(const Variant &other) {
+    // If we're self-assigning, we don't need to do anything
+    if (&other == this) {
+        return *this;
     }
+    
+    destruct_data();
+    
+    this->type = other.type;
+    this->data = other.data;
+    this->owned = other.owned;
+    
+    if (owned) {
+        increment_refcount(data);
+    }
+    
+    return *this;
+}
+
+Variant& Variant::operator=(Variant &&other) noexcept {
+    destruct_data();
+    
+    this->type = other.type;
+    this->data = other.data;
+    this->owned = other.owned;
+    
+    other.type = nullptr;
+    other.data = nullptr;
+    other.owned = false;
+    
+    return *this;
 }
 
 Variant Variant::from_type(Type* type) {

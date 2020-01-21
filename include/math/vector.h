@@ -11,7 +11,7 @@ namespace math {
  * Class that represents a Mathematical vector with 3 elements. Useful for all sorts of geometric and physical things.
  * Provides all sorts of operators. | is overloaded for dot product, and ^ for cross product.
  */
-struct Vector { // TODO: Make x= operators return reference
+struct Vector {
     
     static Vector zero_vec, one_vec, x_axis, y_axis, z_axis;
     
@@ -148,14 +148,14 @@ struct Vector { // TODO: Make x= operators return reference
      * \param scale Amount to scale
      */
     template<typename T>
-    void operator+=(T scale);
+    Vector& operator+=(T scale);
     
     /**
      * Perform in-place vector addition with another vector
      *
      * \param vec Vector to add
      */
-    void operator+=(const Vector& vec);
+    Vector& operator+=(const Vector& vec);
     
     /**
      * Subtract a scalar from this vector in-place
@@ -164,14 +164,14 @@ struct Vector { // TODO: Make x= operators return reference
      * \param scale Amount to scale
      */
     template<typename T>
-    void operator-=(T scale);
+    Vector& operator-=(T scale);
     
     /**
      * Perform in-place vector subtraction with another vector
      *
      * \param vec Vector to subtract
      */
-    void operator-=(const Vector& vec);
+    Vector& operator-=(const Vector& vec);
     
     /**
      * Multiply a scalar with this vector in-place
@@ -180,14 +180,14 @@ struct Vector { // TODO: Make x= operators return reference
      * \param scale Amount to scale
      */
     template<typename T>
-    void operator*=(T scale);
+    Vector& operator*=(T scale);
     
     /**
      * Perform in-place component-wise vector multiplication with another vector
      *
      * \param vec Vector to multiply
      */
-    void operator*=(const Vector& vec);
+    Vector& operator*=(const Vector& vec);
     
     /**
      * Divide a scalar from this vector in-place
@@ -196,14 +196,14 @@ struct Vector { // TODO: Make x= operators return reference
      * \param scale Amount to scale
      */
     template<typename T>
-    void operator/=(T scale);
+    Vector& operator/=(T scale);
     
     /**
      * Perform in-place component-wise vector division with another vector
      *
      * \param vec Vector to divide by
      */
-    void operator/=(const Vector& vec);
+    Vector& operator/=(const Vector& vec);
     
     /**
      * Get the distance squared between two vectors. Skips a square root operation in normal
