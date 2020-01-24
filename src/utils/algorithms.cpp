@@ -17,7 +17,7 @@ static void gen_crc32_table() {
     }
 }
 
-uint crc32(const uchar *input, const ulong length) {
+uint crc32(const uchar* input, const ulong length) {
     static int init = (gen_crc32_table(), 0);
     (void)init;
     

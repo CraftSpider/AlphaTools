@@ -54,6 +54,14 @@ struct Vector {
     bool operator==(const Vector& vec) const;
     
     /**
+     * Compare whether two vectors are not equal
+     *
+     * \param vec Vector to compare against
+     * \return Whether vectors are not equal
+     */
+    bool operator!=(const Vector& vec) const;
+    
+    /**
      * Add a scalar to this vector, each component increased by the scalar
      *
      * \tparam T Type to scale by

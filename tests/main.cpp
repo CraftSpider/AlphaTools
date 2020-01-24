@@ -13,15 +13,17 @@
 #include "test_io.h"
 #include "test_generic.h"
 #include "test_sfinae.h"
-#include "test_matrix.h"
 #include "test_socket.h"
 #include "test_memory.h"
+
+#include "math/test_matrix.h"
+#include "math/test_vector.h"
 
 #include "reflection/test_constructor.h"
 #include "reflection/test_type.h"
 #include "reflection/test_reflection.h"
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
 	testing::setup_tests(argc, argv);
 	
 	TEST_FILE(macro)
@@ -37,6 +39,7 @@ int main(int argc, char **argv) {
     TEST_FILE(generic)
     TEST_FILE(sfinae)
     TEST_FILE(matrix)
+    TEST_FILE(vector)
     TEST_FILE(socket)
     TEST_FILE(memory)
     TEST_FILE(constructor)

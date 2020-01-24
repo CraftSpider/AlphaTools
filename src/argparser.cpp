@@ -3,7 +3,7 @@
 #include <sstream>
 #include "argparser.h"
 
-ArgParser::ArgParser(int argc, char **argv) {
+ArgParser::ArgParser(int argc, char** argv) {
     invokation = argv[0];
     
     for (int i = 1; i < argc; ++i) {
@@ -60,8 +60,8 @@ ulong ArgParser::num_variables() {
     return variables.size();
 }
 
-bool ArgParser::has_flag(const std::string &flag) {
-    for (const auto &f : flags) {
+bool ArgParser::has_flag(const std::string& flag) {
+    for (const auto& f : flags) {
         if (f == flag) {
             return true;
         }
@@ -69,9 +69,9 @@ bool ArgParser::has_flag(const std::string &flag) {
     return false;
 }
 
-uint ArgParser::flag_count(const std::string &flag) {
+uint ArgParser::flag_count(const std::string& flag) {
     uint out = 0;
-    for (const auto &f : flags) {
+    for (const auto& f : flags) {
         if (f == flag) {
             out += 1;
         }
@@ -83,10 +83,10 @@ std::string ArgParser::get_argument(uint index) {
     return arguments.at(index);
 }
 
-bool ArgParser::has_variable(const std::string &var) {
+bool ArgParser::has_variable(const std::string& var) {
     return (bool)variables.count(var);
 }
 
-std::string ArgParser::get_variable(const std::string &var) {
+std::string ArgParser::get_variable(const std::string& var) {
     return variables.at(var);
 }

@@ -48,7 +48,7 @@ public:
  */
 class Destructor final {
     
-    Type *type;
+    Type* type;
     
     DestructFuncRef ptr;
     

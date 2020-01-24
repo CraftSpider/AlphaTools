@@ -40,7 +40,7 @@ public:
      * \param priority Priority of the new Level
      * \param name Name of the new Level
      */
-    Level(const int& priority, const std::string& name) noexcept;
+    Level(int priority, const std::string& name) noexcept;
     
     /**
      * As levels are managed statically by the library, they can't be deleted

@@ -8,7 +8,7 @@ Level::Level() noexcept {
     this->priority = 0;
 }
 
-Level::Level(const int &priority, const std::string &name) noexcept {
+Level::Level(int priority, const std::string& name) noexcept {
     this->name = name;
     this->priority = priority;
 }
@@ -17,27 +17,27 @@ std::string Level::get_name() {
     return name;
 }
 
-bool Level::operator==(const Level &level) const {
+bool Level::operator==(const Level& level) const {
     return priority == level.priority && name == level.name;
 }
 
-bool Level::operator!=(const logging::Level &level) {
+bool Level::operator!=(const Level& level) {
     return priority != level.priority || name != level.name;
 }
 
-bool Level::operator<=(const Level &level) const {
+bool Level::operator<=(const Level& level) const {
     return priority <= level.priority;
 }
 
-bool Level::operator>=(const Level &level) const {
+bool Level::operator>=(const Level& level) const {
     return priority >= level.priority;
 }
 
-bool Level::operator<(const logging::Level &level) const {
+bool Level::operator<(const Level& level) const {
     return priority < level.priority;
 }
 
-bool Level::operator>(const logging::Level &level) const {
+bool Level::operator>(const Level& level) const {
     return priority > level.priority;
 }
 

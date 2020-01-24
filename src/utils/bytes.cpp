@@ -3,11 +3,11 @@
 
 namespace util {
 
-bool get_bit(const uchar *data, const ulong pos) {
+bool get_bit(const uchar* data, const ulong pos) {
     return (bool)(data[pos / 8] & (1u << (7 - (pos % 8))));
 }
 
-ulong get_range(const uchar *data, const ulong start, const ulong end) {
+ulong get_range(const uchar* data, const ulong start, const ulong end) {
     uint out = 0;
     ulong num_bits = (end - start) + 1;
     for (ulong i = start, j = 1; i <= end; ++i, ++j) {
@@ -16,7 +16,7 @@ ulong get_range(const uchar *data, const ulong start, const ulong end) {
     return out;
 }
 
-long get_signed_range(const uchar *data, const ulong start, const ulong end) {
+long get_signed_range(const uchar* data, const ulong start, const ulong end) {
     ulong value = get_range(data, start, end);
     ulong num_bits = (end - start) + 1;
     if (value & ((ulong)1 << (num_bits - 1))) {
@@ -67,7 +67,7 @@ slong btol <LITTLE> (const char* bytes, const ulong start, const ulong end) {
 
 template <>
 uchar* ltob <BIG> (const ulong val, const ulong length) {
-    uchar *output = new uchar[length]();
+    uchar* output = new uchar[length]();
     for (ulong i = 0; i < length; ++i) {
         output[i] = (uchar)(val >> (8 * (length - i - 1)));
     }
@@ -76,7 +76,7 @@ uchar* ltob <BIG> (const ulong val, const ulong length) {
 
 template <>
 uchar* ltob <LITTLE> (const ulong val, const ulong length) {
-    uchar *output = new uchar[length]();
+    uchar* output = new uchar[length]();
     for (ulong i = 0; i < length; ++i) {
         output[i] = (uchar)(val >> (8 * i));
     }
@@ -85,7 +85,7 @@ uchar* ltob <LITTLE> (const ulong val, const ulong length) {
 
 template <>
 char* ltob <BIG> (const slong val, const ulong length) {
-    char *output = new char[length];
+    char* output = new char[length];
     for (ulong i = 0; i < length; ++i) {
         output[i] = (char)(val >> (8 * (length - i - 1)));
     }
@@ -94,7 +94,7 @@ char* ltob <BIG> (const slong val, const ulong length) {
 
 template <>
 char* ltob <LITTLE> (const slong val, const ulong length) {
-    char *output = new char[length];
+    char* output = new char[length];
     for (ulong i = 0; i < length; ++i) {
         output[i] = (char)(val >> (8 * i));
     }

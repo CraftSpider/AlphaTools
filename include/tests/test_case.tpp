@@ -22,11 +22,11 @@ void __TestCase<T>::__run() {
     try {
         (*this->instance)();
         testing::__test_on_success(name);
-    } catch (testing::assertion_failure &e) {
+    } catch (testing::assertion_failure& e) {
         testing::__test_on_failure(name, e);
-    } catch (testing::skip_test &e) {
+    } catch (testing::skip_test& e) {
         testing::__test_on_skip(name, e);
-    } catch (std::exception &e) {
+    } catch (std::exception& e) {
         testing::__test_on_error(name, e);
     }
 }
@@ -43,13 +43,13 @@ void __TestCase<T>::__run() {
             if (!instance->delegated) {
                 testing::__test_on_success(name, testing::TestType::CLASS);
             }
-        } catch (testing::assertion_failure &e) {
+        } catch (testing::assertion_failure& e) {
             if (!instance->delegated) {
                 testing::__test_on_failure(name, e, testing::TestType::CLASS);
             }
-        } catch (testing::skip_test &e) {
+        } catch (testing::skip_test& e) {
             testing::__test_on_skip(name, e, testing::TestType::CLASS);
-        } catch (std::exception &e) {
+        } catch (std::exception& e) {
             if (!instance->delegated) {
                 testing::__test_on_error(name, e, testing::TestType::CLASS);
             }

@@ -15,12 +15,12 @@ T* __MakePtr<T, false>::make_ptr(T& val) {
 }
 
 template<typename T>
-RawData<T>::RawData(T &obj) {
+RawData<T>::RawData(T& obj) {
     data = (uchar*)&obj;
 }
 
 template<typename T>
-RawData<T>::RawData(T *obj) {
+RawData<T>::RawData(T* obj) {
     data = (uchar*)obj;
 }
 

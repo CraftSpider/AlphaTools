@@ -14,7 +14,7 @@ std::map<std::string, Type*>& Type::__type_map() {
     return types;
 }
 
-Type* Type::from_name(const std::string &name) {
+Type* Type::from_name(const std::string& name) {
     static std::map<std::string, Type*> types = __type_map();
     
     if (types.count(name) == 0) {
@@ -24,35 +24,35 @@ Type* Type::from_name(const std::string &name) {
     return types[name];
 }
 
-void Type::__add_parent_class(Type *parent) {
+void Type::__add_parent_class(Type* parent) {
     if (std::find(parents.begin(), parents.end(), parent) != parents.end()) {
         throw already_reflected("Parent class for type '" + get_name() + "' has already been added");
     }
     this->parents.emplace_back(parent);
 }
 
-void Type::__add_child_class(Type *child) {
+void Type::__add_child_class(Type* child) {
     if (std::find(children.begin(), children.end(), child) != children.end()) {
         throw already_reflected("Child class for type '" + get_name() + "' has already been added");
     }
     this->children.emplace_back(child);
 }
 
-void Type::__add_constructor(reflect::Constructor* constructor) {
+void Type::__add_constructor(Constructor* constructor) {
     if (std::find(constructors.begin(), constructors.end(), constructor) != constructors.end()) {
         throw already_reflected("Constructor for type '" + get_name() + "' has already been added");
     }
     this->constructors.emplace_back(constructor);
 }
 
-void Type::__add_member_property(MemberProperty *property) {
+void Type::__add_member_property(MemberProperty* property) {
     if (std::find(member_properties.begin(), member_properties.end(), property) != member_properties.end()) {
         throw already_reflected("Member Property for type '" + get_name() + "' has already been added");
     }
     this->member_properties.emplace_back(property);
 }
 
-void Type::__add_member_function(MemberFunction *function) {
+void Type::__add_member_function(MemberFunction* function) {
     if (std::find(member_functions.begin(), member_functions.end(), function) != member_functions.end()) {
         throw already_reflected("Member function for type '" + get_name() + "' has already been added");
     }
@@ -66,7 +66,7 @@ void Type::__add_static_property(StaticProperty* property) {
     this->static_properties.emplace_back(property);
 }
 
-void Type::__add_static_function(StaticFunction *function) {
+void Type::__add_static_function(StaticFunction* function) {
     if (std::find(static_functions.begin(), static_functions.end(), function) != static_functions.end()) {
         throw already_reflected("Member function for type '" + get_name() + "' has already been added");
     }
@@ -80,7 +80,7 @@ void Type::__set_destructor(Destructor* destructor) {
     this->destructor = destructor;
 }
 
-void Type::__set_caster(Caster *caster) {
+void Type::__set_caster(Caster* caster) {
     if (this->caster != nullptr) {
         throw already_reflected("Caster for type '" + get_name() + "' has already been set");
     }
@@ -212,7 +212,7 @@ std::vector<MemberFunction*> Type::get_functions(std::string name) {
     return out;
 }
 
-MemberFunction* Type::get_function(std::string name, std::vector<Type *> types) {
+MemberFunction* Type::get_function(std::string name, std::vector<Type*> types) {
     for (auto f : member_functions) {
         if (f->get_name() == name && f->get_arg_types() == types) {
             return f;

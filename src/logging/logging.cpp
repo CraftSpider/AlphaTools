@@ -10,7 +10,7 @@ static std::map<std::string, Logger*>* loggers;
 void __ensure_loggers() {
     __ensure_levels();
     if (loggers == nullptr) {
-        loggers = new std::map<std::string, Logger *>();
+        loggers = new std::map<std::string, Logger*>();
     }
 }
 
@@ -31,14 +31,14 @@ Logger* get_root_logger() {
     if (loggers->count("root")) {
         return loggers->at("root");
     }
-    Logger *log = new Logger("root");
+    Logger* log = new Logger("root");
     loggers->emplace("root", log);
     
     log->set_level(AT_DEFAULT_LOGGER_LEVEL);
     log->set_pattern("%l: %m");
     
-    ConsoleHandler *ch = new ConsoleHandler();
-    ErrorHandler *eh = new ErrorHandler();
+    ConsoleHandler* ch = new ConsoleHandler();
+    ErrorHandler* eh = new ErrorHandler();
     log->add_handler(ch);
     log->add_handler(eh);
     
@@ -53,7 +53,7 @@ Logger* get_logger(const std::string& name, bool auto_parent) {
         return get_root_logger();
     }
     
-    Logger *log = new Logger(name);
+    Logger* log = new Logger(name);
     loggers->emplace(name, log);
     
     if (auto_parent) {
@@ -61,7 +61,7 @@ Logger* get_logger(const std::string& name, bool auto_parent) {
         ulong pos = name.find_last_of('.');
         if (pos != std::string::npos)
             parent_name = name.substr(0, pos);
-        Logger *parent = get_logger(parent_name, true);
+        Logger* parent = get_logger(parent_name, true);
         log->set_parent(parent);
     } else {
         log->set_parent(get_root_logger());

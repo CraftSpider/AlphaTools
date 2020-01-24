@@ -6,8 +6,8 @@
 
 class TestLogger : public testing::AbstractTest {
     
-    std::streambuf *old_cout;
-    std::streambuf *old_cerr;
+    std::streambuf* old_cout;
+    std::streambuf* old_cerr;
     std::ostringstream new_cout;
     std::ostringstream new_cerr;
     

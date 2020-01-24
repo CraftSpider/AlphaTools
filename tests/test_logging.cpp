@@ -44,7 +44,7 @@ void TestLogger::clear_logs() {
 }
 
 void TestLogger::test_root() {
-    Logger *root = get_root_logger();
+    Logger* root = get_root_logger();
     
     root->fatal("Test handlers");
     ASSERT(new_cout.str() == "FATAL: Test handlers\n");
@@ -57,7 +57,7 @@ void TestLogger::test_root() {
 }
 
 void TestLogger::test_default_level() {
-    Logger *root = get_root_logger();
+    Logger* root = get_root_logger();
     
     root->info("First test");
     ASSERT(root->get_level() == AT_DEFAULT_LOGGER_LEVEL);
@@ -87,7 +87,7 @@ void TestLogger::test_normal() {
 }
 
 void TestLogger::test_format() {
-    Logger *root = get_root_logger();
+    Logger* root = get_root_logger();
     root->fatal("Test Default");
     ASSERT(new_cout.str() == "FATAL: Test Default\n");
     clear_logs();
@@ -101,29 +101,29 @@ void TestLogger::test_format() {
 }
 
 void TestLogger::test_saving() {
-    Logger *test1 = get_logger("test");
-    Logger *test2 = get_logger("test");
+    Logger* test1 = get_logger("test");
+    Logger* test2 = get_logger("test");
     
     ASSERT(test1 == test2);
 }
 
 void TestLogger::test_auto_parent() {
-	Logger *test1 = get_logger("parent.test1");
-	Logger *test2 = get_logger("parent.test2", true);
-	Logger *parent = get_logger("parent");
+	Logger* test1 = get_logger("parent.test1");
+	Logger* test2 = get_logger("parent.test2", true);
+	Logger* parent = get_logger("parent");
 	
 	ASSERT(test1->get_parent() == test2->get_parent());
 	ASSERT(test1->get_parent() == parent);
 	
-	Logger *test3 = get_logger("parent.test3", false);
+	Logger* test3 = get_logger("parent.test3", false);
 	
 	ASSERT(test3->get_parent() == get_root_logger());
 	ASSERT(test3->get_parent() != parent);
 	
-	Logger *test4 = get_logger("test4");
+	Logger* test4 = get_logger("test4");
 	ASSERT(test4->get_parent() == get_root_logger());
 	
-	Logger *root = get_logger("root");
+	Logger* root = get_logger("root");
 	ASSERT(root->get_parent() == nullptr);
 }
 

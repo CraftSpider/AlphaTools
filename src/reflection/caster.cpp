@@ -24,7 +24,7 @@ std::string to_string(type t) {
 
 }
 
-Variant TypeCaster::cast(Variant &variant, CastType::type type) {
+Variant TypeCaster::cast(Variant& variant, CastType::type type) {
     
     CastFuncRef func = nullptr;
     switch (type) {
@@ -75,7 +75,7 @@ Variant Caster::remove_pointer(Variant variant) {
     return remove_ptr(variant);
 }
 
-Variant Caster::cast(Type *type, Variant variant, CastType::type cast) {
+Variant Caster::cast(Type* type, Variant variant, CastType::type cast) {
     if (registered_casts.count(type) == 0) {
         throw invalid_type("Type '" + type->get_name() + "' is not registered for casting, use AT_DECLARE_TYPE_CAST()");
     }

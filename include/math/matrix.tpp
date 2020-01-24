@@ -17,7 +17,7 @@ Row<T>::Row(ulong length) {
 }
 
 template<typename T>
-Row<T>::Row(const Row &row) {
+Row<T>::Row(const Row& row) {
     length = row.length;
     
     data = new T[length]();
@@ -122,7 +122,7 @@ Matrix<T>::Matrix(ulong rows, ulong cols) {
 }
 
 template<typename T>
-Matrix<T>::Matrix(const Matrix &matrix) {
+Matrix<T>::Matrix(const Matrix& matrix) {
     rows = matrix.rows;
     columns = matrix.columns;
     
@@ -179,7 +179,7 @@ const Row<T>& Matrix<T>::operator[](ulong index) const {
 }
 
 template<typename T>
-Matrix<T> Matrix<T>::operator+(const Matrix<T> &matrix) const {
+Matrix<T> Matrix<T>::operator+(const Matrix<T>& matrix) const {
     if (this->rows != matrix.rows || this->columns != matrix.columns) {
         throw std::invalid_argument("Matrix addition requires matrices to be the same size");
     }
@@ -196,7 +196,7 @@ Matrix<T> Matrix<T>::operator+(const Matrix<T> &matrix) const {
 }
 
 template<typename T>
-Matrix<T> Matrix<T>::operator*(const Matrix<T> &matrix) const {
+Matrix<T> Matrix<T>::operator*(const Matrix<T>& matrix) const {
     if (this->columns != matrix.rows) {
         throw std::invalid_argument("Matrix A columns must match Matrix B rows");
     }

@@ -69,7 +69,7 @@ struct Sphere {
      * \param vec Vector to translate by
      * \return Reference to this
      */
-    Sphere& operator +=(const Vector& vec);
+    Sphere& operator+=(const Vector& vec);
     
     /**
      * Scale this sphere's radius by a scalar
@@ -79,7 +79,7 @@ struct Sphere {
      * \return Reference to this
      */
     template<typename T>
-    Sphere& operator *=(T scale);
+    Sphere& operator*=(T scale);
     
     /**
      * Check whether a point lies inside this sphere

@@ -6,7 +6,7 @@
 
 namespace logging {
 
-Logger::Logger(const std::string &name) {
+Logger::Logger(const std::string& name) {
     this->name = name;
     this->level = NO_LEVEL;
     this->stream_level = AT_DEFAULT_LOGGER_LEVEL;
@@ -37,7 +37,7 @@ std::string Logger::get_effective_pattern() const {
     return pattern;
 }
 
-std::string Logger::format_instruct(const std::string &instruct, std::string message, const Level* level) {
+std::string Logger::format_instruct(const std::string& instruct, std::string message, const Level* level) {
     std::stringstream out;
     if (instruct[0] == 'l') {
         out << (std::string)*level;
@@ -51,7 +51,7 @@ std::string Logger::format_instruct(const std::string &instruct, std::string mes
     return out.str();
 }
 
-std::string Logger::log_format(const std::string &message, const Level* level) {
+std::string Logger::log_format(const std::string& message, const Level* level) {
     bool escaped = false, in_pat = false;
     std::stringstream out;
     std::string instruct, eff_pattern = get_effective_pattern();
@@ -97,7 +97,7 @@ Level* Logger::get_level() const {
     return level;
 }
 
-void Logger::set_pattern(const std::string &pattern) {
+void Logger::set_pattern(const std::string& pattern) {
     this->pattern = pattern;
 }
 
@@ -113,7 +113,7 @@ Logger* Logger::get_parent() const {
     return parent;
 }
 
-void Logger::log(const std::string &message, const Level* level) {
+void Logger::log(const std::string& message, const Level* level) {
     if (propagate && parent != nullptr) {
         parent->log(message, level);
     }
@@ -125,35 +125,35 @@ void Logger::log(const std::string &message, const Level* level) {
     }
 }
 
-void Logger::trace(const std::string &message) {
+void Logger::trace(const std::string& message) {
     log(message, TRACE);
 }
 
-void Logger::debug(const std::string &message) {
+void Logger::debug(const std::string& message) {
     log(message, DEBUG);
 }
 
-void Logger::info(const std::string &message) {
+void Logger::info(const std::string& message) {
     log(message, INFO);
 }
 
-void Logger::warn(const std::string &message) {
+void Logger::warn(const std::string& message) {
     log(message, WARN);
 }
 
-void Logger::error(const std::string &message) {
+void Logger::error(const std::string& message) {
     log(message, ERROR);
 }
 
-void Logger::fatal(const std::string &message) {
+void Logger::fatal(const std::string& message) {
     log(message, FATAL);
 }
 
-void Logger::add_handler(Handler *handler) {
+void Logger::add_handler(Handler* handler) {
     handlers.push_back(handler);
 }
 
-bool Logger::remove_handler(Handler *handler) {
+bool Logger::remove_handler(Handler* handler) {
     for (std::size_t i = 0; i < handlers.size(); ++i) {
         if (handlers[i] == handler) {
             handlers.erase(handlers.begin() + i);

@@ -28,14 +28,18 @@ Vector::Vector(double x, double y, double z) noexcept {
     this->z = z;
 }
 
-Vector::Vector(const math::Vector& vec) noexcept {
+Vector::Vector(const Vector& vec) noexcept {
     x = vec.x;
     y = vec.y;
     z = vec.z;
 }
 
-bool Vector::operator==(const math::Vector& vec) const {
+bool Vector::operator==(const Vector& vec) const {
     return this->x == vec.x && this->y == vec.y && this->z == vec.z;
+}
+
+bool Vector::operator!=(const Vector& vec) const {
+    return this->x != vec.x || this->y != vec.y || this->z != vec.z;
 }
 
 Vector Vector::operator+(const Vector& vec) const {
@@ -62,47 +66,47 @@ Vector Vector::operator^(const Vector& vec) const {
     return Vector(y * vec.z - z * vec.y, z * vec.x - x * vec.z, x * vec.y - y * vec.x);
 }
 
-Vector& Vector::operator+=(const math::Vector& vec) {
+Vector& Vector::operator+=(const Vector& vec) {
     x += vec.x;
     y += vec.y;
     z += vec.z;
     return *this;
 }
 
-Vector& Vector::operator-=(const math::Vector& vec) {
+Vector& Vector::operator-=(const Vector& vec) {
     x -= vec.x;
     y -= vec.y;
     z -= vec.z;
     return *this;
 }
 
-Vector& Vector::operator*=(const math::Vector& vec) {
+Vector& Vector::operator*=(const Vector& vec) {
     x *= vec.x;
     y *= vec.y;
     z *= vec.z;
     return *this;
 }
 
-Vector& Vector::operator/=(const math::Vector& vec) {
+Vector& Vector::operator/=(const Vector& vec) {
     x /= vec.x;
     y /= vec.y;
     z /= vec.z;
     return *this;
 }
 
-double Vector::dot(const math::Vector& vec) const {
+double Vector::dot(const Vector& vec) const {
     return *this | vec;
 }
 
-Vector Vector::cross(const math::Vector& vec) const {
+Vector Vector::cross(const Vector& vec) const {
     return *this ^ vec;
 }
 
-double Vector::distance_sq(const math::Vector& vec) const {
+double Vector::distance_sq(const Vector& vec) const {
     return std::exp2(x - vec.x) + std::exp2(y - vec.y) + std::exp2(z - vec.z);
 }
 
-double Vector::distance(const math::Vector& vec) const {
+double Vector::distance(const Vector& vec) const {
     return std::sqrt(std::exp2(x - vec.x) + std::exp2(y - vec.y) + std::exp2(z - vec.z));
 }
 

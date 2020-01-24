@@ -87,8 +87,8 @@ void test_btoc() {
 }
 
 void test_ltob() {
-    uchar *temp;
-    char *temp2;
+    uchar* temp;
+    char* temp2;
     
     ulong test1 = 0xFFFEFDFCFBFAF9F8;
     uchar expected1[8] = {255, 254, 253, 252, 251, 250, 249, 248};
@@ -128,8 +128,8 @@ void test_ltob() {
 }
 
 void test_itob() {
-    uchar *temp;
-    char *temp2;
+    uchar* temp;
+    char* temp2;
     
     uint test1 = 0xFFFEFDFC;
     uchar expected1[4] = {255, 254, 253, 252};
@@ -169,8 +169,8 @@ void test_itob() {
 }
 
 void test_stob() {
-    uchar *temp;
-    char *temp2;
+    uchar* temp;
+    char* temp2;
     
     ushort test1 = 0xFFFE;
     uchar expected1[2] = {255, 254};

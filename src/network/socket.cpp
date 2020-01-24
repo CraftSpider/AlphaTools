@@ -8,10 +8,10 @@
 
 namespace network {
 
-socket_error::socket_error(const std::string &msg) : runtime_error(msg) {}
+socket_error::socket_error(const std::string& msg) : runtime_error(msg) {}
 
 
-bind_error::bind_error(int errnum, const std::string &msg) : socket_error(msg) {
+bind_error::bind_error(int errnum, const std::string& msg) : socket_error(msg) {
     this->errnum = errnum;
 }
 
@@ -37,7 +37,7 @@ SockOpt::SockOpt(const char* name, int sock_name, socklen_t length) noexcept {
 }
 
 
-IPAddr::IPAddr(const std::string &text) : addr() {
+IPAddr::IPAddr(const std::string& text) : addr() {
     this->text = text;
     inet_pton(AF_INET, text.c_str(), &addr);
 }
@@ -95,7 +95,7 @@ Socket::~Socket() {
     __teardown_sockets();
 }
 
-void Socket::setopt(SockOpt option, const void *val) {
+void Socket::setopt(SockOpt option, const void* val) {
     setsockopt(sockfd, SOL_SOCKET, option.sock_name, val, option.length);
 }
 
@@ -116,7 +116,7 @@ void Socket::bind(ushort port) {
     }
 }
 
-void Socket::connect(const std::string &ip, ushort port) {
+void Socket::connect(const std::string& ip, ushort port) {
     connect(IPAddr(ip), port);
 }
 
@@ -146,12 +146,12 @@ Socket Socket::accept() {
 }
 
 const char* Socket::recv(uint size) {
-    char *buffer = new char[size];
+    char* buffer = new char[size];
     ::recv(sockfd, buffer, size, 0);
     return buffer;
 }
 
-void Socket::send(const char *bytes, uint length) {
+void Socket::send(const char* bytes, uint length) {
     ::send(sockfd, bytes, length, 0);
 }
 

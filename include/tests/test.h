@@ -25,11 +25,11 @@
         try { \
             this->name(); \
             testing::__test_on_success(#name, testing::TestType::METHOD); \
-        } catch (testing::assertion_failure &e) { \
+        } catch (testing::assertion_failure& e) { \
             testing::__test_on_failure(#name, e, testing::TestType::METHOD); \
-        } catch (testing::skip_test &e) { \
+        } catch (testing::skip_test& e) { \
             testing::__test_on_skip(#name, e, testing::TestType::METHOD); \
-        } catch (std::exception &e) { \
+        } catch (std::exception& e) { \
             testing::__test_on_error(#name, e, testing::TestType::METHOD); \
         } \
         this->after_test(#name); \

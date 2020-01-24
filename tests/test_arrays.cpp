@@ -14,9 +14,9 @@ static void test_compare() {
 }
 
 static void test_compare_2D() {
-    uchar *test1[3] = {};
-    uchar *test2[3] = {};
-    uchar *test3[3] = {};
+    uchar* test1[3] = {};
+    uchar* test2[3] = {};
+    uchar* test3[3] = {};
     for (uint i = 0; i < 3; ++i) {
         test1[i] = new uchar[3] {1, 2, 3};
         test2[i] = new uchar[3] {1, 2, 3};
@@ -45,8 +45,8 @@ static void test_copy() {
 }
 
 static void test_copy_2D() {
-    uchar *test1[3] = {};
-    uchar *test2[3] = {};
+    uchar* test1[3] = {};
+    uchar* test2[3] = {};
     for (uint i = 0; i < 3; ++i) {
         test1[i] = new uchar[3] {1, 2, 3};
         test2[i] = new uchar[3]();

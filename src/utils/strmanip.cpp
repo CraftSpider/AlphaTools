@@ -15,12 +15,12 @@ std::string reverse(const std::string& str) {
     return out;
 }
 
-bool starts_with(const std::string &val, const std::string &start) {
+bool starts_with(const std::string& val, const std::string& start) {
     if (start.size() > val.size()) return false;
     return !val.compare(0, start.length(), start);
 }
 
-bool ends_with(const std::string &val, const std::string &end) {
+bool ends_with(const std::string& val, const std::string& end) {
     if (end.size() > val.size()) return false;
     return !val.compare(val.length() - end.length(), end.length(), end);
 }

@@ -52,7 +52,7 @@ public:
  */
 class Constructor final {
     
-    Type *type;
+    Type* type;
     std::vector<Type*> arg_types;
     
     ConstructFuncRef ptr;

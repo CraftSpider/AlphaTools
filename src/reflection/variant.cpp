@@ -63,7 +63,7 @@ Variant::~Variant() {
     destruct_data();
 }
 
-Variant& Variant::operator=(const Variant &other) {
+Variant& Variant::operator=(const Variant& other) {
     // If we're self-assigning, we don't need to do anything
     if (&other == this) {
         return *this;
@@ -82,7 +82,7 @@ Variant& Variant::operator=(const Variant &other) {
     return *this;
 }
 
-Variant& Variant::operator=(Variant &&other) noexcept {
+Variant& Variant::operator=(Variant&& other) noexcept {
     destruct_data();
     
     this->type = other.type;

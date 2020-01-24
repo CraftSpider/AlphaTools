@@ -33,7 +33,7 @@ StaticProperty::StaticProperty(Type* type, Ret* ptr, std::string name) {
 }
 
 template<typename T, typename Ret>
-StaticProperty& StaticProperty::from(Ret *ptr, std::string name) {
+StaticProperty& StaticProperty::from(Ret* ptr, std::string name) {
     static std::map<std::string, StaticProperty*> static_properties = std::map<std::string, StaticProperty*>();
     
     if (static_properties.count(name) == 0) {
