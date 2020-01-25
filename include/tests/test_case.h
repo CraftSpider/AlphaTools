@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "utils/sfinae.h"
 
 /**
  * \file test_case.h
@@ -72,7 +73,7 @@ public:
      *
      * \tparam C Function type
      */
-    template<typename C, std::enable_if_t<std::is_function<std::remove_pointer_t<C>>::value, int> = 0>
+    template<typename C, std::enable_if_t<util::TypeFinder<C>::function, int> = 0>
     void __run();
     
     /**
@@ -82,7 +83,7 @@ public:
      *
      * \tparam C Class pointer type
      */
-    template<typename C, std::enable_if_t<!std::is_function<std::remove_pointer_t<C>>::value, int> = 0>
+    template<typename C, std::enable_if_t<util::TypeFinder<C>::cls, int> = 0>
     void __run();
     
     void run() override;

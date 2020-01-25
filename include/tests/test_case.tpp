@@ -17,7 +17,7 @@ __TestCase<T>::~__TestCase() {
 }
 
 template<typename T>
-template<typename C, std::enable_if_t<std::is_function<std::remove_pointer_t<C>>::value, int>>
+template<typename C, std::enable_if_t<util::TypeFinder<C>::function, int>>
 void __TestCase<T>::__run() {
     try {
         (*this->instance)();
@@ -32,7 +32,7 @@ void __TestCase<T>::__run() {
 }
 
 template<typename T>
-template<typename C, std::enable_if_t<!std::is_function<std::remove_pointer_t<C>>::value, int>>
+template<typename C, std::enable_if_t<util::TypeFinder<C>::cls, int>>
 void __TestCase<T>::__run() {
     if (instance->skip_class()) {
         __test_on_skip(name, TestType::CLASS);
