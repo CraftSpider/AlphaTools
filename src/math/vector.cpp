@@ -42,6 +42,10 @@ bool Vector::operator!=(const Vector& vec) const {
     return this->x != vec.x || this->y != vec.y || this->z != vec.z;
 }
 
+Vector Vector::operator-() const {
+    return Vector(-x, -y, -z);
+}
+
 Vector Vector::operator+(const Vector& vec) const {
     return Vector(x + vec.x, y + vec.y, z + vec.z);
 }
@@ -103,11 +107,11 @@ Vector Vector::cross(const Vector& vec) const {
 }
 
 double Vector::distance_sq(const Vector& vec) const {
-    return std::exp2(x - vec.x) + std::exp2(y - vec.y) + std::exp2(z - vec.z);
+    return std::pow(x - vec.x, 2) + std::pow(y - vec.y, 2) + std::pow(z - vec.z, 2);
 }
 
 double Vector::distance(const Vector& vec) const {
-    return std::sqrt(std::exp2(x - vec.x) + std::exp2(y - vec.y) + std::exp2(z - vec.z));
+    return std::sqrt(std::pow(x - vec.x, 2) + std::pow(y - vec.y, 2) + std::pow(z - vec.z, 2));
 }
 
 double Vector::length() const {
@@ -132,11 +136,11 @@ Vector& Vector::normalize() {
 }
 
 double Vector::distance_sq(const Vector& a, const Vector& b) {
-    return std::exp2(a.x - b.x) + std::exp2(a.y - b.y) + std::exp2(a.z - b.z);
+    return std::pow(a.x - b.x, 2) + std::pow(a.y - b.y, 2) + std::pow(a.z - b.z, 2);
 }
 
 double Vector::distance(const Vector& a, const Vector& b) {
-    return std::sqrt(std::exp2(a.x - b.x) + std::exp2(a.y - b.y) + std::exp2(a.z - b.z));
+    return std::sqrt(std::pow(a.x - b.x, 2) + std::pow(a.y - b.y, 2) + std::pow(a.z - b.z, 2));
 }
 
 }

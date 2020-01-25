@@ -16,23 +16,23 @@
  * Used inside a test class' run method, registers another method of the test class to be run as a test of its own.
  * If this is used, the run method will not count as a test, but all registered methods will.
  */
-#define TEST_METHOD(name) { \
+#define TEST_METHOD(NAME) { \
     this->delegated = true; \
-    if (this->skip_test(#name)) { \
-        testing::__test_on_skip(#name, testing::TestType::METHOD); \
+    if (this->skip_test(#NAME)) { \
+        testing::__test_on_skip(#NAME, testing::TestType::METHOD); \
     } else { \
-        this->before_test(#name); \
+        this->before_test(#NAME); \
         try { \
-            this->name(); \
-            testing::__test_on_success(#name, testing::TestType::METHOD); \
+            this->NAME(); \
+            testing::__test_on_success(#NAME, testing::TestType::METHOD); \
         } catch (testing::assertion_failure& e) { \
-            testing::__test_on_failure(#name, e, testing::TestType::METHOD); \
+            testing::__test_on_failure(#NAME, e, testing::TestType::METHOD); \
         } catch (testing::skip_test& e) { \
-            testing::__test_on_skip(#name, e, testing::TestType::METHOD); \
+            testing::__test_on_skip(#NAME, e, testing::TestType::METHOD); \
         } catch (std::exception& e) { \
-            testing::__test_on_error(#name, e, testing::TestType::METHOD); \
+            testing::__test_on_error(#NAME, e, testing::TestType::METHOD); \
         } \
-        this->after_test(#name); \
+        this->after_test(#NAME); \
     } \
 }
 

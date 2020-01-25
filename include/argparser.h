@@ -39,7 +39,7 @@ public:
      * \param argc Number of arguments
      * \param argv Array of argument strings
      */
-    ArgParser(int argc, char** argv);
+    ArgParser(int argc, const char** argv);
     
     /**
      * \brief The total number of flags

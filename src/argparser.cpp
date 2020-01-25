@@ -3,7 +3,7 @@
 #include <sstream>
 #include "argparser.h"
 
-ArgParser::ArgParser(int argc, char** argv) {
+ArgParser::ArgParser(int argc, const char** argv) {
     invokation = argv[0];
     
     for (int i = 1; i < argc; ++i) {
@@ -15,6 +15,7 @@ ArgParser::ArgParser(int argc, char** argv) {
             for (auto c : arg) {
                 if (c == '=') {
                     var = true;
+                    break;
                 }
             }
             if (var) {

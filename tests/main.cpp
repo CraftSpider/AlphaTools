@@ -15,6 +15,7 @@
 #include "test_sfinae.h"
 #include "test_socket.h"
 #include "test_memory.h"
+#include "test_argparse.h"
 
 #include "math/test_matrix.h"
 #include "math/test_vector.h"
@@ -45,6 +46,7 @@ int main(int argc, char** argv) {
     TEST_FILE(constructor)
     TEST_FILE(type)
     TEST_FILE(reflection)
+    TEST_FILE(argparse)
     
     int result = (int)(testing::run_tests() & 0b011u);
     

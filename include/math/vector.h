@@ -62,6 +62,13 @@ struct Vector {
     bool operator!=(const Vector& vec) const;
     
     /**
+     * Invert all components of a vector, effectively reversing its direction
+     *
+     * \return Flipped vector
+     */
+    Vector operator-() const;
+    
+    /**
      * Add a scalar to this vector, each component increased by the scalar
      *
      * \tparam T Type to scale by
