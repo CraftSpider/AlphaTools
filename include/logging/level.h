@@ -21,7 +21,7 @@ namespace logging {
  */
 class Level {
     
-    std::string name;
+    const char* name;
     int priority;
 
 public:
@@ -40,19 +40,12 @@ public:
      * \param priority Priority of the new Level
      * \param name Name of the new Level
      */
-    Level(int priority, const std::string& name) noexcept;
+    Level(int priority, const char* name) noexcept;
     
     /**
      * As levels are managed statically by the library, they can't be deleted
      */
     ~Level() = delete;
-    
-    /**
-     * Get the name of this level, as a string
-     *
-     * \return Level name
-     */
-    std::string get_name();
     
     /**
      * Check if two levels are equal. Two levels are equal if their priority and name are both the same
@@ -112,6 +105,20 @@ public:
      * \return Level as a string
      */
     explicit operator std::string() const;
+    
+    /**
+     * Get the name of this level, as a string
+     *
+     * \return Level name
+     */
+    std::string get_name();
+    
+    /**
+     * Get the priority of this level, as an int
+     *
+     * \return level priority
+     */
+    int get_priority();
     
 };
 

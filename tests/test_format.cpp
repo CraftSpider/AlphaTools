@@ -47,6 +47,12 @@ void bytes_format() {
     
     ASSERT(util::format("{s3,6}", bytes) == "-7");
     ASSERT(util::format("{a3,6}", bytes) == "7");
+    
+    ASSERT(util::format("{sx3,6}", bytes) == "-0x7");
+    
+    ASSERT(util::format("{0,7}", bytes) == "18");
+    
+    ASSERT(util::format("{}", bytes).empty());
 }
 
 void object_format() {

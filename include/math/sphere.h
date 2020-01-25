@@ -46,6 +46,14 @@ struct Sphere {
     bool operator==(const Sphere& sphere) const;
     
     /**
+     * Check if this sphere is not equal to another sphere
+     *
+     * \param sphere Sphere to check against
+     * \return Whether the spheres are not equal
+     */
+    bool operator!=(const Sphere& sphere) const;
+    
+    /**
      * Get a sphere translated by a vector
      *
      * \param vec Vector to translate by

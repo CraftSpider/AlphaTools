@@ -22,6 +22,10 @@ bool Sphere::operator==(const Sphere& sphere) const {
     return center == sphere.center && radius == sphere.radius;
 }
 
+bool Sphere::operator!=(const Sphere& sphere) const {
+    return center != sphere.center || radius != sphere.radius;
+}
+
 Sphere Sphere::operator+(const Vector& vec) const {
     return Sphere(center + vec, radius);
 }

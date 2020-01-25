@@ -89,7 +89,6 @@ void test_construction() {
     ASSERT(tc2.b == &tc1, "TestClass b wasn't tc1");
 }
 
-
 void test_member_data() {
     Type* t = Type::from<TestClass>();
     
@@ -116,7 +115,6 @@ void test_member_data() {
     // TODO: assert throws tests for type safety
 }
 
-
 void test_member_function() {
     Type* t = Type::from<TestClass>();
     
@@ -133,6 +131,35 @@ void test_member_function() {
     ASSERT(result == 30, "Multiply function returned incorrect value");
 }
 
+void test_static_data() {
+    Type* t = Type::from<TestClass>();
+    
+    StaticProperty* sp = t->get_static_property("f");
+    
+    float f = sp->get().get_value<float>();
+    ASSERT(f == TestClass::f);
+    
+    sp->set(Variant::from_instance(1.f));
+    ASSERT(TestClass::f == 1.f);
+    sp->set(Variant::from_instance(.5f));
+    ASSERT(TestClass::f == .5f);
+}
+
+void test_static_function() {
+    Type* t = Type::from<TestClass>();
+    
+    ASSERT(TestClass::f == .5f);
+    
+    StaticFunction* decrement = t->get_static_function("static_decrement");
+    decrement->invoke({});
+    ASSERT(TestClass::f == -.5f);
+    
+    StaticFunction* multiply = t->get_static_function("static_multiply");
+    float result = multiply->invoke({Variant::from_instance(5.f)}).get_value<float>();
+    ASSERT(result == -2.5f);
+    result = multiply->invoke({Variant::from_instance(2.f)}).get_value<float>();
+    ASSERT(result == -1.f);
+}
 
 void test_destruction() {
     Type* t = Type::from<TestClass>();
@@ -141,7 +168,6 @@ void test_destruction() {
     
     t->get_destructor()->destruct(Variant::from_ptr(tc));
 }
-
 
 void test_pointer_shift() {
     Type* p_type = Type::from_name("reflect::Type*");
@@ -156,7 +182,6 @@ void test_pointer_shift() {
     ASSERT(v_type.get_type() == p_type);
     ASSERT(v_type2.get_type() == type);
 }
-
 
 void test_fully_variant() {
     Type* int_type = Type::from_name("int");
@@ -182,13 +207,12 @@ void test_fully_variant() {
     // We don't want to destruct them manually, as they're 'owned' and as such destruct themselves
 }
 
-
 void run_reflection_tests() {
-    std::string test;
-    
     TEST(test_construction)
     TEST(test_member_data)
     TEST(test_member_function)
+    TEST(test_static_data)
+    TEST(test_static_function)
     TEST(test_destruction)
     TEST(test_pointer_shift)
     

@@ -8,13 +8,9 @@ Level::Level() noexcept {
     this->priority = 0;
 }
 
-Level::Level(int priority, const std::string& name) noexcept {
+Level::Level(int priority, const char* name) noexcept {
     this->name = name;
     this->priority = priority;
-}
-
-std::string Level::get_name() {
-    return name;
 }
 
 bool Level::operator==(const Level& level) const {
@@ -43,6 +39,14 @@ bool Level::operator>(const Level& level) const {
 
 Level::operator std::string() const {
     return name;
+}
+
+std::string Level::get_name() {
+    return name;
+}
+
+int Level::get_priority() {
+    return priority;
 }
 
 Level* NO_LEVEL;
