@@ -16,22 +16,34 @@ struct E {
 };
 
 void test_typefinder() {
-    typedef util::TypeFinder<decltype(&A)> FuncFinder;
+    typedef util::TypeFinder<int> NumericFinder1;
+    typedef util::TypeFinder<double> NumericFinder2;
+    typedef util::TypeFinder<int[2]> ArrayFinder;
     typedef util::TypeFinder<B> ClassFinder;
+    typedef util::TypeFinder<decltype(&A)> FuncFinder;
+    typedef util::TypeFinder<decltype(&B::D)> DataFinder;
     typedef util::TypeFinder<decltype(&B::C)> MethodFinder;
-    typedef util::TypeFinder<B*> PtrFinder;
 
+    ASSERT(NumericFinder1::numeric);
+    ASSERT(!NumericFinder1::array && !NumericFinder1::cls && !NumericFinder1::function && !NumericFinder1::member_data && !NumericFinder1::member_func);
+    
+    ASSERT(NumericFinder2::numeric);
+    ASSERT(!NumericFinder2::array && !NumericFinder2::cls && !NumericFinder2::function && !NumericFinder2::member_data && !NumericFinder2::member_func);
+    
+    ASSERT(ArrayFinder::array);
+    ASSERT(!ArrayFinder::numeric && !ArrayFinder::cls && !ArrayFinder::function && !ArrayFinder::member_data && !ArrayFinder::member_func);
+    
     ASSERT(FuncFinder::function);
-    ASSERT(!FuncFinder::cls && !FuncFinder::method && !FuncFinder::pointer);
+    ASSERT(!FuncFinder::array && !FuncFinder::cls && !FuncFinder::numeric && !FuncFinder::member_data && !FuncFinder::member_func);
 
     ASSERT(ClassFinder::cls);
-    ASSERT(!ClassFinder::function && !ClassFinder::method && !ClassFinder::pointer);
-
-    ASSERT(MethodFinder::method);
-    ASSERT(!MethodFinder::cls && !MethodFinder::function && !MethodFinder::pointer);
-
-    ASSERT(PtrFinder::pointer);
-    ASSERT(!PtrFinder::cls && !PtrFinder::method && !PtrFinder::function);
+    ASSERT(!ClassFinder::array && !ClassFinder::numeric && !ClassFinder::function && !ClassFinder::member_data && !ClassFinder::member_func);
+    
+    ASSERT(DataFinder::member_data);
+    ASSERT(!DataFinder::array && !DataFinder::cls && !DataFinder::function && !DataFinder::numeric && !DataFinder::member_func);
+    
+    ASSERT(MethodFinder::member_func);
+    ASSERT(!MethodFinder::array && !MethodFinder::cls && !MethodFinder::function && !MethodFinder::member_data && !MethodFinder::numeric);
 
 }
 

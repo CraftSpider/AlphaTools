@@ -10,30 +10,45 @@
 
 namespace util {
 
+template<typename T>
+struct DerefPointer;
+
 /**
- * Class that provides compile-time determination of a type. Seperates into class,
- * function, method, or pointer. Anything not under those possible types is currently not considered.
+ * Class that provides compile-time determination of a type. Seperates into numeric, array, class, function, member
+ * data, or member function. Pointers will be maximally de-referenced, getting the 'underlying' type
  * \tparam T Type to determine classification of
  */
 template<typename T>
 class TypeFinder {
 
-    typedef const char _class[1];
-    typedef const char _function[2];
-    typedef const char _method[3];
-    typedef const char _pointer[4];
+    typedef const char _numeric[1];
+    typedef const char _array[2];
+    typedef const char _class[3];
+    
+    typedef const char _function[4];
+    
+    typedef const char _memberdata[5];
+    typedef const char _memberfunc[6];
+    
+    template<typename C, std::enable_if_t<std::is_integral<C>::value || std::is_floating_point<C>::value, int> = 0>
+    static _numeric& test() {return "";}
+    
+    template<typename C, std::enable_if_t<std::is_array<C>::value, int> = 0>
+    static _array& test() {return "a";}
 
     template<typename C, std::enable_if_t<std::is_class<C>::value, int> = 0>
-    static _class& test() {return "";}
+    static _class& test() {return "cc";}
+    
+    template<typename C, std::enable_if_t<std::is_function<C>::value, int> = 0>
+    static _function& test() {return "fff";}
+    
+    template<typename C, std::enable_if_t<std::is_member_object_pointer<C>::value, int> = 0>
+    static _memberdata& test() {return "mdmd";}
 
     template<typename C, std::enable_if_t<std::is_member_function_pointer<C>::value, int> = 0>
-    static _method& test() {return "aa";}
-
-    template<typename C, std::enable_if_t<std::is_function<C>::value || (std::is_pointer<C>::value && std::is_function<typename std::remove_pointer<C>::type>::value), int> = 0>
-    static _function& test() {return "a";}
-
-    template<typename C, std::enable_if_t<std::is_pointer<C>::value && !std::is_function<typename std::remove_pointer<C>::type>::value, int> = 0>
-    static _pointer& test() {return "aaa";}
+    static _memberfunc& test() {return "mfmfm";}
+    
+    static const size_t _result = sizeof(test<typename DerefPointer<typename std::remove_reference<T>::type>::type>());
 
 public:
     
@@ -41,16 +56,12 @@ public:
      * TypeFinder constant enum values
      */
     enum {
-        /// Whether the type is a class type
-        cls = sizeof(test<T>()) == sizeof(_class),
-        /// Whether the type is a function type
-        function = sizeof(test<T>()) == sizeof(_function),
-        /// Whether the type is a pointer to method type
-        method = sizeof(test<T>()) == sizeof(_method),
-        /// Whether the type is a pointer type
-        pointer = sizeof(test<T>()) == sizeof(_pointer),
-        /// Whether the type is some other kind of type
-        other = !cls && !function && !method && !pointer
+        numeric = _result == sizeof(_numeric),
+        array = _result == sizeof(_array),
+        cls = _result == sizeof(_class),
+        function = _result == sizeof(_function),
+        member_data = _result == sizeof(_memberdata),
+        member_func = _result == sizeof(_memberfunc),
     };
     
 };
