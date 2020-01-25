@@ -30,7 +30,7 @@ ConstructFuncRef ConstructorMeta<T, Args...>::get_construct_func() {
 }
 
 template<typename T, typename... Args>
-Constructor::Constructor(reflect::ConstructorMeta<T, Args...> meta) {
+Constructor::Constructor(ConstructorMeta<T, Args...> meta) {
     (void)meta;
     type = Type::from<T>();
     arg_types = Type::from_list<Args...>();

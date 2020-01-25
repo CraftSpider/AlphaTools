@@ -21,13 +21,13 @@ template<typename C, std::enable_if_t<util::TypeFinder<C>::function, int>>
 void __TestCase<T>::__run() {
     try {
         (*this->instance)();
-        testing::__test_on_success(name);
-    } catch (testing::assertion_failure& e) {
-        testing::__test_on_failure(name, e);
-    } catch (testing::skip_test& e) {
-        testing::__test_on_skip(name, e);
+        __test_on_success(name);
+    } catch (assertion_failure& e) {
+        __test_on_failure(name, e);
+    } catch (skip_test& e) {
+        __test_on_skip(name, e);
     } catch (std::exception& e) {
-        testing::__test_on_error(name, e);
+        __test_on_error(name, e);
     }
 }
 
@@ -35,23 +35,23 @@ template<typename T>
 template<typename C, std::enable_if_t<util::TypeFinder<C>::pointer, int>>
 void __TestCase<T>::__run() {
     if (instance->skip_class()) {
-        testing::__test_on_skip(name, testing::TestType::CLASS);
+        __test_on_skip(name, TestType::CLASS);
     } else {
         instance->before_class();
         try {
             instance->run();
             if (!instance->delegated) {
-                testing::__test_on_success(name, testing::TestType::CLASS);
+                __test_on_success(name, TestType::CLASS);
             }
-        } catch (testing::assertion_failure& e) {
+        } catch (assertion_failure& e) {
             if (!instance->delegated) {
-                testing::__test_on_failure(name, e, testing::TestType::CLASS);
+                __test_on_failure(name, e, TestType::CLASS);
             }
-        } catch (testing::skip_test& e) {
-            testing::__test_on_skip(name, e, testing::TestType::CLASS);
+        } catch (skip_test& e) {
+            __test_on_skip(name, e, TestType::CLASS);
         } catch (std::exception& e) {
             if (!instance->delegated) {
-                testing::__test_on_error(name, e, testing::TestType::CLASS);
+                __test_on_error(name, e, TestType::CLASS);
             }
         }
         instance->after_class();

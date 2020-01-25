@@ -27,7 +27,7 @@ long get_signed_range(const uchar* data, const ulong start, const ulong end) {
     }
 }
 
-template <>
+template<>
 ulong btol <BIG> (const uchar* bytes, const ulong start, const ulong end) {
     ulong out = 0;
     ulong length = end - start - 1;
@@ -37,7 +37,7 @@ ulong btol <BIG> (const uchar* bytes, const ulong start, const ulong end) {
     return out;
 }
 
-template <>
+template<>
 ulong btol <LITTLE> (const uchar* bytes, const ulong start, const ulong end) {
     ulong out = 0;
     for (ulong i = start; i < end; ++i) {
@@ -46,7 +46,7 @@ ulong btol <LITTLE> (const uchar* bytes, const ulong start, const ulong end) {
     return out;
 }
 
-template <>
+template<>
 slong btol <BIG> (const char* bytes, const ulong start, const ulong end) {
     slong out = 0;
     ulong length = end - start - 1;
@@ -56,7 +56,7 @@ slong btol <BIG> (const char* bytes, const ulong start, const ulong end) {
     return out;
 }
 
-template <>
+template<>
 slong btol <LITTLE> (const char* bytes, const ulong start, const ulong end) {
     slong out = 0;
     for (ulong i = start; i < end; ++i) {
@@ -65,7 +65,7 @@ slong btol <LITTLE> (const char* bytes, const ulong start, const ulong end) {
     return out;
 }
 
-template <>
+template<>
 uchar* ltob <BIG> (const ulong val, const ulong length) {
     uchar* output = new uchar[length]();
     for (ulong i = 0; i < length; ++i) {
@@ -74,7 +74,7 @@ uchar* ltob <BIG> (const ulong val, const ulong length) {
     return output;
 }
 
-template <>
+template<>
 uchar* ltob <LITTLE> (const ulong val, const ulong length) {
     uchar* output = new uchar[length]();
     for (ulong i = 0; i < length; ++i) {
@@ -83,7 +83,7 @@ uchar* ltob <LITTLE> (const ulong val, const ulong length) {
     return output;
 }
 
-template <>
+template<>
 char* ltob <BIG> (const slong val, const ulong length) {
     char* output = new char[length];
     for (ulong i = 0; i < length; ++i) {
@@ -92,7 +92,7 @@ char* ltob <BIG> (const slong val, const ulong length) {
     return output;
 }
 
-template <>
+template<>
 char* ltob <LITTLE> (const slong val, const ulong length) {
     char* output = new char[length];
     for (ulong i = 0; i < length; ++i) {

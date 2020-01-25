@@ -39,7 +39,7 @@ void Variant::destruct_data() {
     }
 }
 
-Variant::Variant(const reflect::Variant& other) {
+Variant::Variant(const Variant& other) {
     this->type = other.type;
     this->data = other.data;
     this->owned = other.owned;
@@ -49,7 +49,7 @@ Variant::Variant(const reflect::Variant& other) {
     }
 }
 
-Variant::Variant(reflect::Variant&& other) noexcept {
+Variant::Variant(Variant&& other) noexcept {
     this->type = other.type;
     this->data = other.data;
     this->owned = other.owned;

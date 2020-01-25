@@ -15,7 +15,7 @@ Variant MemberFunction::invoke(Variant instance) {
     return invoke_ptr(ptr, instance, temp);
 }
 
-Variant MemberFunction::invoke(reflect::Variant instance, std::vector<Variant> args) {
+Variant MemberFunction::invoke(Variant instance, std::vector<Variant> args) {
     if (instance.get_type() != type) {
         throw invalid_type("Attempt to invoke function on instance of invalid type");
     }

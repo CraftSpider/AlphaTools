@@ -29,9 +29,9 @@ std::string spec_handler <std::string> (std::string spec, std::string* arg) {
     std::string str = *arg;
     
     if (spec.find('u') != std::string::npos) {
-        str = util::to_uppercase(str);
+        str = to_uppercase(str);
     } else if (spec.find('l') != std::string::npos) {
-        str = util::to_lowercase(str);
+        str = to_lowercase(str);
     }
     
     if (spec.find('n') != std::string::npos)
@@ -83,19 +83,19 @@ std::string spec_handler <uchar*> (std::string spec, uchar** arg) {
     }
     
     if (mod_mask & 0b10u) {
-        slong result = util::get_signed_range(bytes, start, end);
+        slong result = get_signed_range(bytes, start, end);
         if (mod_mask & 0b1000u) {
             result = std::abs(result);
         }
         if (mod_mask & 0b1u) {
-            out << util::ltoh(result);
+            out << ltoh(result);
         } else {
             out << result;
         }
     } else {
-        ulong result = util::get_range(bytes, start, end);
+        ulong result = get_range(bytes, start, end);
         if (mod_mask & 0b1u) {
-            out << util::ltoh(result);
+            out << ltoh(result);
         } else {
             out << result;
         }

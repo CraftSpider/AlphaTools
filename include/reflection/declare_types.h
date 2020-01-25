@@ -369,8 +369,8 @@ class __MaybeConstructor {
      */
     template<typename K, typename... Args1>
     static std::enable_if_t<std::is_constructible_v<K, Args1...>, void> add_impl() {
-        reflect::Type::from<K>()->__add_constructor(
-            &reflect::Constructor::from<K, Args1...>()
+        Type::from<K>()->__add_constructor(
+            &Constructor::from<K, Args1...>()
         );
     }
     
@@ -416,8 +416,8 @@ class __MaybeDestructor {
      */
     template<typename K>
     static std::enable_if_t<std::is_destructible_v<typename std::remove_reference_t<K>>, void> add_impl() {
-        reflect::Type::from<K>()->__set_destructor(
-            &reflect::Destructor::from<T>()
+        Type::from<K>()->__set_destructor(
+            &Destructor::from<T>()
         );
     }
     

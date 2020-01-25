@@ -2,7 +2,7 @@
 namespace reflect {
 
 template<typename T>
-Variant ShifterMeta<T>::add_pointer(reflect::Variant& obj) {
+Variant ShifterMeta<T>::add_pointer(Variant& obj) {
     return Variant::from_pair_owned(
         obj.get_type()->add_pointer(),
         obj.get_value_ptr<T>()
@@ -11,7 +11,7 @@ Variant ShifterMeta<T>::add_pointer(reflect::Variant& obj) {
 
 template<typename T>
 template<typename K>
-std::enable_if_t<std::is_pointer_v<K>, Variant> ShifterMeta<T>::remove_pointer(reflect::Variant& obj) {
+std::enable_if_t<std::is_pointer_v<K>, Variant> ShifterMeta<T>::remove_pointer(Variant& obj) {
     return Variant::from_pair(
         obj.get_type()->remove_pointer(),
         obj.get_value_ref<K>()
@@ -20,7 +20,7 @@ std::enable_if_t<std::is_pointer_v<K>, Variant> ShifterMeta<T>::remove_pointer(r
 
 template<typename T>
 template<typename K>
-std::enable_if_t<!std::is_pointer_v<K>, Variant> ShifterMeta<T>::remove_pointer(reflect::Variant&) {
+std::enable_if_t<!std::is_pointer_v<K>, Variant> ShifterMeta<T>::remove_pointer(Variant&) {
     throw invalid_cast("Type '" + Type::from<K>()->get_name() + "' is not a pointer type");
 }
 
@@ -36,7 +36,7 @@ CastFuncRef ShifterMeta<T>::get_remove_pointer_func() {
 
 template<typename T, typename K>
 template<typename T1, typename K1>
-std::enable_if_t<__CastSupport<T1, K1>::support_dynamic, Variant> CasterMeta<T, K>::cast_dynamic(reflect::Variant& obj) {
+std::enable_if_t<__CastSupport<T1, K1>::support_dynamic, Variant> CasterMeta<T, K>::cast_dynamic(Variant& obj) {
     return Variant::from_return(
         dynamic_cast<K>(obj.get_value_ref<T>())
     );
@@ -44,13 +44,13 @@ std::enable_if_t<__CastSupport<T1, K1>::support_dynamic, Variant> CasterMeta<T, 
 
 template<typename T, typename K>
 template<typename T1, typename K1>
-std::enable_if_t<!__CastSupport<T1, K1>::support_dynamic, Variant> CasterMeta<T, K>::cast_dynamic(reflect::Variant&) {
+std::enable_if_t<!__CastSupport<T1, K1>::support_dynamic, Variant> CasterMeta<T, K>::cast_dynamic(Variant&) {
     return Variant::from_type(Type::from<void>());
 }
 
 template<typename T, typename K>
 template<typename T1, typename K1>
-std::enable_if_t<__CastSupport<T1, K1>::support_reinterpret, Variant> CasterMeta<T, K>::cast_reinterpret(reflect::Variant& obj) {
+std::enable_if_t<__CastSupport<T1, K1>::support_reinterpret, Variant> CasterMeta<T, K>::cast_reinterpret(Variant& obj) {
     return Variant::from_return(
         reinterpret_cast<K>(obj.get_value_ref<T>())
     );
@@ -58,13 +58,13 @@ std::enable_if_t<__CastSupport<T1, K1>::support_reinterpret, Variant> CasterMeta
 
 template<typename T, typename K>
 template<typename T1, typename K1>
-std::enable_if_t<!__CastSupport<T1, K1>::support_reinterpret, Variant> CasterMeta<T, K>::cast_reinterpret(reflect::Variant&) {
+std::enable_if_t<!__CastSupport<T1, K1>::support_reinterpret, Variant> CasterMeta<T, K>::cast_reinterpret(Variant&) {
     return Variant::from_type(Type::from<void>());
 }
 
 template<typename T, typename K>
 template<typename T1, typename K1>
-std::enable_if_t<__CastSupport<T1, K1>::support_static, Variant> CasterMeta<T, K>::cast_static(reflect::Variant& obj) {
+std::enable_if_t<__CastSupport<T1, K1>::support_static, Variant> CasterMeta<T, K>::cast_static(Variant& obj) {
     return Variant::from_return(
         static_cast<K>(obj.get_value_ref<T>())
     );
@@ -72,13 +72,13 @@ std::enable_if_t<__CastSupport<T1, K1>::support_static, Variant> CasterMeta<T, K
 
 template<typename T, typename K>
 template<typename T1, typename K1>
-std::enable_if_t<!__CastSupport<T1, K1>::support_static, Variant> CasterMeta<T, K>::cast_static(reflect::Variant&) {
+std::enable_if_t<!__CastSupport<T1, K1>::support_static, Variant> CasterMeta<T, K>::cast_static(Variant&) {
     return Variant::from_type(Type::from<void>());
 }
 
 template<typename T, typename K>
 template<typename T1, typename K1>
-std::enable_if_t<__CastSupport<T1, K1>::support_const, Variant> CasterMeta<T, K>::cast_const(reflect::Variant& obj) {
+std::enable_if_t<__CastSupport<T1, K1>::support_const, Variant> CasterMeta<T, K>::cast_const(Variant& obj) {
     return Variant::from_return(
         static_cast<K>(obj.get_value_ref<T>())
     );
@@ -86,13 +86,13 @@ std::enable_if_t<__CastSupport<T1, K1>::support_const, Variant> CasterMeta<T, K>
 
 template<typename T, typename K>
 template<typename T1, typename K1>
-std::enable_if_t<!__CastSupport<T1, K1>::support_const, Variant> CasterMeta<T, K>::cast_const(reflect::Variant&) {
+std::enable_if_t<!__CastSupport<T1, K1>::support_const, Variant> CasterMeta<T, K>::cast_const(Variant&) {
     return Variant::from_type(Type::from<void>());
 }
 
 template<typename T, typename K>
 template<typename T1, typename K1>
-std::enable_if_t<__CastSupport<T1, K1>::support_c, Variant> CasterMeta<T, K>::cast_c(reflect::Variant& obj) {
+std::enable_if_t<__CastSupport<T1, K1>::support_c, Variant> CasterMeta<T, K>::cast_c(Variant& obj) {
     return Variant::from_return(
         (K)obj.get_value_ref<T>()
     );
@@ -100,7 +100,7 @@ std::enable_if_t<__CastSupport<T1, K1>::support_c, Variant> CasterMeta<T, K>::ca
 
 template<typename T, typename K>
 template<typename T1, typename K1>
-std::enable_if_t<!__CastSupport<T1, K1>::support_c, Variant> CasterMeta<T, K>::cast_c(reflect::Variant&) {
+std::enable_if_t<!__CastSupport<T1, K1>::support_c, Variant> CasterMeta<T, K>::cast_c(Variant&) {
     return Variant::from_type(Type::from<void>());
 }
 
