@@ -6,11 +6,19 @@
 
 using namespace logging;
 
-Level* level_null = new Level();
-Level* level_1 = new Level(111, "TestLevel");
-Level* level_2 = new Level(111, "TestLevel");
-Level* level_3 = new Level(121, "TestLevel2");
-Level* level_4 = new Level(101, "TestLevel3");
+Level* level_null;
+Level* level_1;
+Level* level_2;
+Level* level_3;
+Level* level_4;
+
+void __build_level_ptrs() {
+    level_null = new Level();
+    level_1 = new Level(111, "TestLevel");
+    level_2 = new Level(111, "TestLevel");
+    level_3 = new Level(121, "TestLevel2");
+    level_4 = new Level(101, "TestLevel3");
+}
 
 void test_level_construct() {
     ASSERT(level_null->get_name() == "NULL");
@@ -37,6 +45,7 @@ void test_level_cast() {
 }
 
 void run_level_tests() {
+    __build_level_ptrs();
     TEST(test_level_construct)
     TEST(test_level_compare)
     TEST(test_level_cast)

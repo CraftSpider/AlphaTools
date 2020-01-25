@@ -23,6 +23,11 @@ class Level {
     
     const char* name;
     int priority;
+    
+    /**
+     * As levels are managed statically by the library, they can't be deleted by outside systems
+     */
+    ~Level() = default;
 
 public:
     
@@ -41,11 +46,6 @@ public:
      * \param name Name of the new Level
      */
     Level(int priority, const char* name) noexcept;
-    
-    /**
-     * As levels are managed statically by the library, they can't be deleted
-     */
-    ~Level() = delete;
     
     /**
      * Check if two levels are equal. Two levels are equal if their priority and name are both the same

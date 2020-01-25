@@ -14,7 +14,7 @@ Level::Level(int priority, const char* name) noexcept {
 }
 
 bool Level::operator==(const Level& level) const {
-    return priority == level.priority && name == level.name;
+    return priority == level.priority && std::string(name) == std::string(level.name);
 }
 
 bool Level::operator!=(const Level& level) {
