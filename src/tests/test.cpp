@@ -1,6 +1,7 @@
 
 #include <chrono>
 #include <typeinfo>
+#include <iostream>
 #include "tests/test.h"
 #include "tests/test_case.h"
 #include "console.h"

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "type.h"
 #include "variant.h"
 
 namespace reflect {

@@ -55,7 +55,7 @@ if(MSVC)
     target_link_libraries(${TEST_PROJECT_NAME} ws2_32 dbghelp)
 endif()
 
-# Support running non-MSVC systems with gcov enabled
+# Support running non-MSVC systems with gcov, which will output file coverage data
 if(NOT MSVC AND COVERAGE_SUPPORT)
     add_definitions(--coverage)
     target_link_libraries(${PROJECT_NAME} gcov)

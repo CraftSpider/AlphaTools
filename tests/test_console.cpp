@@ -1,10 +1,12 @@
 
+#include <iostream>
 #include "test_console.h"
 #include "console.h"
 #include "at_tests"
 
+using namespace term;
+
 void test_effect() {
-    using namespace term;
     std::cout << effect::RESET << "RESET";
     std::cout << effect::BOLD << "BOLD" << effect::RESET_BOLD;
     std::cout << effect::DIM << "DIM" << effect::RESET_DIM;
@@ -16,7 +18,6 @@ void test_effect() {
 }
 
 void test_foreground() {
-    using namespace term;
     std::cout << fore::DEFAULT << "DEFAULT";
     std::cout << fore::BLACK << "BLACK" << fore::DEFAULT;
     std::cout << fore::RED << "RED" << fore::DEFAULT;
@@ -38,7 +39,6 @@ void test_foreground() {
 }
 
 void test_background() {
-    using namespace term;
     std::cout << back::DEFAULT << "DEFAULT";
     std::cout << back::BLACK << "BLACK" << back::DEFAULT;
     std::cout << back::RED << "RED" << back::DEFAULT;

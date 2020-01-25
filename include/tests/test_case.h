@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include "utils/sfinae.h"
 
 /**
  * \file test_case.h
@@ -73,7 +72,7 @@ public:
      *
      * \tparam C Function type
      */
-    template<typename C, std::enable_if_t<util::TypeFinder<C>::function, int> = 0>
+    template<typename C, std::enable_if_t<std::is_function<std::remove_pointer_t<C>>::value, int> = 0>
     void __run();
     
     /**
@@ -83,17 +82,7 @@ public:
      *
      * \tparam C Class pointer type
      */
-    template<typename C, std::enable_if_t<util::TypeFinder<C>::pointer, int> = 0>
-    void __run();
-    
-    /**
-     * \internal
-     *
-     * Specialization of the run function for if we are testing a method (unused)
-     *
-     * \tparam C Method pointer type
-     */
-    template<typename C, std::enable_if_t<util::TypeFinder<C>::method, int> = 0>
+    template<typename C, std::enable_if_t<!std::is_function<std::remove_pointer_t<C>>::value, int> = 0>
     void __run();
     
     void run() override;

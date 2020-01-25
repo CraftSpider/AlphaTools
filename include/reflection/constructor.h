@@ -4,7 +4,6 @@
 #include "type.h"
 #include "errors.h"
 #include "variant.h"
-#include "utils/sfinae.h"
 
 /**
  * \file constructor.h
