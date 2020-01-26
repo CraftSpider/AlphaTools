@@ -16,6 +16,7 @@ struct DerefPointer;
 /**
  * Class that provides compile-time determination of a type. Seperates into numeric, array, class, function, member
  * data, or member function. Pointers will be maximally de-referenced, getting the 'underlying' type
+ *
  * \tparam T Type to determine classification of
  */
 template<typename T>

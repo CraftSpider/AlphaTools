@@ -7,7 +7,6 @@
 #include "test_bytes.h"
 #include "test_strmanip.h"
 #include "test_format.h"
-#include "test_console.h"
 #include "test_test.h"
 #include "test_io.h"
 #include "test_generic.h"
@@ -37,7 +36,6 @@ int main(int argc, char** argv) {
     TEST_FILE(bytes)
     TEST_FILE(strmanip)
     TEST_FILE(format)
-    TEST_FILE(console)
     TEST_FILE(io)
     TEST_FILE(generic)
     TEST_FILE(sfinae)

@@ -115,8 +115,8 @@ uint run_tests(const std::string& name) {
     for (auto test : __Config::test_cases) {
         test->run();
     }
-    
     time_point end = high_resolution_clock::now();
+    
     duration elapsed = end - start;
     
     // Write out basic results

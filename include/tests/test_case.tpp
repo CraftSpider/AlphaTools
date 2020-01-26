@@ -11,7 +11,7 @@ __TestCase<T>::__TestCase(T inst, const std::string& name) {
 
 template<typename T>
 __TestCase<T>::~__TestCase() {
-    if constexpr (std::is_class<typename std::remove_pointer<T>::type>::value) {
+    if constexpr (util::TypeFinder<T>::cls) {
         delete instance;
     }
 }

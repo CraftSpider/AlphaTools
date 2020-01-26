@@ -161,6 +161,7 @@ struct Vector {
      *
      * \tparam T Type to scale by
      * \param scale Amount to scale
+     * \return Reference to this
      */
     template<typename T>
     Vector& operator+=(T scale);
@@ -169,6 +170,7 @@ struct Vector {
      * Perform in-place vector addition with another vector
      *
      * \param vec Vector to add
+     * \return Reference to this
      */
     Vector& operator+=(const Vector& vec);
     
@@ -177,6 +179,7 @@ struct Vector {
      *
      * \tparam T Type to scale by
      * \param scale Amount to scale
+     * \return Reference to this
      */
     template<typename T>
     Vector& operator-=(T scale);
@@ -185,6 +188,7 @@ struct Vector {
      * Perform in-place vector subtraction with another vector
      *
      * \param vec Vector to subtract
+     * \return Reference to this
      */
     Vector& operator-=(const Vector& vec);
     
@@ -193,6 +197,7 @@ struct Vector {
      *
      * \tparam T Type to scale by
      * \param scale Amount to scale
+     * \return Reference to this
      */
     template<typename T>
     Vector& operator*=(T scale);
@@ -201,6 +206,7 @@ struct Vector {
      * Perform in-place component-wise vector multiplication with another vector
      *
      * \param vec Vector to multiply
+     * \return Reference to this
      */
     Vector& operator*=(const Vector& vec);
     
@@ -209,6 +215,7 @@ struct Vector {
      *
      * \tparam T Type to scale by
      * \param scale Amount to scale
+     * \return Reference to this
      */
     template<typename T>
     Vector& operator/=(T scale);
@@ -217,6 +224,7 @@ struct Vector {
      * Perform in-place component-wise vector division with another vector
      *
      * \param vec Vector to divide by
+     * \return Reference to this
      */
     Vector& operator/=(const Vector& vec);
     
