@@ -52,7 +52,7 @@ typedef std::int64_t slong;
 /**
  * Types of endianness a computer might have
  */
-enum Endian {
+enum class Endian {
     BIG, LITTLE
 };
 

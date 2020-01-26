@@ -49,7 +49,7 @@ long get_signed_range(const uchar* data, const ulong start, const ulong end);
  * \param end Byte index to end at
  * \return Bytes interpreted as a ulong
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 ulong btol(const uchar* bytes, const ulong start, const ulong end);
 
 /**
@@ -61,7 +61,7 @@ ulong btol(const uchar* bytes, const ulong start, const ulong end);
  * \return Bytes interpreted as a ulong
  */
 template<>
-ulong btol<BIG>(const uchar* bytes, const ulong start, const ulong end);
+ulong btol<Endian::BIG>(const uchar* bytes, const ulong start, const ulong end);
 
 /**
  * Specialization of btol for little endian
@@ -72,7 +72,7 @@ ulong btol<BIG>(const uchar* bytes, const ulong start, const ulong end);
  * \return Bytes interpreted as a ulong
  */
 template<>
-ulong btol<LITTLE>(const uchar* bytes, const ulong start, const ulong end);
+ulong btol<Endian::LITTLE>(const uchar* bytes, const ulong start, const ulong end);
 
 /**
  * Convert an array of bytes to a signed long, with start/end indices
@@ -83,7 +83,7 @@ ulong btol<LITTLE>(const uchar* bytes, const ulong start, const ulong end);
  * \param end Byte index to end at
  * \return Bytes interpreted as a long
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 slong btol(const char* bytes, const ulong start, const ulong end);
 
 /**
@@ -95,7 +95,7 @@ slong btol(const char* bytes, const ulong start, const ulong end);
  * \return Bytes interpreted as a long
  */
 template<>
-slong btol<BIG>(const char* bytes, const ulong start, const ulong end);
+slong btol<Endian::BIG>(const char* bytes, const ulong start, const ulong end);
 
 /**
  * Specialization of btol for little endian
@@ -106,7 +106,7 @@ slong btol<BIG>(const char* bytes, const ulong start, const ulong end);
  * \return Bytes interpreted as a long
  */
 template<>
-slong btol<LITTLE>(const char* bytes, const ulong start, const ulong end);
+slong btol<Endian::LITTLE>(const char* bytes, const ulong start, const ulong end);
 
 /**
  * Convert an array of bytes to an unsigned long, with optional length of the array
@@ -116,7 +116,7 @@ slong btol<LITTLE>(const char* bytes, const ulong start, const ulong end);
  * \param length Length of array
  * \return Bytes interpreted as a ulong
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 ulong btol(const uchar* bytes, const ulong length = 8);
 
 /**
@@ -127,7 +127,7 @@ ulong btol(const uchar* bytes, const ulong length = 8);
  * \param length Length of array
  * \return Bytes interpreted as a long
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 slong btol(const char* bytes, const ulong length = 8);
 
 /**
@@ -139,7 +139,7 @@ slong btol(const char* bytes, const ulong length = 8);
  * \param end Byte index to end at
  * \return Bytes interpreted as a uint
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 uint btoi(const uchar* bytes, const ulong start, const ulong end);
 
 /**
@@ -151,7 +151,7 @@ uint btoi(const uchar* bytes, const ulong start, const ulong end);
  * \param end Byte index to end at
  * \return Bytes interpreted as an int
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 int btoi(const char* bytes, const ulong start, const ulong end);
 
 /**
@@ -162,7 +162,7 @@ int btoi(const char* bytes, const ulong start, const ulong end);
  * \param length Length of array
  * \return Bytes interpreted as a uint
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 uint btoi(const uchar* bytes, const ulong length = 4);
 
 /**
@@ -173,7 +173,7 @@ uint btoi(const uchar* bytes, const ulong length = 4);
  * \param length Length of array
  * \return Bytes interpreted as an int
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 int btoi(const char* bytes, const ulong length = 4);
 
 /**
@@ -185,7 +185,7 @@ int btoi(const char* bytes, const ulong length = 4);
  * \param end Byte index to end at
  * \return Bytes interpreted as a ushort
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 ushort btos(const uchar* bytes, const ulong start, const ulong end);
 
 /**
@@ -197,7 +197,7 @@ ushort btos(const uchar* bytes, const ulong start, const ulong end);
  * \param end Byte index to end at
  * \return Bytes interpreted as a short
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 short btos(const char* bytes, const ulong start, const ulong end);
 
 /**
@@ -208,7 +208,7 @@ short btos(const char* bytes, const ulong start, const ulong end);
  * \param length Length of array
  * \return Bytes interpreted as a ushort
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 ushort btos(const uchar* bytes, const ulong length = 2);
 
 /**
@@ -219,7 +219,7 @@ ushort btos(const uchar* bytes, const ulong length = 2);
  * \param length Length of array
  * \return Bytes interpreted as a short
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 short btos(const char* bytes, const ulong length = 2);
 
 /**
@@ -231,7 +231,7 @@ short btos(const char* bytes, const ulong length = 2);
  * \param end Byte index to end at
  * \return Bytes interpreted as a uchar
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 uchar btoc(const uchar* bytes, const ulong start, const ulong end);
 
 /**
@@ -243,7 +243,7 @@ uchar btoc(const uchar* bytes, const ulong start, const ulong end);
  * \param end Byte index to end at
  * \return Bytes interpreted as a char
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 char btoc(const char* bytes, const ulong start, const ulong end);
 
 /**
@@ -254,7 +254,7 @@ char btoc(const char* bytes, const ulong start, const ulong end);
  * \param length Length of array
  * \return Bytes interpreted as a uchar
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 uchar btoc(const uchar* bytes, const ulong length = 1);
 
 /**
@@ -265,7 +265,7 @@ uchar btoc(const uchar* bytes, const ulong length = 1);
  * \param length Length of array
  * \return Bytes interpreted as a char
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 char btoc(const char* bytes, const ulong length = 1);
 
 // ...to Bytes
@@ -278,7 +278,7 @@ char btoc(const char* bytes, const ulong length = 1);
  * \param length Length of the result array
  * \return New byte array
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 uchar* ltob(const ulong val, const ulong length = 8);
 
 /**
@@ -289,7 +289,7 @@ uchar* ltob(const ulong val, const ulong length = 8);
  * \return New byte array
  */
 template<>
-uchar* ltob<BIG>(const ulong val, const ulong length);
+uchar* ltob<Endian::BIG>(const ulong val, const ulong length);
 
 /**
  * Specialization of ltob for big endian
@@ -299,7 +299,7 @@ uchar* ltob<BIG>(const ulong val, const ulong length);
  * \return New byte array
  */
 template<>
-uchar* ltob<LITTLE>(const ulong val, const ulong length);
+uchar* ltob<Endian::LITTLE>(const ulong val, const ulong length);
 
 /**
  * Convert a signed long to a bytes array, with optional length of the result array
@@ -309,7 +309,7 @@ uchar* ltob<LITTLE>(const ulong val, const ulong length);
  * \param length Length of the result array
  * \return New byte array
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 char* ltob(const slong val, const ulong length = 8);
 
 /**
@@ -320,7 +320,7 @@ char* ltob(const slong val, const ulong length = 8);
  * \return New byte array
  */
 template<>
-char* ltob<BIG>(const slong val, const ulong length);
+char* ltob<Endian::BIG>(const slong val, const ulong length);
 
 /**
  * Specialization of ltob for big endian
@@ -330,7 +330,7 @@ char* ltob<BIG>(const slong val, const ulong length);
  * \return New byte array
  */
 template<>
-char* ltob<LITTLE>(const slong val, const ulong length);
+char* ltob<Endian::LITTLE>(const slong val, const ulong length);
 
 /**
  * Convert an unsigned int to a bytes array, with optional length of the result array
@@ -340,7 +340,7 @@ char* ltob<LITTLE>(const slong val, const ulong length);
  * \param length Length of the result array
  * \return New byte array
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 uchar* itob(const uint val, const ulong length = 4);
 
 /**
@@ -351,7 +351,7 @@ uchar* itob(const uint val, const ulong length = 4);
  * \param length Length of the result array
  * \return New byte array
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 char* itob(const int val, const ulong length = 4);
 
 /**
@@ -362,7 +362,7 @@ char* itob(const int val, const ulong length = 4);
  * \param length Length of the result array
  * \return New byte array
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 uchar* stob(const ushort val, const ulong length = 2);
 
 /**
@@ -373,7 +373,7 @@ uchar* stob(const ushort val, const ulong length = 2);
  * \param length Length of the result array
  * \return New byte array
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 char* stob(const short val, const ulong length = 2);
 
 /**
@@ -384,7 +384,7 @@ char* stob(const short val, const ulong length = 2);
  * \param length Length of the result array
  * \return New byte array
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 uchar* ctob(const uchar val, const ulong length = 1);
 
 /**
@@ -395,7 +395,7 @@ uchar* ctob(const uchar val, const ulong length = 1);
  * \param length Length of the result array
  * \return New byte array
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 char* ctob(const char val, const ulong length = 1);
 
 }

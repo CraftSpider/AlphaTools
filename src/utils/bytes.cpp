@@ -28,7 +28,7 @@ long get_signed_range(const uchar* data, const ulong start, const ulong end) {
 }
 
 template<>
-ulong btol <BIG> (const uchar* bytes, const ulong start, const ulong end) {
+ulong btol <Endian::BIG> (const uchar* bytes, const ulong start, const ulong end) {
     ulong out = 0;
     ulong length = end - start - 1;
     for (ulong i = start; i < end; ++i) {
@@ -38,7 +38,7 @@ ulong btol <BIG> (const uchar* bytes, const ulong start, const ulong end) {
 }
 
 template<>
-ulong btol <LITTLE> (const uchar* bytes, const ulong start, const ulong end) {
+ulong btol <Endian::LITTLE> (const uchar* bytes, const ulong start, const ulong end) {
     ulong out = 0;
     for (ulong i = start; i < end; ++i) {
         out |= (ulong)bytes[i] << (i * 8);
@@ -47,7 +47,7 @@ ulong btol <LITTLE> (const uchar* bytes, const ulong start, const ulong end) {
 }
 
 template<>
-slong btol <BIG> (const char* bytes, const ulong start, const ulong end) {
+slong btol <Endian::BIG> (const char* bytes, const ulong start, const ulong end) {
     slong out = 0;
     ulong length = end - start - 1;
     for (ulong i = start; i < end; ++i) {
@@ -57,7 +57,7 @@ slong btol <BIG> (const char* bytes, const ulong start, const ulong end) {
 }
 
 template<>
-slong btol <LITTLE> (const char* bytes, const ulong start, const ulong end) {
+slong btol <Endian::LITTLE> (const char* bytes, const ulong start, const ulong end) {
     slong out = 0;
     for (ulong i = start; i < end; ++i) {
         out |= ((ulong)bytes[i] & 0xFFu) << (i * 8);
@@ -66,7 +66,7 @@ slong btol <LITTLE> (const char* bytes, const ulong start, const ulong end) {
 }
 
 template<>
-uchar* ltob <BIG> (const ulong val, const ulong length) {
+uchar* ltob <Endian::BIG> (const ulong val, const ulong length) {
     uchar* output = new uchar[length]();
     for (ulong i = 0; i < length; ++i) {
         output[i] = (uchar)(val >> (8 * (length - i - 1)));
@@ -75,7 +75,7 @@ uchar* ltob <BIG> (const ulong val, const ulong length) {
 }
 
 template<>
-uchar* ltob <LITTLE> (const ulong val, const ulong length) {
+uchar* ltob <Endian::LITTLE> (const ulong val, const ulong length) {
     uchar* output = new uchar[length]();
     for (ulong i = 0; i < length; ++i) {
         output[i] = (uchar)(val >> (8 * i));
@@ -84,7 +84,7 @@ uchar* ltob <LITTLE> (const ulong val, const ulong length) {
 }
 
 template<>
-char* ltob <BIG> (const slong val, const ulong length) {
+char* ltob <Endian::BIG> (const slong val, const ulong length) {
     char* output = new char[length];
     for (ulong i = 0; i < length; ++i) {
         output[i] = (char)(val >> (8 * (length - i - 1)));
@@ -93,7 +93,7 @@ char* ltob <BIG> (const slong val, const ulong length) {
 }
 
 template<>
-char* ltob <LITTLE> (const slong val, const ulong length) {
+char* ltob <Endian::LITTLE> (const slong val, const ulong length) {
     char* output = new char[length];
     for (ulong i = 0; i < length; ++i) {
         output[i] = (char)(val >> (8 * i));

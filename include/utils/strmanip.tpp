@@ -15,7 +15,7 @@ std::string btoh(const uchar* val, const ulong length, const bool prefix, const 
     out << std::hex << std::uppercase;
     for (ulong i = 0; i < length; ++i) {
         ulong pos;
-        if constexpr (E == LITTLE) {
+        if constexpr (E == Endian::LITTLE) {
             pos = (length - 1) - i;
         } else {
             pos = i;
@@ -48,7 +48,7 @@ std::string btoh(const char* val, const ulong length, const bool prefix, const b
     out << std::hex << std::uppercase;
     for (ulong i = 0; i < length; ++i) {
         ulong pos;
-        if constexpr (E == LITTLE) {
+        if constexpr (E == Endian::LITTLE) {
             pos = (length - 1) - i;
         } else {
             pos = i;

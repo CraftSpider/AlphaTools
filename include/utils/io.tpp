@@ -60,7 +60,7 @@ template<Endian E>
 float next_float(std::istream& file, const ulong length) {
     float data;
     file.read(reinterpret_cast<char*>(&data), length);
-    if constexpr ((SysInfo::Endianness::little && E == BIG) || (SysInfo::Endianness::big && E == LITTLE)) {
+    if constexpr ((SysInfo::Endianness::little && E == Endian::BIG) || (SysInfo::Endianness::big && E == Endian::LITTLE)) {
         reverse(reinterpret_cast<char*>(&data), length);
     }
     return data;
@@ -70,7 +70,7 @@ template<Endian E>
 double next_double(std::istream& file, const ulong length) {
     double data;
     file.read(reinterpret_cast<char*>(&data), length);
-    if constexpr ((SysInfo::Endianness::little && E == BIG) || (SysInfo::Endianness::big && LITTLE)) {
+    if constexpr ((SysInfo::Endianness::little && E == Endian::BIG) || (SysInfo::Endianness::big && E == Endian::LITTLE)) {
         reverse(reinterpret_cast<char*>(&data), length);
     }
     return data;
@@ -85,14 +85,14 @@ std::string next_string(std::istream& file, const ulong length) {
             file.read(&c, 1);
             out += c;
         } while (c != '\0');
-        if constexpr ((SysInfo::Endianness::little && E == LITTLE) || (SysInfo::Endianness::big && E == BIG)) {
+        if constexpr ((SysInfo::Endianness::little && E == Endian::LITTLE) || (SysInfo::Endianness::big && E == Endian::BIG)) {
             out = reverse(out);
         }
         return out;
     } else {
         char* cstr = new char[length];
         file.read(cstr, length);
-        if constexpr ((SysInfo::Endianness::little && E == LITTLE) || (SysInfo::Endianness::big && E == BIG)) {
+        if constexpr ((SysInfo::Endianness::little && E == Endian::LITTLE) || (SysInfo::Endianness::big && E == Endian::BIG)) {
             reverse(cstr, length);
         }
         std::string out = std::string(cstr, length);
@@ -147,7 +147,7 @@ void write_char(std::ostream& file, const schar out, const ulong length) {
 
 template<Endian E>
 void write_float(std::ostream& file, float out, const ulong length) {
-    if constexpr ((SysInfo::Endianness::little && E == BIG) || (SysInfo::Endianness::big && E == LITTLE)) {
+    if constexpr ((SysInfo::Endianness::little && E == Endian::BIG) || (SysInfo::Endianness::big && E == Endian::LITTLE)) {
         reverse(reinterpret_cast<char*>(&out), length);
     }
     file.write(reinterpret_cast<char*>(&out), length);
@@ -155,7 +155,7 @@ void write_float(std::ostream& file, float out, const ulong length) {
 
 template<Endian E>
 void write_double(std::ostream& file, double out, const ulong length) {
-    if constexpr ((SysInfo::Endianness::little && E == BIG) || (SysInfo::Endianness::big && E == LITTLE)) {
+    if constexpr ((SysInfo::Endianness::little && E == Endian::BIG) || (SysInfo::Endianness::big && E == Endian::LITTLE)) {
         reverse(reinterpret_cast<char*>(&out), length);
     }
     file.write(reinterpret_cast<char*>(&out), length);
@@ -166,7 +166,7 @@ void write_string(std::ostream& file, const std::string& out, ulong length) {
     if (length == 0) {
         length = out.size();
     }
-    if constexpr ((SysInfo::Endianness::little && E == LITTLE) || (SysInfo::Endianness::big && E == BIG)) {
+    if constexpr ((SysInfo::Endianness::little && E == Endian::LITTLE) || (SysInfo::Endianness::big && E == Endian::BIG)) {
         char* data = new char[length];
         copy(out.c_str(), data, length);
         file.write(reverse(data, length), length);

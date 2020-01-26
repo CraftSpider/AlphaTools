@@ -18,7 +18,7 @@ namespace util {
  * \param length Number of bytes to read
  * \return Next value in the file as a ulong
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 ulong next_ulong(std::istream& file, const ulong length = 8);
 
 /**
@@ -29,7 +29,7 @@ ulong next_ulong(std::istream& file, const ulong length = 8);
  * \param length Number of bytes to read
  * \return Next value in the file as a uint
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 uint next_uint(std::istream& file, const ulong length = 4);
 
 /**
@@ -40,7 +40,7 @@ uint next_uint(std::istream& file, const ulong length = 4);
  * \param length Number of bytes to read
  * \return Next value in the file as a ushort
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 ushort next_ushort(std::istream& file, const ulong length = 2);
 
 /**
@@ -51,7 +51,7 @@ ushort next_ushort(std::istream& file, const ulong length = 2);
  * \param length Number of bytes to read
  * \return Next value in the file as a uchar
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 uchar next_uchar(std::istream& file, const ulong length = 1);
 
 /**
@@ -62,7 +62,7 @@ uchar next_uchar(std::istream& file, const ulong length = 1);
  * \param length Number of bytes to read
  * \return Next value in the file as a long
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 slong next_long(std::istream& file, const ulong length = 8);
 
 /**
@@ -73,7 +73,7 @@ slong next_long(std::istream& file, const ulong length = 8);
  * \param length Number of bytes to read
  * \return Next value in the file as an int
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 sint next_int(std::istream& file, const ulong length = 4);
 
 /**
@@ -84,7 +84,7 @@ sint next_int(std::istream& file, const ulong length = 4);
  * \param length Number of bytes to read
  * \return Next value in the file as a short
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 sshort next_short(std::istream& file, const ulong length = 2);
 
 /**
@@ -95,7 +95,7 @@ sshort next_short(std::istream& file, const ulong length = 2);
  * \param length Number of bytes to read
  * \return Next value in the file as a char
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 schar next_char(std::istream& file, const ulong length = 1);
 
 /**
@@ -106,7 +106,7 @@ schar next_char(std::istream& file, const ulong length = 1);
  * \param length Number of bytes to read
  * \return Next value in the file as a float
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 float next_float(std::istream& file, const ulong length = 4);
 
 /**
@@ -117,7 +117,7 @@ float next_float(std::istream& file, const ulong length = 4);
  * \param length Number of bytes to read
  * \return Next value in the file as a double
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 double next_double(std::istream& file, const ulong length = 8);
 
 /**
@@ -129,7 +129,7 @@ double next_double(std::istream& file, const ulong length = 8);
  * \param length Number of bytes to read, or 0 for auto-detected length
  * \return The next whole string from the file
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 std::string next_string(std::istream& file, const ulong length = 0);
 
 /**
@@ -140,7 +140,7 @@ std::string next_string(std::istream& file, const ulong length = 0);
  * \param out Value to write to file
  * \param length Number of bytes to write
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 void write_ulong(std::ostream& file, const ulong out, const ulong length = 8);
 
 /**
@@ -151,7 +151,7 @@ void write_ulong(std::ostream& file, const ulong out, const ulong length = 8);
  * \param out Value to write to file
  * \param length Number of bytes to write
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 void write_uint(std::ostream& file, const uint out, const ulong length = 4);
 
 /**
@@ -162,7 +162,7 @@ void write_uint(std::ostream& file, const uint out, const ulong length = 4);
  * \param out Value to write to file
  * \param length Number of bytes to write
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 void write_ushort(std::ostream& file, const ushort out, const ulong length = 2);
 
 /**
@@ -173,7 +173,7 @@ void write_ushort(std::ostream& file, const ushort out, const ulong length = 2);
  * \param out Value to write to file
  * \param length Number of bytes to write
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 void write_uchar(std::ostream& file, const uchar out, const ulong length = 1);
 
 /**
@@ -184,7 +184,7 @@ void write_uchar(std::ostream& file, const uchar out, const ulong length = 1);
  * \param out Value to write to file
  * \param length Number of bytes to write
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 void write_long(std::ostream& file, const slong out, const ulong length = 8);
 
 /**
@@ -195,7 +195,7 @@ void write_long(std::ostream& file, const slong out, const ulong length = 8);
  * \param out Value to write to file
  * \param length Number of bytes to write
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 void write_int(std::ostream& file, const sint out, const ulong length = 4);
 
 /**
@@ -206,7 +206,7 @@ void write_int(std::ostream& file, const sint out, const ulong length = 4);
  * \param out Value to write to file
  * \param length Number of bytes to write
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 void write_short(std::ostream& file, const sshort out, const ulong length = 2);
 
 /**
@@ -217,7 +217,7 @@ void write_short(std::ostream& file, const sshort out, const ulong length = 2);
  * \param out Value to write to file
  * \param length Number of bytes to write
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 void write_char(std::ostream& file, const schar out, const ulong length = 1);
 
 /**
@@ -228,7 +228,7 @@ void write_char(std::ostream& file, const schar out, const ulong length = 1);
  * \param out Value to write to file
  * \param length Number of bytes to write
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 void write_float(std::ostream& file, float out, const ulong length = 4);
 
 /**
@@ -239,7 +239,7 @@ void write_float(std::ostream& file, float out, const ulong length = 4);
  * \param out Value to write to file
  * \param length Number of bytes to write
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 void write_double(std::ostream& file, double out, const ulong length = 8);
 
 /**
@@ -251,7 +251,7 @@ void write_double(std::ostream& file, double out, const ulong length = 8);
  * \param out Value to write to file
  * \param length Number of bytes to write, or 0 to for auto-detected length.
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 void write_string(std::ostream& file, const std::string& out, const ulong length = 0);
 
 }

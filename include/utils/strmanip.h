@@ -62,7 +62,7 @@ std::string to_lowercase(const std::string& str);
  * \param pad Whether to pad the start of the result so it will always be an even number of characters
  * \return Input formatted as a hex string
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 std::string btoh(const uchar* val, const ulong length, const bool prefix = true, const bool pad = false);
 
 /**
@@ -75,7 +75,7 @@ std::string btoh(const uchar* val, const ulong length, const bool prefix = true,
  * \param pad Whether to pad the start of the result so it will always be an even number of characters
  * \return Input formatted as a hex string
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 std::string btoh(const char* val, const ulong length, const bool prefix = true, const bool pad = false);
 
 /**
@@ -87,7 +87,7 @@ std::string btoh(const char* val, const ulong length, const bool prefix = true, 
  * \param pad Whether to pad the start of the result so it will always be an even number of characters
  * \return Input formatted as a hex string
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 std::string ltoh(const ulong val, bool prefix = true, bool pad = false);
 
 /**
@@ -99,7 +99,7 @@ std::string ltoh(const ulong val, bool prefix = true, bool pad = false);
  * \param pad Whether to pad the start of the result so it will always be an even number of characters
  * \return Input formatted as a hex string
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 std::string ltoh(const slong val, bool prefix = true, bool pad = false);
 
 /**
@@ -111,7 +111,7 @@ std::string ltoh(const slong val, bool prefix = true, bool pad = false);
  * \param pad Whether to pad the start of the result so it will always be an even number of characters
  * \return Input formatted as a hex string
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 std::string itoh(const uint val, bool prefix = true, bool pad = false);
 
 /**
@@ -123,7 +123,7 @@ std::string itoh(const uint val, bool prefix = true, bool pad = false);
  * \param pad Whether to pad the start of the result so it will always be an even number of characters
  * \return Input formatted as a hex string
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 std::string itoh(const int val, bool prefix = true, bool pad = false);
 
 /**
@@ -135,7 +135,7 @@ std::string itoh(const int val, bool prefix = true, bool pad = false);
  * \param pad Whether to pad the start of the result so it will always be an even number of characters
  * \return Input formatted as a hex string
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 std::string stoh(const ushort val, bool prefix = true, bool pad = false);
 
 /**
@@ -147,7 +147,7 @@ std::string stoh(const ushort val, bool prefix = true, bool pad = false);
  * \param pad Whether to pad the start of the result so it will always be an even number of characters
  * \return Input formatted as a hex string
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 std::string stoh(const short val, bool prefix = true, bool pad = false);
 
 /**
@@ -159,7 +159,7 @@ std::string stoh(const short val, bool prefix = true, bool pad = false);
  * \param pad Whether to pad the start of the result so it will always be an even number of characters
  * \return Input formatted as a hex string
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 std::string ctoh(const uchar val, bool prefix = true, bool pad = false);
 
 /**
@@ -171,7 +171,7 @@ std::string ctoh(const uchar val, bool prefix = true, bool pad = false);
  * \param pad Whether to pad the start of the result so it will always be an even number of characters
  * \return Input formatted as a hex string
  */
-template<Endian E = BIG>
+template<Endian E = Endian::BIG>
 std::string ctoh(const char val, bool prefix = true, bool pad = false);
 
 }
