@@ -6,8 +6,8 @@ include(AlphaTest.cmake)
 
 set(CMAKE_CXX_STANDARD 17)
 set(TEST_PROJECT_NAME test_${PROJECT_NAME})
-set(COVERAGE_SUPPORT true)
-set(SANITIZER_SUPPORT false)
+set(COVERAGE_SUPPORT false CACHE STRING "Whether to compile with coverage support")
+set(SANITIZER_SUPPORT false CACHE STRING "Whether to compile with sanitizer support")
 
 # Where include files are located
 include_directories(./include)
