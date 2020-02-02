@@ -31,13 +31,6 @@ struct Sphere {
     Sphere(const Vector& center, double radius);
     
     /**
-     * Copy construct a sphere from another sphere
-     *
-     * \param sphere Sphere to copy
-     */
-    Sphere(const Sphere& sphere);
-    
-    /**
      * Check if this sphere is equal to another sphere
      *
      * \param sphere Sphere to check against

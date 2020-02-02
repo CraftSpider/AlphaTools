@@ -13,11 +13,6 @@ Sphere::Sphere(const Vector& center, double radius) {
     this->radius = radius;
 }
 
-Sphere::Sphere(const Sphere& sphere) {
-    center = sphere.center;
-    radius = sphere.radius;
-}
-
 bool Sphere::operator==(const Sphere& sphere) const {
     return center == sphere.center && radius == sphere.radius;
 }
