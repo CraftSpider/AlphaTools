@@ -228,8 +228,9 @@ public:
      * Checks whether this matrix is invertable
      *
      * \return Invertability of matrix
+     * \TODO: Implement this and dependents (get_invert, invert)
      */
-    bool invertable() const; // TODO: This and lower
+    bool invertable() const;
     
     /**
      * Get the inverted form of this matrix, if it is invertable
@@ -252,6 +253,8 @@ public:
     
     /**
      * Row-reduce this matrix in-place
+     *
+     * \TODO: Implement this and similar (get_reduced)
      */
     void reduce();
     
@@ -259,6 +262,7 @@ public:
      * Calculate the determinant of this matrix. *does not* use a naive algorithm with explosive complexity
      *
      * \return Determinant of the matrix
+     * \TODO: Implement this
      */
     T determinant();
     

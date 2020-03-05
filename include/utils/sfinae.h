@@ -189,9 +189,7 @@ struct FunctionTraits {
      * FunctionTrait constant enum values
      */
     enum {
-        /// Whether the type is a valid function type
         valid = 0,
-        /// Whether the type is not a valid function type
         invalid = 1
     };
     
@@ -230,9 +228,7 @@ struct FunctionTraits<Ret(Args...)> {
      * FunctionTraits constant enum values
      */
     enum {
-        /// Whether the type is a valid function type
         valid = 1,
-        /// Whether the type is not a valid function type
         invalid = 0
     };
     
@@ -271,9 +267,7 @@ struct FunctionTraits<Ret(*)(Args...)> {
      * FunctionTraits constant enum values
      */
     enum {
-        /// Whether the type is a valid function type
         valid = 1,
-        /// Whether the type is not a valid function type
         invalid = 0
     };
     
@@ -294,9 +288,7 @@ struct MemberTraits {
      * MemberTraits constant enum values
      */
     enum {
-        /// Whether the type is a valid member type
         valid = 0,
-        /// Whether the type is not a valid member type
         invalid = 1
     };
     
@@ -325,9 +317,7 @@ struct MemberTraits<Val Cls::*> {
      * MemberTraits constant enum values
      */
     enum {
-        /// Whether the type is a valid member type
         valid = 1,
-        /// Whether the type is not a valid member type
         invalid = 0
     };
     
@@ -348,9 +338,7 @@ struct MethodTraits {
      * MethodTraits constant enum values
      */
     enum {
-        /// Whether the type is a valid method type
         valid = 0,
-        /// Whether the type is not a valid method type
         invalid = 1
     };
     

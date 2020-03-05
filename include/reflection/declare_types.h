@@ -28,39 +28,39 @@
  */
 #define AT_DECLARE_TYPE(T) \
 template<> \
-std::string reflect::MetaType<T>::get_name() { \
+std::string reflect::MetaType<T>::raw_name() { \
     return #T; \
 } \
 template<> \
-std::string reflect::MetaType<const T>::get_name() { \
+std::string reflect::MetaType<const T>::raw_name() { \
     return "const " #T; \
 } \
 template<> \
-std::string reflect::MetaType<volatile T>::get_name() { \
+std::string reflect::MetaType<volatile T>::raw_name() { \
     return "volatile " #T; \
 } \
 template<> \
-std::string reflect::MetaType<T&>::get_name() { \
+std::string reflect::MetaType<T&>::raw_name() { \
     return #T "&"; \
 } \
 template<> \
-std::string reflect::MetaType<const T&>::get_name() { \
+std::string reflect::MetaType<const T&>::raw_name() { \
     return "const " #T "&"; \
 } \
 template<> \
-std::string reflect::MetaType<volatile T&>::get_name() { \
+std::string reflect::MetaType<volatile T&>::raw_name() { \
     return "volatile " #T "&"; \
 } \
 template<> \
-std::string reflect::MetaType<T&&>::get_name() { \
+std::string reflect::MetaType<T&&>::raw_name() { \
     return #T "&&"; \
 } \
 template<> \
-std::string reflect::MetaType<const T&&>::get_name() { \
+std::string reflect::MetaType<const T&&>::raw_name() { \
     return "const " #T "&&"; \
 } \
 template<> \
-std::string reflect::MetaType<volatile T&&>::get_name() { \
+std::string reflect::MetaType<volatile T&&>::raw_name() { \
     return "volatile " #T "&&"; \
 } \
 static_block { \
@@ -248,23 +248,23 @@ static_block { \
  */
 #define AT_DECLARE_TYPE_HEADER(T) \
 template<> \
-std::string reflect::MetaType<T>::get_name(); \
+std::string reflect::MetaType<T>::raw_name(); \
 template<> \
-std::string reflect::MetaType<const T>::get_name(); \
+std::string reflect::MetaType<const T>::raw_name(); \
 template<> \
-std::string reflect::MetaType<volatile T>::get_name(); \
+std::string reflect::MetaType<volatile T>::raw_name(); \
 template<> \
-std::string reflect::MetaType<T&>::get_name(); \
+std::string reflect::MetaType<T&>::raw_name(); \
 template<> \
-std::string reflect::MetaType<const T&>::get_name(); \
+std::string reflect::MetaType<const T&>::raw_name(); \
 template<> \
-std::string reflect::MetaType<volatile T&>::get_name(); \
+std::string reflect::MetaType<volatile T&>::raw_name(); \
 template<> \
-std::string reflect::MetaType<T&&>::get_name(); \
+std::string reflect::MetaType<T&&>::raw_name(); \
 template<> \
-std::string reflect::MetaType<const T&&>::get_name(); \
+std::string reflect::MetaType<const T&&>::raw_name(); \
 template<> \
-std::string reflect::MetaType<volatile T&&>::get_name(); \
+std::string reflect::MetaType<volatile T&&>::raw_name(); \
 
 /**
  * \internal
@@ -273,7 +273,7 @@ std::string reflect::MetaType<volatile T&&>::get_name(); \
  */
 #define _AT_DECLARE_VOID() \
 template<> \
-std::string reflect::MetaType<void>::get_name() { \
+std::string reflect::MetaType<void>::raw_name() { \
     return "void"; \
 }
 
@@ -284,7 +284,7 @@ std::string reflect::MetaType<void>::get_name() { \
  */
 #define _AT_DECLARE_VOID_HEADER() \
 template<> \
-std::string reflect::MetaType<void>::get_name();
+std::string reflect::MetaType<void>::raw_name();
 
 
 #ifndef _AT_NO_MACRO

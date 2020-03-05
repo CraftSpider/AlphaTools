@@ -32,6 +32,13 @@ class MetaType {
 public:
     
     /**
+     * Get the raw name the type was registered with
+     *
+     * \return Raw type name
+     */
+    static std::string raw_name();
+    
+    /**
      * Get the name of the given type
      *
      * \return Type name
@@ -43,8 +50,10 @@ public:
 /**
  * Class that represents a type in the reflection system. Contains all reflected information about the type,
  * and can be used to create and manage instances of the type
+ *
+ * \TODO: Add support for operators
  */
-class Type final { // TODO: Operators
+class Type final {
     
     std::string name;
     bool final;
@@ -223,6 +232,7 @@ public:
      * Get the associated type with a pointer added
      *
      * \return Type with one more pointer
+     * \TODO: Make int& become int*& not int&*, second one is invalid because order matters
      */
     Type* add_pointer();
      

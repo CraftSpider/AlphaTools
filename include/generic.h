@@ -48,8 +48,10 @@ namespace SysInfo {
     
     /**
      * Info about the endianness of the current system
+     *
+     * \TODO: Check whether current solution is UB
      */
-    class Endianness { // TODO: Is this 'safe'?
+    class Endianness {
     private:
         
         static constexpr std::uint32_t __magic = 0x01020304;

@@ -17,7 +17,6 @@ namespace testing {
  * in the run() method definition.
  */
 class AbstractTest {
-
 public:
     
     bool delegated = false;

@@ -5,7 +5,7 @@
 
 
 void test_endianness() {
-    testing::assert(SysInfo::Endianness::little != SysInfo::Endianness::big);
+    ASSERT(SysInfo::Endianness::little != SysInfo::Endianness::big);
 }
 
 void run_generic_tests() {

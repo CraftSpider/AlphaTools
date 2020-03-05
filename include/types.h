@@ -5,6 +5,7 @@
 /**
  * \file types.h
  * \brief Defines AlphaTools global type shorthands
+ * \TODO: Move whole project into a namespace
  *
  * \author CraftSpider
  */
@@ -55,5 +56,3 @@ typedef std::int64_t slong;
 enum class Endian {
     BIG, LITTLE
 };
-
-// TODO: Move whole project into a namespace

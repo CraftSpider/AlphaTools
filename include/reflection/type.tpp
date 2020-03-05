@@ -5,8 +5,13 @@
 namespace reflect {
 
 template<typename T>
-std::string MetaType<T>::get_name() {
+std::string MetaType<T>::raw_name() {
     return "[UNKNOWN TYPE]";
+}
+
+template<typename T>
+std::string MetaType<T>::get_name() {
+    return raw_name();
 }
 
 template<typename T>

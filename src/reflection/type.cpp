@@ -96,7 +96,6 @@ bool Type::is_final() {
 }
 
 Type* Type::add_pointer() {
-    // TODO: Make int& become int*& not int&*, second one is invalid because order matters
     return Type::from_name(name + "*");
 }
 
