@@ -29,7 +29,7 @@ std::string get_username();
  *
  * \return System name
  */
-std::string get_computer_name();
+std::string get_hostname();
 
 /**
  * Demangle a name based on the compiler used to create this binary, if the compiler supports such a feature.

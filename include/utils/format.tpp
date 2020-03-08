@@ -70,8 +70,6 @@ std::string format(std::string format, Args... args) {
         if (s.pos > arg_count) {
             arg_count = s.pos;
         }
-
-//        std::cout << s.pos << " " << s.args << "\n";
     }
     
     if (arg_count > num_args) {

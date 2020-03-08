@@ -181,6 +181,12 @@ void test_assert_throws_macro() {
     }
 }
 
+void test_test_case() {
+    auto __var2 = &_noop;
+    testing::__TestCase<decltype(__var2)>* tc = new testing::__TestCase<decltype(__var2)>(__var2, "_noop");
+    ASSERT(tc->get_name() == "_noop");
+}
+
 void run_test_tests() {
     TEST(test_assert)
     TEST(test_assert_macro)
@@ -194,4 +200,5 @@ void run_test_tests() {
     TEST(test_fail_macro)
     TEST(test_assert_throws)
     TEST(test_assert_throws_macro)
+    TEST(test_test_case)
 }

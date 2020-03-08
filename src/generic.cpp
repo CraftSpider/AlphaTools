@@ -29,7 +29,7 @@ std::string get_username() {
 #endif
 }
 
-std::string get_computer_name() {
+std::string get_hostname() {
 #ifdef LINUXCOMPAT
     char hostname[HOST_NAME_MAX + 1];
     gethostname(hostname, HOST_NAME_MAX + 1);
@@ -57,7 +57,7 @@ std::string demangle(const std::string& name) {
 #elif defined(WINCOMPAT)
     static char symbolname[2048];
     symbolname[0] = '\0';
-    DWORD length = UnDecorateSymbolName(name.c_str(), (PSTR)&symbolname, 2048, 0x2000);
+    DWORD length = UnDecorateSymbolName(name.c_str(), (PSTR)&symbolname, 2048, 0x2800);
     if (length == 0) {
         throw std::runtime_error("Demangler name return failed");
     }
