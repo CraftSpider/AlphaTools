@@ -20,6 +20,8 @@ if(MSVC)
     # C4611: Interaction between 'setjmp' and C++ object destruction is non-portable
     add_definitions(-wd4003 -wd4458 -wd4611)
 #    add_compile_definitions(_CRT_NO_VA_START_VALIDATION)
+    # Needed for declare_types, it creates a *lot* of templates
+    add_definitions(-bigobj)
 else()
     add_definitions(-Wall -Wextra -pedantic)
 endif()
